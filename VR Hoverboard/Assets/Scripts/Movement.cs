@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Movement : MonoBehaviour
 {
+    public bool debugControls = true;
+    public float moveRate = 50.0f;
 
-    public float moveRate = 10.0f;
+    private float rotationRate = 10.0f;
+
+    private float minSpeed = 0.1f;
+    private float maxSpeed = 10.0f;
 
     private Transform position;
 
@@ -18,16 +24,33 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("w"))
-            position.Translate(position.forward * Time.deltaTime * moveRate);
+        //GetAxis returns a floating value that is in-between -1 and 1
+        float lVertVal = Input.GetAxis("LVertical");
+        float lHoriVal = Input.GetAxis("LHorizontal");
+        float currSpeed = moveRate * Time.deltaTime;
 
-        else if (Input.GetKey("s"))
-            position.Translate(-position.forward * Time.deltaTime * moveRate);
+        print(lVertVal + " LEFT VERT JOYSTICK VAL");
+        print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
+        print(currSpeed + " SPEED VAL");
 
-        else if (Input.GetKey("d"))
-            position.Translate(position.right * Time.deltaTime * moveRate);
+        if (debugControls)
+        {
+            //rotate up and down
+            position.rotation = Quaternion.AngleAxis(Input.GetAxis("RVertical") * rotationRate, position.right);
+            //move forward/back
+            position.Translate(position.forward * lVertVal * currSpeed);
+            //move left/right
+            position.Translate(position.right * lHoriVal * currSpeed);
+        }
+        else
+        {          
+            //leaning down on the board, accelerating
+            if (Input.GetAxis("LVertical") < 0.0f && currSpeed > maxSpeed)
+                currSpeed = maxSpeed;
 
-        else if (Input.GetKey("a"))
-            position.Translate(-position.right * Time.deltaTime * moveRate);
+            //leaning back on the board, decelerating
+            if (Input.GetAxis("LVertical") > 0.0f && currSpeed < minSpeed)
+                currSpeed = minSpeed;
+        }
     }
 }
