@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 //our load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
 {

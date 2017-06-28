@@ -30,9 +30,9 @@ public class Movement : MonoBehaviour
         float lHoriVal = Input.GetAxis("LHorizontal");
         float currSpeed = moveRate * Time.deltaTime;
 
-        print(lVertVal + " LEFT VERT JOYSTICK VAL");
-        print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
-        print(currSpeed + " SPEED VAL");
+        //print(lVertVal + " LEFT VERT JOYSTICK VAL");
+        //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
+        //print(currSpeed + " SPEED VAL");
 
         if (debugControls)
         {
