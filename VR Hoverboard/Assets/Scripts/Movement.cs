@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     //static float currRotation;
     private float rotationRate = 10.0f;
 
-    private float minSpeed = 0.1f;
+    private float minSpeed = 0.025f;
     private float maxSpeed = 10.0f;
 
     private Transform position;
@@ -30,24 +30,28 @@ public class Movement : MonoBehaviour
         float lHoriVal = Input.GetAxis("LHorizontal");
         float currSpeed = moveRate * Time.deltaTime;
 
-        //print(lVertVal + " LEFT VERT JOYSTICK VAL");
-        //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
-        //print(currSpeed + " SPEED VAL");
+        print(lVertVal + " LEFT VERT JOYSTICK VAL");
+        print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
+        print(currSpeed + " SPEED VAL");
 
         if (debugControls)
         {
-            //rotate up and down
+            //rotates about the x axis
             position.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+            //rotates about the y axis
             position.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+            //rotates about the z axis
             position.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+            //rotates about the y axis
             position.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
-            //move forward/back
-            position.Translate(Vector3.forward * lVertVal * currSpeed);
-            //move left/right
-            //position.Translate(Vector3.right * lHoriVal * currSpeed);
+            //translates forward
+            position.Translate(Vector3.forward * Input.GetAxis("LVertical") * currSpeed);
         }
         else
         {
+            currSpeed += minSpeed;
+            position.Translate(Vector3.forward * minSpeed);
+
             //leaning down on the board, accelerating
             if (Input.GetAxis("LVertical") < 0.0f && currSpeed > maxSpeed)
                 currSpeed = maxSpeed;
