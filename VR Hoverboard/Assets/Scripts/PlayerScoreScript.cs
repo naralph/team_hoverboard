@@ -22,8 +22,6 @@ public class PlayerScoreScript : MonoBehaviour
     float ringCount = 0;
 
 
-    float ringsOnTimeCount = 0;
-
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Ring")
