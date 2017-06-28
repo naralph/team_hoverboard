@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     public bool debugControls = true;
     public float moveRate = 50.0f;
 
+    //static float currRotation;
     private float rotationRate = 10.0f;
 
     private float minSpeed = 0.1f;
@@ -29,21 +30,24 @@ public class Movement : MonoBehaviour
         float lHoriVal = Input.GetAxis("LHorizontal");
         float currSpeed = moveRate * Time.deltaTime;
 
-        print(lVertVal + " LEFT VERT JOYSTICK VAL");
-        print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
-        print(currSpeed + " SPEED VAL");
+        //print(lVertVal + " LEFT VERT JOYSTICK VAL");
+        //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
+        //print(currSpeed + " SPEED VAL");
 
         if (debugControls)
         {
             //rotate up and down
-            position.rotation = Quaternion.AngleAxis(Input.GetAxis("RVertical") * rotationRate, position.right);
+            position.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+            position.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+            position.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+            position.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
             //move forward/back
-            position.Translate(position.forward * lVertVal * currSpeed);
+            position.Translate(Vector3.forward * lVertVal * currSpeed);
             //move left/right
-            position.Translate(position.right * lHoriVal * currSpeed);
+            //position.Translate(Vector3.right * lHoriVal * currSpeed);
         }
         else
-        {          
+        {
             //leaning down on the board, accelerating
             if (Input.GetAxis("LVertical") < 0.0f && currSpeed > maxSpeed)
                 currSpeed = maxSpeed;
