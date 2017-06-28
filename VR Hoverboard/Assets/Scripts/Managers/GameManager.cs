@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     //variable for singleton
     public static GameManager instance = null;
 
+    public GameObject player;
+
     //store our managers
     public ScoreManager scoreScript;
 
