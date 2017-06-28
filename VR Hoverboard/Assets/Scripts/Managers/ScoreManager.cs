@@ -35,10 +35,43 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public void increaseTimerScoreMultiplier(float value)
+    {
+        ScoreMultipliers.speedMultiplier+= value;
+    }
+
+    public void decreaseTimerScoreMultiplier(float value)
+    {
+        ScoreMultipliers.speedMultiplier -= value;
+    }
+
+    public void resetTimerScoreMultiplier()
+    {
+        ScoreMultipliers.speedMultiplier = 1;
+    }
+
+    public void increaseConsecutiveScoreMultiplier(float value)
+    {
+        ScoreMultipliers.consecutiveRingMultiplier += value;
+    }
+
+    public void decreaseConsecutiveScoreMultiplier(float value)
+    {
+        ScoreMultipliers.consecutiveRingMultiplier -= value;
+    }
+
+    public void resetConsecutivveScoreMultiplier()
+    {
+        ScoreMultipliers.consecutiveRingMultiplier = 1;
+    }
+
     public void increaseScore(int value)
     {
         score += (value * (int)ScoreMultipliers.getCollectiveMultiplier());
+        Debug.Log("The Consecutive multiplier is " + ScoreMultipliers.consecutiveRingMultiplier);
+        Debug.Log("The time multiplier is " + ScoreMultipliers.speedMultiplier);
     }
+
     public void decreaseScore(int value)
     {
         score -= value;

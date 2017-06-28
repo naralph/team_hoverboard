@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
 
     //store our managers
     public ScoreManager scoreScript;
+
+    float previousTime = 0;
+    float currentTime = 0;
+
 	
 	void Awake ()
     {
@@ -39,4 +43,15 @@ public class GameManager : MonoBehaviour
     {
 		
 	}
+
+    public void setCurrentTime(float value)
+    {
+        previousTime = currentTime;
+        currentTime = value;
+    }
+
+    public float getTimePassedSinceLastRing()
+    {
+        return currentTime - previousTime;
+    }
 }
