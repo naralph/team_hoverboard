@@ -35,8 +35,8 @@ public class PhidgetInterfaceExample : MonoBehaviour
         //SPATIAL DATA
        // print(sd.pitchAngle * Mathf.Rad2Deg);
        // print("DATA RATE : " + sd.device.DataRate);
-        Vector3 vec = new Vector3((float)sd.pitchAngle * Mathf.Rad2Deg, 0.0f, 0.0f);
-        transform.localEulerAngles = vec;
+        Vector3 vec = new Vector3((float)sd.pitchAngle * Mathf.Rad2Deg, 0.0f, (float)sd.rollAngle * Mathf.Rad2Deg);
+        transform.rotation = Quaternion.Euler(vec);
     }
 
     //private void OnDestroy()

@@ -5,8 +5,26 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public bool debugControls = true;
+    public bool debugControls = false;
+    public bool actualControls = true;
     public float moveRate = 50.0f;
+
+    //objects to get down to getting the gyro object itself for data
+    GameObject gameManagerObj;
+    GameManager gameManagerScript;
+    GyroManager gyroManager;
+    SpatialData theGyro;
+
+    //current values of rotation for checks on max
+    float rotYCur = 0;
+    float rotZCur = 0;
+
+    //max angle values for the rotations
+    public float rotYMax; //up down
+    public float rotZMax; //Roll
+
+    //speed multiplier for speed against, angle of board
+    public float speedMultiplier = 10;
 
     //static float currRotation;
     private float rotationRate = 10.0f;
@@ -20,6 +38,10 @@ public class Movement : MonoBehaviour
     void Start()
     {
         position = GetComponent<Transform>();
+        gameManagerObj = GameObject.Find("GameManager(Clone)");
+        gameManagerScript = gameManagerObj.GetComponent<GameManager>();
+        gyroManager = gameManagerScript.GetComponent<GyroManager>();
+        theGyro = gyroManager.getGyro();
     }
 
     // Update is called once per frame
@@ -46,6 +68,38 @@ public class Movement : MonoBehaviour
             position.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
             //translates forward
             position.Translate(Vector3.forward * Input.GetAxis("LVertical") * currSpeed);
+        }
+        else if(actualControls)
+        {
+            float pitch = (float)theGyro.pitchAngle;
+            float roll = (float)theGyro.rollAngle;
+
+
+            position.Rotate(Vector3.up * pitch); //left right
+            
+
+            position.Rotate(Vector3.right * roll); //up down
+            rotYCur += roll;
+
+            //position.Rotate(Vector3.back * pitch); //roll
+            //rotZCur += pitch; //roll
+
+           
+            
+            if (rotYCur > rotYMax || rotYCur < -rotYMax)
+            {
+                position.Rotate(Vector3.right * -roll);
+                rotYCur -= roll;
+            }
+            
+            //if (rotZCur > rotZMax || rotZCur < - rotZMax)
+            //{
+            //    position.Rotate(Vector3.back * -pitch);
+            //    rotZCur -= pitch;
+            //}
+
+
+            position.Translate(Vector3.forward * currSpeed);
         }
         else
         {

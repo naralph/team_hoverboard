@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     //store our managers
     public ScoreManager scoreScript;
+    public GyroManager gyroScript;
 
     float previousTime = 0;
     float currentTime = 0;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
 	
 	void Awake ()
     {
-        //make sure we only have one isntance of GameManager
+        //make sure we only have one instance of GameManager
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour
 
         //store our score manager
         scoreScript = GetComponent<ScoreManager>();
+
+        //store our gyro manager
+        gyroScript = GetComponent<GyroManager>();
+
+
         InitGame();
 	}
 	
