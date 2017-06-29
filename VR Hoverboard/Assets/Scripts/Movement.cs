@@ -15,13 +15,12 @@ public class Movement : MonoBehaviour
     GyroManager gyroManager;
     SpatialData theGyro;
 
-    //current values of rotation for checks on max
-    float rotYCur = 0;
-    float rotZCur = 0;
+    //rotation values for gyro
+    float pitch = 0;
+    float rollOld = 0;
 
-    //max angle values for the rotations
-    public float rotYMax; //up down
-    public float rotZMax; //Roll
+    //roll stabalization value
+    public float rStabalizer = 0.2f;
 
     //speed multiplier for speed against, angle of board
     public float speedMultiplier = 10;
@@ -32,12 +31,12 @@ public class Movement : MonoBehaviour
     private float minSpeed = 0.025f;
     private float maxSpeed = 10.0f;
 
-    private Transform position;
+    private Transform theTransform;
 
     // Use this for initialization
     void Start()
     {
-        position = GetComponent<Transform>();
+        theTransform = GetComponent<Transform>();
         gameManagerObj = GameObject.Find("GameManager(Clone)");
         gameManagerScript = gameManagerObj.GetComponent<GameManager>();
         gyroManager = gameManagerScript.GetComponent<GyroManager>();
@@ -59,52 +58,40 @@ public class Movement : MonoBehaviour
         if (debugControls)
         {
             //rotates about the x axis
-            position.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+            theTransform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
             //rotates about the y axis
-            position.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+            theTransform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
             //rotates about the z axis
-            position.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+            theTransform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
             //rotates about the y axis
-            position.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
+            theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
             //translates forward
-            position.Translate(Vector3.forward * Input.GetAxis("LVertical") * currSpeed);
+            theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical") * currSpeed);
         }
         else if(actualControls)
         {
-            float pitch = (float)theGyro.pitchAngle;
-            float roll = (float)theGyro.rollAngle;
+            pitch += (float)theGyro.pitchAngle;
+            float roll = (float)theGyro.rollAngle * Mathf.Rad2Deg;
 
-
-            position.Rotate(Vector3.up * pitch); //left right
-            
-
-            position.Rotate(Vector3.right * roll); //up down
-            rotYCur += roll;
-
-            //position.Rotate(Vector3.back * pitch); //roll
-            //rotZCur += pitch; //roll
-
-           
-            
-            if (rotYCur > rotYMax || rotYCur < -rotYMax)
+            float rollChange = ((rollOld - roll) * 0.5f);
+            float rollUse = rollChange + roll;
+            if (rollChange < rStabalizer)
             {
-                position.Rotate(Vector3.right * -roll);
-                rotYCur -= roll;
+                rollUse = rollOld;
             }
+
+            Vector3 rotation = new Vector3(rollUse, pitch, 0.0f);
             
-            //if (rotZCur > rotZMax || rotZCur < - rotZMax)
-            //{
-            //    position.Rotate(Vector3.back * -pitch);
-            //    rotZCur -= pitch;
-            //}
-
-
-            position.Translate(Vector3.forward * currSpeed);
-        }
+            theTransform.rotation =
+                Quaternion.Euler(roll, pitch, 0.0f);
+            
+            theTransform.Translate(Vector3.forward * currSpeed);
+            rollOld = rollUse;
+         }
         else
         {
             currSpeed += minSpeed;
-            position.Translate(Vector3.forward * minSpeed);
+            theTransform.Translate(Vector3.forward * minSpeed);
 
             //leaning down on the board, accelerating
             if (Input.GetAxis("LVertical") < 0.0f && currSpeed > maxSpeed)

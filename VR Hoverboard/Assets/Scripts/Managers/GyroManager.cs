@@ -15,7 +15,7 @@ public class GyroManager : MonoBehaviour
 
     private void Start()
     {
-        gyro.device.DataRate = 4;
+        gyro.device.DataRate = 20;
     }
     void Update()
     {
