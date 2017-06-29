@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhidgetInterfaceExample : MonoBehaviour
 {
-    //for guyro
+    //for gyro
     SpatialData sd;
 
     public Transform transform;

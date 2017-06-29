@@ -20,16 +20,13 @@ public class Movement : MonoBehaviour
     float rollOld = 0;
 
     //roll stabalization value
-    public float rStabalizer = 0.2f;
+    public float rollStabalizer = 0.2f;
 
     //speed multiplier for speed against, angle of board
     public float speedMultiplier = 10;
 
-    //static float currRotation;
-    private float rotationRate = 10.0f;
-
-    private float minSpeed = 0.025f;
-    private float maxSpeed = 10.0f;
+    public float minSpeed = 0.025f;
+    public float maxSpeed = 10.0f;
 
     private Transform theTransform;
 
@@ -75,7 +72,7 @@ public class Movement : MonoBehaviour
 
             float rollChange = ((rollOld - roll) * 0.5f);
             float rollUse = rollChange + roll;
-            if (rollChange < rStabalizer)
+            if (rollChange < rollStabalizer)
             {
                 rollUse = rollOld;
             }
@@ -84,6 +81,23 @@ public class Movement : MonoBehaviour
             
             theTransform.rotation =
                 Quaternion.Euler(roll, pitch, 0.0f);
+
+            if (roll > 0)
+            {
+                currSpeed += (speedMultiplier * roll);
+                if (currSpeed > maxSpeed)
+                {
+                    currSpeed = maxSpeed;
+                }
+            }
+            else if (roll < 0)
+            {
+                currSpeed -= (speedMultiplier * roll);
+                if (currSpeed < minSpeed)
+                {
+                    currSpeed = minSpeed;
+                }
+            }
             
             theTransform.Translate(Vector3.forward * currSpeed);
             rollOld = rollUse;
