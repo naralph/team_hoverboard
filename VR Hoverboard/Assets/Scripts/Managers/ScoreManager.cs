@@ -6,7 +6,6 @@ public class ScoreManager : MonoBehaviour
 {
     // Using Serializable allows us to embed a class with sub properties in the inspector.
     [System.Serializable]
-    
     public class Multipliers
     {
         public float speedMultiplier;
@@ -24,10 +23,21 @@ public class ScoreManager : MonoBehaviour
     public int score = 0;
 
     //this will get called by our game manager
-    public void SetupScoreManager()
+    public void SetupScoreManager(GameObject p, ScoreManager s)
     {
+        //p.GetComponent<ScoreManager>() = s;
+        p.AddComponent<ScoreManager>();
 
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Ring")
+        {
+
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -47,7 +57,7 @@ public class ScoreManager : MonoBehaviour
 
     public void resetTimerScoreMultiplier()
     {
-        ScoreMultipliers.speedMultiplier = 1;
+        ScoreMultipliers.speedMultiplier = 1.0f;
     }
 
     public void increaseConsecutiveScoreMultiplier(float value)
@@ -62,7 +72,7 @@ public class ScoreManager : MonoBehaviour
 
     public void resetConsecutivveScoreMultiplier()
     {
-        ScoreMultipliers.consecutiveRingMultiplier = 1;
+        ScoreMultipliers.consecutiveRingMultiplier = 1.0f;
     }
 
     public void increaseScore(int value)

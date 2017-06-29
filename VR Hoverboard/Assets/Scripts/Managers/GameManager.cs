@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     //variable for singleton
     public static GameManager instance = null;
 
+    //store our player
     public GameObject player;
 
     //store our managers
@@ -16,7 +17,6 @@ public class GameManager : MonoBehaviour
     float previousTime = 0;
     float currentTime = 0;
 
-	
 	void Awake ()
     {
         //make sure we only have one isntance of GameManager
@@ -30,13 +30,18 @@ public class GameManager : MonoBehaviour
 
         //store our score manager
         scoreScript = GetComponent<ScoreManager>();
+
+        //create our player
+        Instantiate(player);
+        DontDestroyOnLoad(player);
+
         InitGame();
 	}
 	
     void InitGame()
     {
         //currently nothing in SetupScoreManager()
-        scoreScript.SetupScoreManager();
+        scoreScript.SetupScoreManager(player, scoreScript);
     }
 
 	// Update is called once per frame
