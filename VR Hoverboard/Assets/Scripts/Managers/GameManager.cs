@@ -8,14 +8,12 @@ public class GameManager : MonoBehaviour
     //variable for singleton
     public static GameManager instance = null;
 
-    //store our player
+    //store our player prefab through the inspector
     public GameObject player;
 
     //store our managers
-    public ScoreManager scoreScript;
-
-    float previousTime = 0;
-    float currentTime = 0;
+    [HideInInspector] public ScoreManager scoreScript;
+    [HideInInspector] public SceneManager sceneScript;
 
 	void Awake ()
     {
@@ -28,36 +26,23 @@ public class GameManager : MonoBehaviour
         //ensures that our game manager persists between scenes
         DontDestroyOnLoad(gameObject);
 
-        //store our score manager
+        //store our score managers
         scoreScript = GetComponent<ScoreManager>();
+        sceneScript = GetComponent<SceneManager>();
 
-        //create our player
+        //Instantiate our player
         Instantiate(player);
         DontDestroyOnLoad(player);
 
         InitGame();
 	}
+
+    //TODO::setup a simple state machine to decide when we are in a menu, gameplay, score screen ect...
 	
     void InitGame()
     {
-        //currently nothing in SetupScoreManager()
-        scoreScript.SetupScoreManager(player, scoreScript);
+        scoreScript.SetupScoreManager(player);
+        sceneScript.SetupSceneManager();
     }
 
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
-    public void setCurrentTime(float value)
-    {
-        previousTime = currentTime;
-        currentTime = value;
-    }
-
-    public float getTimePassedSinceLastRing()
-    {
-        return currentTime - previousTime;
-    }
 }
