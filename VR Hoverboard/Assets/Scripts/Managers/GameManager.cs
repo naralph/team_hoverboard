@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public SceneManager sceneScript;
-    public GyroManager gyroScript;
+    [HideInInspector] public GyroManager gyroScript;
 
 	void Awake ()
     {

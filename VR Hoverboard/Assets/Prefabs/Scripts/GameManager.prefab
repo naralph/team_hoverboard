@@ -92,4 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5201112f6780804bbeba36f352542c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoreMultipliers:
+    speedMultiplier: 1
+    consecutiveRingMultiplier: 1
+    consecutiveMultiplierIncreaseAmount: 0.5
   baseScorePerRing: 100

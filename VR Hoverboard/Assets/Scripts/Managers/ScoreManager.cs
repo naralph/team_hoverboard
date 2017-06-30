@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
         public Multipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
     }
 
-    Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
+    public Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
 
     public float baseScorePerRing = 0;
 
@@ -37,6 +37,7 @@ public class ScoreManager : MonoBehaviour
     //this will get called by our PlayerScoreScript
     public void UpdateScore(int currRing, float ringTime)
     {
+        //TODO::we should probably check to see if we have been through this same ring before
         if (currRing > prevRing)
         {
             score = (int)(ScoreMultipliers.consecutiveRingMultiplier * baseScorePerRing);

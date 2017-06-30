@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Movement : MonoBehaviour
 {
     public bool debugControls = false;
@@ -63,7 +62,7 @@ public class Movement : MonoBehaviour
             //rotates about the y axis
             theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
             //translates forward
-            theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical") * currSpeed);
+            theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
         }
         else if(actualControls)
         {
