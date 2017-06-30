@@ -35,6 +35,6 @@ public class EyeRayCaster : MonoBehaviour {
             lookingAtSomething = false;
             reticleScript.setPosition(hit, lookingAtSomething);
         }
-        Debug.Log("Collision for reticle returned: " + lookingAtSomething);
+        //Debug.Log("Collision for reticle returned: " + lookingAtSomething);
 	}
 }

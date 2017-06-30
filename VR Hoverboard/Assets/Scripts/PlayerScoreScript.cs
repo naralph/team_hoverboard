@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScoreScript : MonoBehaviour
 {
     //variable to store our score manager
-    public static ScoreManager scoreManager;
+    public ScoreManager scoreManager;
 
     public void AssignManager(ScoreManager sm)
     {

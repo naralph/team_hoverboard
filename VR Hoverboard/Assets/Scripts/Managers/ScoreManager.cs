@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    // Using Serializable allows us to embed a class with sub properties in the inspector.
     [System.Serializable]
     public class Multipliers
     {
@@ -20,18 +19,20 @@ public class ScoreManager : MonoBehaviour
         public Multipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
     }
 
+    public float baseScorePerRing = 0;
     public Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
 
-    public float baseScorePerRing = 0;
-
-    private int score = 0;
-    private int prevRing = 0;
+    GameManager.RoundTimer timer;
+    int score = 0;
+    int prevRing = 0;
 
     //this will get called by our game manager
-    public void SetupScoreManager(GameObject p)
+    public void SetupScoreManager(GameManager.RoundTimer t, GameObject p)
     {
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
         pss.AssignManager(this);
+
+        timer = t;
     }
 
     //this will get called by our PlayerScoreScript
@@ -56,6 +57,7 @@ public class ScoreManager : MonoBehaviour
             prevRing = currRing;
         }
 
+        Debug.Log("Time since round start: " + timer.currRoundTime);
         Debug.Log("Score is now " + score);
     }
 
