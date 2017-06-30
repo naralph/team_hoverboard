@@ -13,6 +13,9 @@ public class reticle : MonoBehaviour
     //the camera transform
     public Transform camera;
 
+    //Scale value for reticle size(to make sure it isnt to huge in the scene)
+    public float scaleMultiplier = 0.01f;
+
     //need to save the originals of the scale and rotation for the reticle so that we can reset them as need be
     Vector3 originalScale;
     Quaternion originalRotation;
@@ -22,7 +25,7 @@ public class reticle : MonoBehaviour
         if (didHit)
         {
             theReticle.position = hit.point;
-            theReticle.localScale = originalScale * hit.distance;
+            theReticle.localScale = originalScale * hit.distance * scaleMultiplier;
 
             if (useNormal)
             {
@@ -37,7 +40,7 @@ public class reticle : MonoBehaviour
         {
             theReticle.position = camera.position + camera.forward * defaultDistance;
 
-            theReticle.localScale = originalScale * defaultDistance;
+            theReticle.localScale = originalScale * defaultDistance * scaleMultiplier;
 
             theReticle.localRotation = originalRotation;
         }
