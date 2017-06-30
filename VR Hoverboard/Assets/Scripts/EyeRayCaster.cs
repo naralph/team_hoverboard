@@ -13,7 +13,6 @@ public class EyeRayCaster : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        reticleObj = GameObject.Instantiate(reticleObj);
         reticleScript = reticleObj.GetComponent<reticle>();
 	}
 	
@@ -35,6 +34,5 @@ public class EyeRayCaster : MonoBehaviour {
             lookingAtSomething = false;
             reticleScript.setPosition(hit, lookingAtSomething);
         }
-        Debug.Log("Collision for reticle returned: " + lookingAtSomething);
 	}
 }

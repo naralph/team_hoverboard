@@ -5,7 +5,7 @@ using UnityEngine;
 public class reticle : MonoBehaviour
 {
     //default distance away from the camera the reticle sits at
-    public float defaultDistance = 5.0f;
+    public float defaultDistance;
     //the actual reticle
     public Transform theReticle;
     //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
@@ -40,10 +40,11 @@ public class reticle : MonoBehaviour
         {
             theReticle.position = camera.position + camera.forward * defaultDistance;
 
-            theReticle.localScale = originalScale * defaultDistance * scaleMultiplier;
+            theReticle.localScale = originalScale;
 
             theReticle.localRotation = originalRotation;
         }
+        Debug.Log("Collision for reticle returned: " + didHit);
     }
 
 	// Use this for initialization
