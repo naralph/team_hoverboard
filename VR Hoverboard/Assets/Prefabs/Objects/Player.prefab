@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ea0c44eb3da7241b948e4c6e86a732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugControls: 0
-  actualControls: 1
+  debugControls: 1
+  actualControls: 0
   moveRate: 0
   rollStabalizer: 0.2
   speedMultiplier: 0
