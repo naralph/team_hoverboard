@@ -206,9 +206,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugControls: 0
   actualControls: 1
-  moveRate: 10
+  moveRate: 0
   rollStabalizer: 0.2
-  speedMultiplier: 10
+  speedMultiplier: 0
   minSpeed: 0.025
   maxSpeed: 10
 --- !u!124 &124388982396937842

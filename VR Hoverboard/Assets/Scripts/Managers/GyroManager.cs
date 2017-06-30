@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class GyroManager : MonoBehaviour
 {
-
+    public bool debugControls = false;
     SpatialData gyro;
 
     void Awake()
     {
-        InterfaceData.instance.Wake();
-        gyro = new SpatialData();
+        if (!debugControls)
+        {
+            InterfaceData.instance.Wake();
+            gyro = new SpatialData();
+        }
     }
 
     private void Start()
     {
-        gyro.device.DataRate = 20;
+        if (!debugControls)
+        {
+            gyro.device.DataRate = 20;
+        }
     }
     void Update()
     {
@@ -24,7 +30,10 @@ public class GyroManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        gyro.Close();
+        if (!debugControls)
+        {
+            gyro.Close();
+        }
     }
 
     public SpatialData getGyro()
