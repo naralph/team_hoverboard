@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114009397125666488}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 92935161553499744}
   - component: {fileID: 124388982396937842}
   - component: {fileID: 81979354156762162}
+  - component: {fileID: 114603409517427252}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -193,6 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fd2320a79c9a14788d5dbf5ac965f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114603409517427252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1827928629002610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff836c77e1218b4f9be9eb5e5a3dfbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCam: {fileID: 20484690446249580}
+  reticleObj: {fileID: 1939146345694938, guid: d63f623330af8b647888f1ef56bd56d1, type: 2}
 --- !u!114 &114781251542789458
 MonoBehaviour:
   m_ObjectHideFlags: 1

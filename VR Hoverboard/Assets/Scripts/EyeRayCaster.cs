@@ -5,13 +5,16 @@ using UnityEngine;
 public class EyeRayCaster : MonoBehaviour {
 
     public Camera myCam;
-    public reticle theReticle;
+    public GameObject reticleObj;
+    reticle reticleScript;
     RaycastHit hit;
     bool lookingAtSomething = false;
 
     // Use this for initialization
-    void Start () {
-		
+    void Start ()
+    {
+        reticleObj = GameObject.Instantiate(reticleObj);
+        reticleScript = reticleObj.GetComponent<reticle>();
 	}
 	
 	// Update is called once per frame
@@ -22,11 +25,16 @@ public class EyeRayCaster : MonoBehaviour {
         if(Physics.Raycast(myCam.transform.position, fwd, out hit))
         {
             lookingAtSomething = true;
+            if (hit.collider.tag != "Player")
+            {
+                reticleScript.setPosition(hit, lookingAtSomething);
+            }
         }
         else
         {
             lookingAtSomething = false;
+            reticleScript.setPosition(hit, lookingAtSomething);
         }
-        theReticle.setPosition(hit, lookingAtSomething);
+        Debug.Log("Collision for reticle returned: " + lookingAtSomething);
 	}
 }
