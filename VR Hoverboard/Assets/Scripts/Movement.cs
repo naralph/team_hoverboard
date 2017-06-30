@@ -32,6 +32,10 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //TODO:: fix the PhidgetException..... but not this way
+        //if (!actualControls)
+        //    EventManager.OnNotUsingActualControls();
+
         theTransform = GetComponent<Transform>();
         gameManagerObj = GameObject.Find("GameManager(Clone)");
         gameManagerScript = gameManagerObj.GetComponent<GameManager>();
@@ -64,7 +68,7 @@ public class Movement : MonoBehaviour
             //translates forward
             theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
         }
-        else if(actualControls)
+        else if (actualControls)
         {
             pitch += (float)theGyro.pitchAngle;
             float roll = (float)theGyro.rollAngle * Mathf.Rad2Deg;
@@ -77,7 +81,7 @@ public class Movement : MonoBehaviour
             }
 
             Vector3 rotation = new Vector3(rollUse, pitch, 0.0f);
-            
+
             theTransform.rotation =
                 Quaternion.Euler(roll, pitch, 0.0f);
 
@@ -97,22 +101,14 @@ public class Movement : MonoBehaviour
                     currSpeed = minSpeed;
                 }
             }
-            
+
             theTransform.Translate(Vector3.forward * currSpeed);
             rollOld = rollUse;
-         }
+        }
         else
         {
             currSpeed += minSpeed;
             theTransform.Translate(Vector3.forward * minSpeed);
-
-            //leaning down on the board, accelerating
-            if (Input.GetAxis("LVertical") < 0.0f && currSpeed > maxSpeed)
-                currSpeed = maxSpeed;
-
-            //leaning back on the board, decelerating
-            if (Input.GetAxis("LVertical") > 0.0f && currSpeed < minSpeed)
-                currSpeed = minSpeed;
         }
     }
 }
