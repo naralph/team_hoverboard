@@ -4,29 +4,49 @@ using UnityEngine;
 
 public class reticle : MonoBehaviour
 {
+    //default distance away from the camera the reticle sits at
+    public float defaultDistance = 5.0f;
+    //the actual reticle
     public Transform theReticle;
+    //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
+    bool useNormal = true;
+    //the camera transform
+    public Transform camera;
+
+    //need to save the originals of the scale and rotation for the reticle so that we can reset them as need be
     Vector3 originalScale;
     Quaternion originalRotation;
-    bool useNormal = true;
 
-    public void setPosition(RaycastHit hit)
+    public void setPosition(RaycastHit hit, bool didHit)
     {
-        theReticle.position = hit.point;
-        theReticle.localScale = originalScale * hit.distance;
-
-        if (useNormal)
+        if (didHit)
         {
-            theReticle.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+            theReticle.position = hit.point;
+            theReticle.localScale = originalScale * hit.distance;
+
+            if (useNormal)
+            {
+                theReticle.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+            }
+            else
+            {
+                theReticle.localRotation = originalRotation;
+            }
         }
         else
         {
+            theReticle.position = camera.position + camera.forward * defaultDistance;
+
+            theReticle.localScale = originalScale * defaultDistance;
+
             theReticle.localRotation = originalRotation;
         }
     }
 
 	// Use this for initialization
 	void Start () {
-		
+        originalScale = theReticle.localScale;
+        originalRotation = theReticle.localRotation;
 	}
 	
 	// Update is called once per frame

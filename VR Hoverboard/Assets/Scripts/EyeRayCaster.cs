@@ -5,6 +5,7 @@ using UnityEngine;
 public class EyeRayCaster : MonoBehaviour {
 
     public Camera myCam;
+    public reticle theReticle;
     RaycastHit hit;
     bool lookingAtSomething = false;
 
@@ -14,7 +15,8 @@ public class EyeRayCaster : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
         Debug.DrawRay(myCam.transform.position, fwd * 50, Color.blue);
         if(Physics.Raycast(myCam.transform.position, fwd, out hit))
@@ -25,14 +27,6 @@ public class EyeRayCaster : MonoBehaviour {
         {
             lookingAtSomething = false;
         }
+        theReticle.setPosition(hit, lookingAtSomething);
 	}
-
-    bool areWeLookingAtSomething()
-    {
-        return lookingAtSomething;
-    }
-    RaycastHit getLookingAt()
-    {
-        return hit;
-    }
 }

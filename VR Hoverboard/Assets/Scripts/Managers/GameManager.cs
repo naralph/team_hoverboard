@@ -14,10 +14,11 @@ public class GameManager : MonoBehaviour
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public SceneManager sceneScript;
+    public GyroManager gyroScript;
 
 	void Awake ()
     {
-        //make sure we only have one isntance of GameManager
+        //make sure we only have one instance of GameManager
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -33,6 +34,11 @@ public class GameManager : MonoBehaviour
         //Instantiate our player
         Instantiate(player);
         DontDestroyOnLoad(player);
+
+
+        //store our gyro manager
+        gyroScript = GetComponent<GyroManager>();
+
 
         InitGame();
 	}
