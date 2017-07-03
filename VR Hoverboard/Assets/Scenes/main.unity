@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -504,42 +504,87 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1451523980}
   m_GameObject: {fileID: 612053950}
   m_Mesh: {fileID: 4300000, guid: 6544b5822d343b6478cd32430ee73167, type: 3}
---- !u!1 &990581368
+--- !u!1 &645196793
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 990581370}
-  - component: {fileID: 990581369}
+  - component: {fileID: 645196799}
+  - component: {fileID: 645196798}
+  - component: {fileID: 645196797}
+  - component: {fileID: 645196796}
+  - component: {fileID: 645196794}
   m_Layer: 0
-  m_Name: ManagerLoader
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &990581369
+--- !u!114 &645196794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 990581368}
+  m_GameObject: {fileID: 645196793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a025111ccdf837c458bc0a606c33d2ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1874136078994436, guid: c4deec8a57f9dd74494597647f90f74d,
-    type: 2}
---- !u!4 &990581370
+  debugControls: 1
+--- !u!114 &645196796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 645196793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033db46f54691b547a04696811377a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints: []
+--- !u!114 &645196797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 645196793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5201112f6780804bbeba36f352542c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreMultipliers:
+    speedMultiplier: 1
+    consecutiveRingMultiplier: 1
+    consecutiveMultiplierIncreaseAmount: 0.5
+  baseScorePerRing: 100
+--- !u!114 &645196798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 645196793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a384b4ce3f8e70f4c9c5fe944c6fc666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1250839810360536, guid: 883f770cffad95944bbc09eec8a345e6, type: 2}
+  scoreScript: {fileID: 0}
+  sceneScript: {fileID: 0}
+  gyroScript: {fileID: 0}
+--- !u!4 &645196799
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 990581368}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 645196793}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
