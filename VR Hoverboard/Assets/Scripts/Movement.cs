@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
         //    EventManager.OnNotUsingActualControls();
 
         theTransform = GetComponent<Transform>();
-        gameManagerObj = GameObject.Find("GameManager(Clone)");
+        gameManagerObj = GameObject.Find("GameManager");
         gameManagerScript = gameManagerObj.GetComponent<GameManager>();
         gyroManager = gameManagerScript.GetComponent<GyroManager>();
         theGyro = gyroManager.getGyro();

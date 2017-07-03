@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugControls: 0
-  actualControls: 1
+  actualControls: 0
   moveRate: 0
   rollStabalizer: 0.2
   speedMultiplier: 0
