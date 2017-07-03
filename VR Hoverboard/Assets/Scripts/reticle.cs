@@ -44,7 +44,7 @@ public class reticle : MonoBehaviour
 
             theReticle.localRotation = originalRotation;
         }
-        Debug.Log("Collision for reticle returned: " + didHit);
+        //Debug.Log("Collision for reticle returned: " + didHit);
     }
 
 	// Use this for initialization
