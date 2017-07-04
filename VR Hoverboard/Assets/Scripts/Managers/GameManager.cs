@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     //this is what shows up in our inspector
-    public RoundTimer timer = new RoundTimer(15.0f);
+    public RoundTimer roundTimer = new RoundTimer(15.0f);
 
     //variable for singleton
     public static GameManager instance = null;
@@ -59,27 +59,27 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         //TODO:: we only want to start our timer at the beginning of a round
-        StartCoroutine(TimerCoroutine(timer.roundTimeLimit));
+        StartCoroutine(TimerCoroutine());
 
-        scoreScript.SetupScoreManager(timer, player);
+        scoreScript.SetupScoreManager(roundTimer, player);
         sceneScript.SetupSceneManager();
     }
 
     //coroutines are called after Unity's Update()
-    IEnumerator TimerCoroutine(float limit)
+    IEnumerator TimerCoroutine()
     {
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the scene
-        while (timer.currRoundTime < timer.roundTimeLimit)
+        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)
         {
-            timer.UpdateTimer();
+            roundTimer.UpdateTimer();
             //temporarily interrupts this loop
             yield return null;
         }
         //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
         //       else, load in the next level and update our managers as required
 
-        timer.ResetTimer();
-        StartCoroutine(TimerCoroutine(timer.currRoundTime));
+        roundTimer.ResetTimer();
+        StartCoroutine(TimerCoroutine());
     }
 
 }

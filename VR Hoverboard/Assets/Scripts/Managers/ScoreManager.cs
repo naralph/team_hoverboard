@@ -11,55 +11,60 @@ public class ScoreManager : MonoBehaviour
         public float consecutiveRingMultiplier;
         public float consecutiveMultiplierIncreaseAmount;
 
-        public float getCollectiveMultiplier()
-        {
-            return speedMultiplier * consecutiveRingMultiplier;
-        }
-
         public Multipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
     }
 
     public float baseScorePerRing = 0;
     public Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
 
-    GameManager.RoundTimer timer;
+    GameManager.RoundTimer roundTimer;
     int score = 0;
-    int prevRing = 0;
+    //set our prevRing to -1, and make sure our rings start at 1
+    //that way the first run of UpdateScore won't include a consecutive multiplier
+    int prevRing = -1;
+    float originalCRM = 0.0f;
 
     //this will get called by our game manager
-    public void SetupScoreManager(GameManager.RoundTimer t, GameObject p)
+    public void SetupScoreManager(GameManager.RoundTimer rt, GameObject p)
     {
+        //assign our manager to our player clone
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
         pss.AssignManager(this);
 
-        timer = t;
+        originalCRM = ScoreMultipliers.consecutiveRingMultiplier;
+        roundTimer = rt;
     }
 
     //this will get called by our PlayerScoreScript
-    public void UpdateScore(int currRing, float ringTime)
+    public void UpdateScore(RingProperties rp)
     {
-        //TODO::we should probably check to see if we have been through this same ring before
-        if (currRing > prevRing)
+        if (rp.positionInOrder > prevRing)
         {
-            score = (int)(ScoreMultipliers.consecutiveRingMultiplier * baseScorePerRing);
-            ScoreMultipliers.consecutiveRingMultiplier += ScoreMultipliers.consecutiveMultiplierIncreaseAmount;
+            //if it's consecutive
+            if (rp.positionInOrder == prevRing + 1)
+            {
+                score += (int)(ScoreMultipliers.consecutiveRingMultiplier * baseScorePerRing);
+                ScoreMultipliers.consecutiveRingMultiplier += ScoreMultipliers.consecutiveMultiplierIncreaseAmount;
+            }
+            //otherwise, reset our CRM to it's original value
+            else
+            {
+                ScoreMultipliers.consecutiveRingMultiplier = originalCRM;
+                score += (int)baseScorePerRing;
+            }
 
-            prevRing = currRing;
+            //if we're in time
+            if (rp.timeToReach < roundTimer.currRoundTime)
+                score += (int)(ScoreMultipliers.speedMultiplier * baseScorePerRing);
+
+            //remember what ring we went through
+            prevRing = rp.positionInOrder;
+
+            Debug.Log("Time since round start: " + roundTimer.currRoundTime);
+            Debug.Log("Score is now " + score);
         }
-        //TODO::else if ringTime is below our timeSinceSceneStart....
-        //TODO::apply the speedMultiplier to it
-
-
         else
-        {
-            score += (int)baseScorePerRing;
-
-            prevRing = currRing;
-        }
-
-        Debug.Log("Time since round start: " + timer.currRoundTime);
-        Debug.Log("Score is now " + score);
+            Debug.Log("Already went through this ring!");
     }
-
 
 }
