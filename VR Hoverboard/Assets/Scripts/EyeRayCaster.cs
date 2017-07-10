@@ -5,7 +5,9 @@ using UnityEngine;
 public class EyeRayCaster : MonoBehaviour {
 
     public Camera myCam;
-    public GameObject reticleObj;
+    public GameObject cameraObj;
+    //how far ahead the ray checks for a collision
+    public float rayLength = 5.0f;
     reticle reticleScript;
     RaycastHit hit;
     bool lookingAtSomething = false;
@@ -13,15 +15,19 @@ public class EyeRayCaster : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        reticleScript = reticleObj.GetComponent<reticle>();
+        reticleScript = cameraObj.GetComponent<reticle>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
-        Debug.DrawRay(myCam.transform.position, fwd * 50, Color.blue);
-        if(Physics.Raycast(myCam.transform.position, fwd, out hit))
+        Debug.DrawRay(myCam.transform.position, fwd * rayLength, Color.blue);
+
+        //Ray in front of the camera
+        Ray ray = new Ray(myCam.transform.position, myCam.transform.forward);
+
+        if(Physics.Raycast(ray, out hit, rayLength))
         {
             lookingAtSomething = true;
             if (hit.collider.tag != "Player")
