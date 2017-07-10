@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum GameState { MainMenu, GamePlay, GameOver };
+
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +20,7 @@ public class GameManager : MonoBehaviour
     }
 
     //this is what shows up in our inspector
-    public RoundTimer timer = new RoundTimer(15.0f);
+    public RoundTimer roundTimer = new RoundTimer(15.0f);
 
     //variable for singleton
     public static GameManager instance = null;
@@ -28,8 +30,10 @@ public class GameManager : MonoBehaviour
 
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
-    [HideInInspector] public SceneManager sceneScript;
+    [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
+
+    GameState state;
 
     void Awake()
     {
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour
 
         //store our managers
         scoreScript = GetComponent<ScoreManager>();
-        sceneScript = GetComponent<SceneManager>();
+        levelScript = GetComponent<LevelManager>();
         gyroScript = GetComponent<GyroManager>();
 
         //Instantiate our player, store the clone, then make sure it persists between scenes
@@ -59,27 +63,29 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         //TODO:: we only want to start our timer at the beginning of a round
-        StartCoroutine(TimerCoroutine(timer.roundTimeLimit));
+        StartCoroutine(GameCoroutine());
 
-        scoreScript.SetupScoreManager(timer, player);
-        sceneScript.SetupSceneManager();
+        state = GameState.MainMenu;
+        scoreScript.SetupScoreManager(roundTimer, player);
+        levelScript.SetupLevelManager(player);
     }
 
     //coroutines are called after Unity's Update()
-    IEnumerator TimerCoroutine(float limit)
+    IEnumerator GameCoroutine()
     {
-        //TODO:: while round < roundTimeLimit... and we aren't at the end of the scene
-        while (timer.currRoundTime < timer.roundTimeLimit)
+        //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
+        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)
         {
-            timer.UpdateTimer();
+            roundTimer.UpdateTimer();
+            
             //temporarily interrupts this loop
             yield return null;
         }
         //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
         //       else, load in the next level and update our managers as required
 
-        timer.ResetTimer();
-        StartCoroutine(TimerCoroutine(timer.currRoundTime));
+        roundTimer.ResetTimer();
+        StartCoroutine(GameCoroutine());
     }
 
 }

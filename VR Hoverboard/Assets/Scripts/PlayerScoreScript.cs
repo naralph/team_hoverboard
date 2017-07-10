@@ -15,11 +15,7 @@ public class PlayerScoreScript : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Ring")
-        {
-            RingValues rv = col.gameObject.GetComponent<RingValues>();
-
-            scoreManager.UpdateScore(rv.PositionInOrder, rv.TimeToReach);
-        }
+            scoreManager.UpdateScore(col.gameObject.GetComponent<RingProperties>());
     }
-          
+
 }
