@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum GameState { MainMenu, GamePlay, GameOver };
+
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
 {
@@ -28,8 +30,10 @@ public class GameManager : MonoBehaviour
 
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
-    [HideInInspector] public SceneManager sceneScript;
+    [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
+
+    GameState state;
 
     void Awake()
     {
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour
 
         //store our managers
         scoreScript = GetComponent<ScoreManager>();
-        sceneScript = GetComponent<SceneManager>();
+        levelScript = GetComponent<LevelManager>();
         gyroScript = GetComponent<GyroManager>();
 
         //Instantiate our player, store the clone, then make sure it persists between scenes
@@ -59,19 +63,21 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         //TODO:: we only want to start our timer at the beginning of a round
-        StartCoroutine(TimerCoroutine());
+        StartCoroutine(GameCoroutine());
 
+        state = GameState.MainMenu;
         scoreScript.SetupScoreManager(roundTimer, player);
-        sceneScript.SetupSceneManager();
+        levelScript.SetupLevelManager(player);
     }
 
     //coroutines are called after Unity's Update()
-    IEnumerator TimerCoroutine()
+    IEnumerator GameCoroutine()
     {
-        //TODO:: while round < roundTimeLimit... and we aren't at the end of the scene
+        //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
         while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)
         {
             roundTimer.UpdateTimer();
+            
             //temporarily interrupts this loop
             yield return null;
         }
@@ -79,7 +85,7 @@ public class GameManager : MonoBehaviour
         //       else, load in the next level and update our managers as required
 
         roundTimer.ResetTimer();
-        StartCoroutine(TimerCoroutine());
+        StartCoroutine(GameCoroutine());
     }
 
 }
