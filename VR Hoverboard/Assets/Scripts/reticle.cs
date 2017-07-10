@@ -40,7 +40,7 @@ public class reticle : MonoBehaviour
         {
             theReticle.position = camera.position + camera.forward * defaultDistance;
 
-            theReticle.localScale = originalScale * defaultDistance;
+            theReticle.localScale = originalScale * defaultDistance * scaleMultiplier;
 
             theReticle.localRotation = originalRotation;
         }

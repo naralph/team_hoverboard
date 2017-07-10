@@ -9,6 +9,9 @@ public class EyeRayCaster : MonoBehaviour {
     RaycastHit hit;
     bool lookingAtSomething = false;
 
+    [SerializeField] float debugRayDrawLength = 50.0f;
+    [SerializeField] float rayCheckLength = 50.0f;
+
     // Use this for initialization
     void Start ()
     {
@@ -19,8 +22,8 @@ public class EyeRayCaster : MonoBehaviour {
 	void Update ()
     {
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
-        Debug.DrawRay(myCam.transform.position, fwd * 50, Color.blue);
-        if(Physics.Raycast(myCam.transform.position, fwd, out hit))
+        Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength, Color.blue);
+        if(Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength))
         {
             lookingAtSomething = true;
             if (hit.collider.tag != "Player")

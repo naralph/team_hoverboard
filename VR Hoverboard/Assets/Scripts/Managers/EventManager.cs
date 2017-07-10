@@ -16,4 +16,15 @@ public class EventManager : MonoBehaviour
         if (OnDisableActualControls != null)
             OnDisableActualControls();
     }
+
+    //Event for selection success
+    public delegate void SelectionSuccess();
+    public static event SelectionSuccess onSelectionSuccess;
+
+    static public void onNotSelectionSuccess()
+    {
+        //if the event is subscribed to
+        if (onSelectionSuccess != null)
+            onSelectionSuccess();
+    }
 }
