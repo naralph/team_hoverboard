@@ -14,15 +14,18 @@ public class Movement : MonoBehaviour
     GyroManager gyroManager;
     SpatialData theGyro;
 
-    //rotation values for gyro
-    float pitch = 0;
-    float rollOld = 0;
+    [SerializeField] float currSpeed = 0;
 
-    //roll stabalization value
-    public float rollStabalizer = 0.2f;
+    //rotation values for gyro
+    [SerializeField] float pitch = 0;
+    [SerializeField] float roll = 0;
+
+    //maximum angle for up down
+    public float rollMax = 60.0f;
 
     //speed multiplier for speed against, angle of board
-    public float speedMultiplier = 10;
+    public float speedDownMultiplier = 0.01f;
+    public float speedUpMultiplier = 0.01f;
 
     public float minSpeed = 0.025f;
     public float maxSpeed = 10.0f;
@@ -49,7 +52,7 @@ public class Movement : MonoBehaviour
         //GetAxis returns a floating value that is in-between -1 and 1
         float lVertVal = Input.GetAxis("LVertical");
         float lHoriVal = Input.GetAxis("LHorizontal");
-        float currSpeed = moveRate * Time.deltaTime;
+        currSpeed = moveRate * Time.deltaTime;
 
         //print(lVertVal + " LEFT VERT JOYSTICK VAL");
         //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
@@ -70,40 +73,40 @@ public class Movement : MonoBehaviour
         }
         else if (actualControls)
         {
-            pitch += (float)theGyro.pitchAngle;
-            float roll = (float)theGyro.rollAngle * Mathf.Rad2Deg;
+            float pitchChange = (float)theGyro.pitchAngle;
+            float rollChange = (float)theGyro.rollAngle;
 
-            float rollChange = ((rollOld - roll) * 0.5f);
-            float rollUse = rollChange + roll;
-            if (rollChange < rollStabalizer)
+            pitch += pitchChange;
+            roll += rollChange;
+
+            //check to make sure not at to steep an angle using our max variable
+            if (roll > rollMax || roll < -rollMax)
             {
-                rollUse = rollOld;
+                roll -= (float)theGyro.rollAngle;
             }
 
-            Vector3 rotation = new Vector3(rollUse, pitch, 0.0f);
-
+            //preform the actual rotation on the object
             theTransform.rotation =
                 Quaternion.Euler(roll, pitch, 0.0f);
 
-            if (roll > 0)
-            {
-                currSpeed += (speedMultiplier * roll);
-                if (currSpeed > maxSpeed)
-                {
-                    currSpeed = maxSpeed;
-                }
-            }
-            else if (roll < 0)
-            {
-                currSpeed -= (speedMultiplier * roll);
-                if (currSpeed < minSpeed)
-                {
-                    currSpeed = minSpeed;
-                }
-            }
+            rollChange *= Mathf.Rad2Deg;
+            Debug.Log("Roll change is: " + rollChange);
 
+            //speed check based on the angle you are at, steeper down equals faster, and steeper up means slower
+           
+            currSpeed += (speedUpMultiplier * rollChange);
+            if (currSpeed > maxSpeed)
+            {
+                currSpeed = maxSpeed;
+            }
+            if (currSpeed < minSpeed)
+            {
+                currSpeed = minSpeed;
+            }
+            
+
+            //actual movment of the player
             theTransform.Translate(Vector3.forward * currSpeed);
-            rollOld = rollUse;
         }
         else
         {

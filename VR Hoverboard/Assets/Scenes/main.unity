@@ -504,66 +504,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1451523980}
   m_GameObject: {fileID: 612053950}
   m_Mesh: {fileID: 4300000, guid: 6544b5822d343b6478cd32430ee73167, type: 3}
---- !u!1 &645196793
+--- !u!1 &990581368
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 645196799}
-  - component: {fileID: 645196798}
-  - component: {fileID: 645196797}
-  - component: {fileID: 645196796}
-  - component: {fileID: 645196794}
+  - component: {fileID: 990581370}
+  - component: {fileID: 990581369}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: ManagerLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &645196794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 645196793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugControls: 1
---- !u!114 &645196796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 645196793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 033db46f54691b547a04696811377a2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoints: []
---- !u!114 &645196797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 645196793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5201112f6780804bbeba36f352542c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScoreMultipliers:
-    speedMultiplier: 1
-    consecutiveRingMultiplier: 1
-    consecutiveMultiplierIncreaseAmount: 0.5
-  baseScorePerRing: 100
---- !u!114 &645196798
+--- !u!114 &990581369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}

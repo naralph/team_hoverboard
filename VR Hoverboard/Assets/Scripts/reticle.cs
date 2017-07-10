@@ -7,7 +7,7 @@ public class reticle : MonoBehaviour
     //default distance away from the camera the reticle sits at
     public float defaultDistance;
     //the actual reticle
-    public Transform theReticle;
+    [SerializeField] public Transform theReticle;
     //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
     bool useNormal = true;
     //the camera transform
@@ -40,15 +40,15 @@ public class reticle : MonoBehaviour
         {
             theReticle.position = camera.position + camera.forward * defaultDistance;
 
-            theReticle.localScale = originalScale;
+            theReticle.localScale = originalScale * defaultDistance;
 
             theReticle.localRotation = originalRotation;
         }
-        //Debug.Log("Collision for reticle returned: " + didHit);
     }
 
 	// Use this for initialization
 	void Start () {
+        camera = gameObject.GetComponent<Camera>().transform;
         originalScale = theReticle.localScale;
         originalRotation = theReticle.localRotation;
 	}
