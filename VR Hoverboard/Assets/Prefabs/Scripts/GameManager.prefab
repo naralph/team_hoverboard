@@ -66,7 +66,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033db46f54691b547a04696811377a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 4462082338848660, guid: 1e84304eaf6b50a42bc47a643971793f, type: 2}
+  - {fileID: 4331926204908470, guid: a2ced6232cd4de64bbc21acf9ea9c71e, type: 2}
+  - {fileID: 4151778606627490, guid: 1adacc0651b819042a61898400984668, type: 2}
 --- !u!114 &114714506037350866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,7 +84,8 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  player: {fileID: 1250839810360536, guid: 883f770cffad95944bbc09eec8a345e6, type: 2}
+  playerPrefab: {fileID: 1250839810360536, guid: 883f770cffad95944bbc09eec8a345e6,
+    type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
   gyroScript: {fileID: 0}
