@@ -5,7 +5,6 @@ using UnityEngine;
 public class EyeRayCaster : MonoBehaviour {
 
     public Camera myCam;
-    public GameObject reticleObj;
     reticle reticleScript;
     RaycastHit hit;
     bool lookingAtSomething = false;
@@ -13,7 +12,7 @@ public class EyeRayCaster : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        reticleScript = reticleObj.GetComponent<reticle>();
+        reticleScript = GetComponent<reticle>();
 	}
 	
 	// Update is called once per frame

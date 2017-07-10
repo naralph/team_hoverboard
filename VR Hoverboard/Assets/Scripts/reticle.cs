@@ -11,7 +11,7 @@ public class reticle : MonoBehaviour
     //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
     bool useNormal = true;
     //the camera transform
-    public Transform camera;
+    Transform camera;
 
     //Scale value for reticle size(to make sure it isnt to huge in the scene)
     public float scaleMultiplier = 0.01f;
@@ -51,6 +51,7 @@ public class reticle : MonoBehaviour
 	void Start () {
         originalScale = theReticle.localScale;
         originalRotation = theReticle.localRotation;
+        camera = gameObject.transform;
 	}
 	
 	// Update is called once per frame
