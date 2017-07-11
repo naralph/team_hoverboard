@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public bool debugControls = false;
-    public bool actualControls = true;
+    bool debugControls = false;
     public float moveRate = 50.0f;
 
     //objects to get down to getting the gyro object itself for data
@@ -32,6 +31,11 @@ public class Movement : MonoBehaviour
 
     private Transform theTransform;
 
+    void usingDebugControls()
+    {
+        debugControls = true;
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -42,8 +46,11 @@ public class Movement : MonoBehaviour
         theTransform = GetComponent<Transform>();
         gameManagerObj = GameObject.Find("GameManager");
         gameManagerScript = gameManagerObj.GetComponent<GameManager>();
-        gyroManager = gameManagerScript.GetComponent<GyroManager>();
-        theGyro = gyroManager.getGyro();
+        if (!debugControls)
+        {
+            gyroManager = gameManagerScript.GetComponent<GyroManager>();
+            theGyro = gyroManager.getGyro();
+        }
     }
 
     // Update is called once per frame
@@ -71,7 +78,7 @@ public class Movement : MonoBehaviour
             //translates forward
             theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
         }
-        else if (actualControls)
+        else 
         {
             float pitchChange = (float)theGyro.pitchAngle;
             float rollChange = (float)theGyro.rollAngle;
@@ -90,7 +97,6 @@ public class Movement : MonoBehaviour
                 Quaternion.Euler(roll, pitch, 0.0f);
 
             rollChange *= Mathf.Rad2Deg;
-            Debug.Log("Roll change is: " + rollChange);
 
             //speed check based on the angle you are at, steeper down equals faster, and steeper up means slower
            
@@ -108,10 +114,15 @@ public class Movement : MonoBehaviour
             //actual movment of the player
             theTransform.Translate(Vector3.forward * currSpeed);
         }
-        else
-        {
-            currSpeed += minSpeed;
-            theTransform.Translate(Vector3.forward * minSpeed);
-        }
+    }
+
+    void OnEnable()
+    {
+        EventManager.OnDisableActualControls += usingDebugControls;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnDisableActualControls -= usingDebugControls;
     }
 }
