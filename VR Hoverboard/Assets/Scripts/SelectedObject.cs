@@ -25,6 +25,7 @@ public abstract class SelectedObject : MonoBehaviour
     public void deSelected()
     {
         deSelectedFunction();
+        theReticle.updateReticle(0);
         isSelected = false;
         timeWaited = 0;
     }
@@ -43,9 +44,10 @@ public abstract class SelectedObject : MonoBehaviour
             if (timeWaited >= timeToWait)
             {
                 selectSuccessFunction();
-                theReticle.
+                theReticle.updateReticle(0);
+                timeWaited = 0;
             }
-            float ratio = timeWaited / timeToWait;
+            float ratio = (float)timeWaited / (float)timeToWait;
             theReticle.updateReticle(ratio);
         }
     }

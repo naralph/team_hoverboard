@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MenuItemTest : SelectedObject
 {
-
     //runs while object is selected
     override public void selectedFuntion()
     {
