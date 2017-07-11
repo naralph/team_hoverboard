@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
     public float baseScorePerRing = 0;
     public Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
 
-    GameManager.RoundTimer roundTimer;
+    ManagerUtilities.RoundTimer roundTimer;
     int score = 0;
     //set our prevRing to -1, and make sure our rings start at 1
     //that way the first run of UpdateScore won't include a consecutive multiplier
@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour
     float originalCRM = 0.0f;
 
     //this will get called by our game manager
-    public void SetupScoreManager(GameManager.RoundTimer rt, GameObject p)
+    public void SetupScoreManager(ManagerUtilities.RoundTimer rt, GameObject p)
     {
         //assign our manager to our player clone
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();

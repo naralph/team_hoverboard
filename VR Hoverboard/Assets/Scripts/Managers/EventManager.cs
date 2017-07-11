@@ -16,4 +16,13 @@ public class EventManager : MonoBehaviour
         if (OnDisableActualControls != null)
             OnDisableActualControls();
     }
+
+    public delegate void SwitchScene(int scInd);
+    public static event SwitchScene OnChangeScenes;
+
+    static public void OnTriggerSceneChange(int sceneIndex)
+    {
+        if (OnChangeScenes != null)
+            OnChangeScenes(sceneIndex);
+    }
 }

@@ -3,25 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameState { MainMenu, GamePlay, GameOver };
-
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
 {
-    // Using Serializable allows us to embed a class with sub properties in the inspector.
-    [System.Serializable]
-    public class RoundTimer
-    {
-        [HideInInspector] public float currRoundTime;
-        public float roundTimeLimit;
+    //store our state
+    ManagerUtilities.GameState state = new ManagerUtilities.GameState();
 
-        public RoundTimer(float rtLim = 0.0f, float crTime = 0.0f) { roundTimeLimit = rtLim; currRoundTime = crTime; }
-        public void UpdateTimer() { currRoundTime += Time.deltaTime; }
-        public void ResetTimer() { currRoundTime = 0.0f; }
-    }
-
-    //this is what shows up in our inspector
-    public RoundTimer roundTimer = new RoundTimer(15.0f);
+    //this shows up in our inspector since the class is using [System.Serializable]
+    public ManagerUtilities.RoundTimer roundTimer = new ManagerUtilities.RoundTimer(15.0f);
 
     //store our player prefab through the inspector
     public GameObject playerPrefab;
@@ -36,8 +25,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
-
-    GameState state;
 
     void Awake()
     {
@@ -64,31 +51,14 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);      
     }
 
-    //TODO::setup a simple state machine to decide when we are in a menu, gameplay, score screen ect...
-
     void InitGame()
     {
-        //set our state based off of our scene build index
-        switch (SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0:
-                state = GameState.MainMenu;
-                break;
-            case 1:
-                state = GameState.GamePlay;
-                StartCoroutine(GameCoroutine());
-                break;
-            default:
-                state = GameState.GameOver;
-                break;
-        }
-
         scoreScript.SetupScoreManager(roundTimer, player);
         levelScript.SetupLevelManager(state, player);
     }
 
     //coroutines are called after Unity's Update()
-    IEnumerator GameCoroutine()
+    public IEnumerator GameCoroutine()
     {
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
         while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)

@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 363211825}
   - component: {fileID: 363211824}
   - component: {fileID: 363211823}
+  - component: {fileID: 363211826}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -258,8 +259,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 768513450}
-        m_MethodName: InitializeLevel
+      - m_Target: {fileID: 363211826}
+        m_MethodName: ChangeScene
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -304,6 +305,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 363211821}
+--- !u!114 &363211826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 363211821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb75e782f152e64e9af229c8bcaa794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &509126474
 Prefab:
   m_ObjectHideFlags: 0
@@ -346,12 +358,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 381a55c0ac83caf45846728b0123ba20, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &768513450 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114284126497002870, guid: 381a55c0ac83caf45846728b0123ba20,
-    type: 2}
-  m_PrefabInternal: {fileID: 509126474}
-  m_Script: {fileID: 11500000, guid: 033db46f54691b547a04696811377a2d, type: 3}
 --- !u!1 &777122561
 GameObject:
   m_ObjectHideFlags: 0
