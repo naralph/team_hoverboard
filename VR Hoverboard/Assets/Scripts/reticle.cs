@@ -62,11 +62,6 @@ public class reticle : MonoBehaviour
     {
         selectionRadial.fillAmount = ratioOfTimePassed;
     }
-
-    public void resetReticle()
-    {
-        selectionRadial.fillAmount = 0;
-    }
 	
 	// Update is called once per frame
 	void Update () {
