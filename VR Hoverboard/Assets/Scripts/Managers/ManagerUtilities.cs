@@ -10,8 +10,7 @@ public class ManagerUtilities : MonoBehaviour
     [System.Serializable]
     public class RoundTimer
     {
-        [HideInInspector]
-        public float currRoundTime;
+        [HideInInspector] public float currRoundTime;
         public float roundTimeLimit;
 
         public RoundTimer(float rtLim = 0.0f, float crTime = 0.0f) { roundTimeLimit = rtLim; currRoundTime = crTime; }
@@ -19,10 +18,20 @@ public class ManagerUtilities : MonoBehaviour
         public void ResetTimer() { currRoundTime = 0.0f; }
     }
 
+    [System.Serializable]
+    public class ScoreMultipliers
+    {
+        public float speedMultiplier;
+        public float consecutiveRingMultiplier;
+        public float consecutiveMultiplierIncreaseAmount;
+
+        public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
+    }
+
 
     public class GameState
     {       
         public States currentState;
-        public GameState() { currentState = 0; }
+        public GameState() { currentState = States.MainMenu; }
     }
 }

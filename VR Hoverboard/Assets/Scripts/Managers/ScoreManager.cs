@@ -4,25 +4,13 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class Multipliers
-    {
-        public float speedMultiplier;
-        public float consecutiveRingMultiplier;
-        public float consecutiveMultiplierIncreaseAmount;
-
-        public Multipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
-    }
-
     public float baseScorePerRing = 0;
-    public Multipliers ScoreMultipliers = new Multipliers(1.0f, 1.0f, 0.5f);
+    public ManagerUtilities.ScoreMultipliers ScoreMultipliers = new ManagerUtilities.ScoreMultipliers(1.0f, 1.0f, 0.5f);
 
     ManagerUtilities.RoundTimer roundTimer;
-    int score = 0;
-    //set our prevRing to -1, and make sure our rings start at 1
-    //that way the first run of UpdateScore won't include a consecutive multiplier
-    int prevRing = -1;
-    float originalCRM = 0.0f;
+    int score;
+    int prevRing;
+    float originalCRM;
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerUtilities.RoundTimer rt, GameObject p)
@@ -31,6 +19,10 @@ public class ScoreManager : MonoBehaviour
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
         pss.AssignManager(this);
 
+        //set our prevRing to -1, and make sure our rings start at 1
+        //that way the first run of UpdateScore won't include a consecutive multiplier
+        score = 0;
+        prevRing = -1;
         originalCRM = ScoreMultipliers.consecutiveRingMultiplier;
         roundTimer = rt;
     }
