@@ -23,6 +23,7 @@ public class SelectedObject : MonoBehaviour
         gameObject.GetComponent<Renderer>().material.color = Color.red;
         isSelected = false;
         timeWaited = 0;
+        theReticle.resetReticle();
     }
 
     void FixedUpdate()
@@ -30,11 +31,7 @@ public class SelectedObject : MonoBehaviour
         if (isSelected)
         {
             timeWaited++;
-            if (timeWaited >= timeToWait)
-            {
-                gameObject.transform.localScale *= 0.5f;
-            }
-            float ratio = timeWaited / timeToWait;
+            float ratio = (float)timeWaited / (float)timeToWait;
             theReticle.updateReticle(ratio);
         }
     }

@@ -50,7 +50,6 @@ public class EyeRayCaster : MonoBehaviour
         if ((preObj == null || preObj != curObj) && curObj != null)
         {
             curObj.GetComponent<SelectedObject>().deSelected();
-            Debug.Log("Deselected the object");
         }
     }
 }

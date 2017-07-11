@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class reticle : MonoBehaviour
 {
+    //image object for the selection radial(required to function for radial bar)
+    [SerializeField] Image selectionRadial;
     //default distance away from the camera the reticle sits at
     public float defaultDistance;
     //the actual reticle
@@ -57,7 +60,12 @@ public class reticle : MonoBehaviour
     //update the reticle based on time
     public void updateReticle(float ratioOfTimePassed)
     {
+        selectionRadial.fillAmount = ratioOfTimePassed;
+    }
 
+    public void resetReticle()
+    {
+        selectionRadial.fillAmount = 0;
     }
 	
 	// Update is called once per frame
