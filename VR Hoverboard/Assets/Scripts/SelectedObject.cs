@@ -43,7 +43,6 @@ public abstract class SelectedObject : MonoBehaviour
             if (timeWaited >= timeToWait)
             {
                 selectSuccessFunction();
-                theReticle.
             }
             float ratio = timeWaited / timeToWait;
             theReticle.updateReticle(ratio);
