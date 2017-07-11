@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EyeRayCaster : MonoBehaviour {
+public class EyeRayCaster : MonoBehaviour
+{
+    //object for selection purposes;
+    GameObject curObj;
 
     public Camera myCam;
     reticle reticleScript;
@@ -29,6 +32,19 @@ public class EyeRayCaster : MonoBehaviour {
             if (hit.collider.tag != "Player")
             {
                 reticleScript.setPosition(hit, lookingAtSomething);
+                if (hit.collider.tag == "Selectable")
+                {
+                    curObj = hit.collider.gameObject;
+                    curObj.GetComponent<SelectedObject>().selected();
+                }
+                else
+                {
+                    if (curObj)
+                    {
+                        curObj.GetComponent<SelectedObject>().deSelected();
+                        curObj = null;
+                    }
+                }
             }
         }
         else

@@ -7,7 +7,7 @@ public class PhidgetInterfaceExample : MonoBehaviour
     //for gyro
     SpatialData sd;
 
-    public Transform transform;
+    public new Transform transform;
     // Use this for initialization
     void Awake()
     {

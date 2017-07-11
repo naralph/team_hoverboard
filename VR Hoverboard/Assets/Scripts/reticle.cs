@@ -11,7 +11,7 @@ public class reticle : MonoBehaviour
     //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
     bool useNormal = true;
     //the camera transform
-    Transform camera;
+    new Transform camera;
 
     //Scale value for reticle size(to make sure it isnt to huge in the scene)
     public float scaleMultiplier = 0.01f;

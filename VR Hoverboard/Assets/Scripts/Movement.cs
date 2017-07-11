@@ -46,8 +46,11 @@ public class Movement : MonoBehaviour
         theTransform = GetComponent<Transform>();
         gameManagerObj = GameObject.Find("GameManager");
         gameManagerScript = gameManagerObj.GetComponent<GameManager>();
-        gyroManager = gameManagerScript.GetComponent<GyroManager>();
-        theGyro = gyroManager.getGyro();
+        if (!debugControls)
+        {
+            gyroManager = gameManagerScript.GetComponent<GyroManager>();
+            theGyro = gyroManager.getGyro();
+        }
     }
 
     // Update is called once per frame

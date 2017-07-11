@@ -18,13 +18,17 @@ public class EventManager : MonoBehaviour
     }
 
     //Event for selection success
+    //delegate for selectionSuccess
     public delegate void SelectionSuccess();
-    public static event SelectionSuccess onSelectionSuccess;
+    //holds the funtions to call on a selection success
+    //use to store functions to call
+    public static event SelectionSuccess selectionEvents;
 
-    static public void onNotSelectionSuccess()
+    //use this to call the functions stored in the event
+    static public void selectionCall()
     {
         //if the event is subscribed to
-        if (onSelectionSuccess != null)
-            onSelectionSuccess();
+        if (selectionEvents != null)
+            selectionEvents();
     }
 }
