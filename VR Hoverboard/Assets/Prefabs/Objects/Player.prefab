@@ -287,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDistance: 5
   theReticle: {fileID: 224106400422327658}
+  useNormal: 0
   scaleMultiplier: 0.2
 --- !u!114 &114784849725877122
 MonoBehaviour:

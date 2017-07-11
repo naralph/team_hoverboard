@@ -9,7 +9,7 @@ public class reticle : MonoBehaviour
     //the actual reticle
     [SerializeField] public Transform theReticle;
     //whether or not we use a normal of the object we are hitting to rotate the reticle to match against it;
-    bool useNormal = true;
+    [SerializeField] bool useNormal = true;
     //the camera transform
     new Transform camera;
 
@@ -53,6 +53,12 @@ public class reticle : MonoBehaviour
         originalRotation = theReticle.localRotation;
         camera = gameObject.transform;
 	}
+
+    //update the reticle based on time
+    public void updateReticle(float ratioOfTimePassed)
+    {
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
