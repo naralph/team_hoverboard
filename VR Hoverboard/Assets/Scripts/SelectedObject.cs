@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectedObject : MonoBehaviour
+public abstract class SelectedObject : MonoBehaviour
 {
     [SerializeField] int timeToWait = 50;
     int timeWaited = 0;
@@ -13,17 +13,27 @@ public class SelectedObject : MonoBehaviour
     //grabes the reticle object to show timer status
     public void selected(reticle grabbedReticle)
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        selectedFuntion();
         isSelected = true;
         theReticle = grabbedReticle;
     }
 
+    //What the class actually does with the object while selected(if applicable), inherited class must fill this out
+    public abstract void selectedFuntion();
+
+    //deals with leftovers from selecting the object when you look away
     public void deSelected()
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.red;
+        deSelectedFunction();
         isSelected = false;
         timeWaited = 0;
     }
+
+    //Cleans up what the class actually does(if applicable), inherited class must fill this out
+    public abstract void deSelectedFunction();
+
+    //what the class actually does when select is successful, inherited class must fill this out
+    public abstract void selectSuccessFunction();
 
     void FixedUpdate()
     {
@@ -32,7 +42,8 @@ public class SelectedObject : MonoBehaviour
             timeWaited++;
             if (timeWaited >= timeToWait)
             {
-                gameObject.transform.localScale *= 0.5f;
+                selectSuccessFunction();
+                theReticle.
             }
             float ratio = timeWaited / timeToWait;
             theReticle.updateReticle(ratio);
