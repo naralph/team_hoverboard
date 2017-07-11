@@ -1,77 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-enum GameState { MainMenu, GamePlay, GameOver };
+using UnityEngine.SceneManagement;
 
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
 {
-    // Using Serializable allows us to embed a class with sub properties in the inspector.
-    [System.Serializable]
-    public class RoundTimer
-    {
-        [HideInInspector] public float currRoundTime;
-        public float roundTimeLimit;
+    //store our state
+    ManagerUtilities.GameState state = new ManagerUtilities.GameState();
 
-        public RoundTimer(float rtLim = 0.0f, float crTime = 0.0f) { roundTimeLimit = rtLim; currRoundTime = crTime; }
-        public void UpdateTimer() { currRoundTime += Time.deltaTime; }
-        public void ResetTimer() { currRoundTime = 0.0f; }
-    }
-
-    //this is what shows up in our inspector
-    public RoundTimer roundTimer = new RoundTimer(15.0f);
-
-    //variable for singleton
-    public static GameManager instance = null;
+    //this shows up in our inspector since the class is using [System.Serializable]
+    public ManagerUtilities.RoundTimer roundTimer = new ManagerUtilities.RoundTimer(15.0f);
 
     //store our player prefab through the inspector
-    public GameObject player;
+    public GameObject playerPrefab;
+
+    //variable for singleton, static makes this variable the same through all GameManager objects
+    public static GameManager instance = null;
+
+    //variable to store our player clone
+    public static GameObject player = null;
 
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
 
-    GameState state;
-
     void Awake()
     {
         //make sure we only have one instance of GameManager
         if (instance == null)
+        {
             instance = this;
+
+            //ensures that our game manager persists between scenes
+            DontDestroyOnLoad(gameObject);
+
+            //store our managers
+            scoreScript = GetComponent<ScoreManager>();
+            levelScript = GetComponent<LevelManager>();
+            gyroScript = GetComponent<GyroManager>();
+
+            //Instantiate our player, store the clone, then make sure it persists between scenes
+            player = Instantiate(playerPrefab);
+            DontDestroyOnLoad(player);
+
+            InitGame();
+        }          
         else if (instance != this)
-            Destroy(gameObject);
-
-        //ensures that our game manager persists between scenes
-        DontDestroyOnLoad(gameObject);
-
-        //store our managers
-        scoreScript = GetComponent<ScoreManager>();
-        levelScript = GetComponent<LevelManager>();
-        gyroScript = GetComponent<GyroManager>();
-
-        //Instantiate our player, store the clone, then make sure it persists between scenes
-        player = Instantiate(player);
-        DontDestroyOnLoad(player);
-
-        InitGame();
+            Destroy(gameObject);      
     }
-
-    //TODO::setup a simple state machine to decide when we are in a menu, gameplay, score screen ect...
 
     void InitGame()
     {
-        //TODO:: we only want to start our timer at the beginning of a round
-        StartCoroutine(GameCoroutine());
-
-        state = GameState.MainMenu;
         scoreScript.SetupScoreManager(roundTimer, player);
-        levelScript.SetupLevelManager(player);
+        levelScript.SetupLevelManager(state, player);
     }
 
     //coroutines are called after Unity's Update()
-    IEnumerator GameCoroutine()
+    public IEnumerator GameCoroutine()
     {
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
         while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)
