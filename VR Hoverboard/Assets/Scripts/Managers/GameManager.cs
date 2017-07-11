@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         scoreScript.SetupScoreManager(roundTimer, player);
         levelScript.SetupLevelManager(state, player);
+        gyroScript.SetupGyroManager(player);
     }
 
     //coroutines are called after Unity's Update()

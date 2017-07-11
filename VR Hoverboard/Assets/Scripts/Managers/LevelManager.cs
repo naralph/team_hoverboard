@@ -12,16 +12,6 @@ public class LevelManager : MonoBehaviour
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
-    public void OnEnable()
-    {
-        EventManager.OnChangeScenes += InitializeLevel;
-    }
-
-    public void OnDisable()
-    {
-        EventManager.OnChangeScenes -= InitializeLevel;
-    }
-
     public void SetupLevelManager(ManagerUtilities.GameState s, GameObject p)
     {
         player = p;
@@ -56,6 +46,16 @@ public class LevelManager : MonoBehaviour
         player.transform.position = spawnPoints[sceneIndex].position;
 
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    public void OnEnable()
+    {
+        EventManager.OnChangeScenes += InitializeLevel;
+    }
+
+    public void OnDisable()
+    {
+        EventManager.OnChangeScenes -= InitializeLevel;
     }
 
 }

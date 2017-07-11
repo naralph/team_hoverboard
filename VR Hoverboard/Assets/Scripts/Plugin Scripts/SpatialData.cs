@@ -43,7 +43,7 @@ public class SpatialData
 	public void Open()
 	{
 		device.open();
-        //device.waitForAttachment(1000);
+        //device.waitForAttachment(3000);
 		MonoBehaviour.print ("Spatial Sensors Open");		
 		
 		device.Attach += new AttachEventHandler(spatial_Attach);
