@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuItemTest : SelectedObject
+public class MenuButton : SelectedObject
 {
+    [SerializeField] int sceneIndex;
     //runs while object is selected
     override public void selectedFuntion()
     {
@@ -19,6 +20,6 @@ public class MenuItemTest : SelectedObject
     //runs when timer succeeds
     override public void selectSuccessFunction()
     {
-        gameObject.transform.localScale *= 0.5f;
+        EventManager.OnTriggerSceneChange(sceneIndex);
     }
 }
