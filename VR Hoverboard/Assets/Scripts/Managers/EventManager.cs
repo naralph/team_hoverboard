@@ -16,4 +16,19 @@ public class EventManager : MonoBehaviour
         if (OnDisableActualControls != null)
             OnDisableActualControls();
     }
+
+    //Event for selection success
+    //delegate for selectionSuccess
+    public delegate void SelectionSuccess();
+    //holds the funtions to call on a selection success
+    //use to store functions to call
+    public static event SelectionSuccess selectionEvents;
+
+    //use this to call the functions stored in the event
+    static public void selectionCall()
+    {
+        //if the event is subscribed to
+        if (selectionEvents != null)
+            selectionEvents();
+    }
 }

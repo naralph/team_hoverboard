@@ -38,8 +38,12 @@ public class GyroManager : MonoBehaviour
 
     private void Start()
     {
-        if (!debugControls)
+        if (debugControls)
         {
+            EventManager.OnNotUsingActualControls();
+        }
+        else
+        { 
             gyro.device.DataRate = 20;
         }
     }

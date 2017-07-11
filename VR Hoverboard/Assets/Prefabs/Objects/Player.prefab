@@ -231,6 +231,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCam: {fileID: 20531404844742030}
+  debugRayDrawLength: 5
+  rayCheckLength: 50
 --- !u!114 &114382440682783160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,8 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ea0c44eb3da7241b948e4c6e86a732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugControls: 0
-  actualControls: 1
   moveRate: 0
   currSpeed: 0
   pitch: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   rollMax: 60
   speedDownMultiplier: 0.01
   speedUpMultiplier: 0.01
-  minSpeed: 0.025
+  minSpeed: 0
   maxSpeed: 10
 --- !u!114 &114590171757058334
 MonoBehaviour:
@@ -287,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDistance: 5
   theReticle: {fileID: 224106400422327658}
+  useNormal: 0
   scaleMultiplier: 0.2
 --- !u!114 &114784849725877122
 MonoBehaviour:
