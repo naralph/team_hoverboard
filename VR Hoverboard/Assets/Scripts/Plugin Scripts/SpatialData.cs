@@ -72,7 +72,7 @@ public class SpatialData
     {
 		Spatial attached = (Spatial)sender;
 
-        attached.DataRate = 100;
+        attached.DataRate = 8;
 
         lastMsCountGood[0] = false;
         lastMsCountGood[1] = false;

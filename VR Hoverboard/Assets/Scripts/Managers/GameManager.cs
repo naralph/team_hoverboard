@@ -26,29 +26,28 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
 
-    void Awake()
+        void Awake()
     {
         //make sure we only have one instance of GameManager
         if (instance == null)
-        {
             instance = this;
-
-            //ensures that our game manager persists between scenes
-            DontDestroyOnLoad(gameObject);
-
-            //store our managers
-            scoreScript = GetComponent<ScoreManager>();
-            levelScript = GetComponent<LevelManager>();
-            gyroScript = GetComponent<GyroManager>();
-
-            //Instantiate our player, store the clone, then make sure it persists between scenes
-            player = Instantiate(playerPrefab);
-            DontDestroyOnLoad(player);
-
-            InitGame();
-        }          
+                  
         else if (instance != this)
-            Destroy(gameObject);      
+            Destroy(gameObject);
+
+        //ensures that our game manager persists between scenes
+        DontDestroyOnLoad(gameObject);
+
+        //store our managers
+        scoreScript = GetComponent<ScoreManager>();
+        levelScript = GetComponent<LevelManager>();
+        gyroScript = GetComponent<GyroManager>();
+
+        //Instantiate our player, store the clone, then make sure it persists between scenes
+        player = Instantiate(playerPrefab);
+        DontDestroyOnLoad(player);
+
+        InitGame();
     }
 
     void InitGame()

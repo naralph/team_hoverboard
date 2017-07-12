@@ -5,12 +5,13 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     bool debugControls = false;
-    bool lockPlayerMovement = false;
+    bool playerMovementLocked = false;
 
+    public float rotationSensativity = 1.0f;
     public float moveRate = 50.0f;
+    float currSpeed = 0.0f;
 
-    //objects to get down to getting the gyro object itself for data
-    GyroManager gyroManager;
+    SpatialData gyro;
 
     #region assan's code
     //SpatialData theGyro;
@@ -31,124 +32,148 @@ public class Movement : MonoBehaviour
     //public float maxSpeed = 10.0f;
     #endregion
 
-    float currSpeed = 0.0f;
 
-    Transform theTransform;
-
-    void usingDebugControls()
+    void SetPlayerMovementLock(bool locked)
     {
-        debugControls = true;
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        theTransform = GetComponent<Transform>();
-    }
-
-    public void AssignManager(GyroManager gMan)
-    {
-        if (!debugControls)
-            gyroManager = gMan;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!lockPlayerMovement)
+        //make sure we want to re-start our coroutine
+        if (locked != playerMovementLocked)
         {
-            //GetAxis returns a floating value that is in-between -1 and 1
-            float lVertVal = Input.GetAxis("LVertical");
-            float lHoriVal = Input.GetAxis("LHorizontal");
-            currSpeed = moveRate * Time.deltaTime;
+            playerMovementLocked = locked;
+            StartCoroutine(MovementCoroutine());
+        }
+    }
 
-            //print(lVertVal + " LEFT VERT JOYSTICK VAL");
-            //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
-            //print(currSpeed + " SPEED VAL");
+    public void SetupMovement(bool debugCon)
+    {
+        debugControls = debugCon;
+
+        if (!debugControls)
+            gyro = new SpatialData();
+
+        StartCoroutine(MovementCoroutine());
+    }
+
+    IEnumerator MovementCoroutine()
+    {
+        while (!playerMovementLocked)
+        {
+            currSpeed = moveRate * Time.deltaTime;
 
             if (debugControls)
             {
                 //rotates about the x axis
-                theTransform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+                transform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
                 //rotates about the y axis
-                theTransform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+                transform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
                 //rotates about the z axis
-                theTransform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+                transform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
                 //rotates about the y axis
-                theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
+                transform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
                 //translates forward
-                theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
+                transform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
             }
-
-            //nate's code
             else
             {
-                theTransform.Translate(Vector3.forward * currSpeed);
+                transform.Translate(Vector3.forward * currSpeed);
 
-                //theTransform.Rotate(Vector3.right * (float)theGyro.rollAngle * Mathf.Rad2Deg);
-                //theTransform.Rotate(Vector3.forward * (float)theGyro.pitchAngle * Mathf.Rad2Deg);
+                //transform.Rotate(Vector3.right * (float)gyro.rollAngle * Mathf.Rad2Deg);
+                //transform.Rotate(Vector3.up * (float)gyro.pitchAngle * Mathf.Rad2Deg);
 
-                Vector3 vec = new Vector3(
-                    (float)gyroManager.getGyro().rollAngle * Mathf.Rad2Deg, 
-                    theTransform.rotation.y, 
-                    (float)gyroManager.getGyro().pitchAngle * Mathf.Rad2Deg);
+                //print("X ROTATION: " + transform.eulerAngles.x);
+                //print("Y ROTATION: " + transform.eulerAngles.y);
+                //print("Z ROTATION: " + transform.eulerAngles.z);
 
+                float pitch = (float)gyro.pitchAngle * Mathf.Rad2Deg;
+                float yaw = transform.eulerAngles.y;
+                float roll = (float)gyro.rollAngle * Mathf.Rad2Deg;
 
-                theTransform.rotation = Quaternion.Euler(vec);
-
-                //print("X ROTATION: " + vec.x);
-                //print("Y ROTATION: " + vec.y);
-                //print("Z ROTATION: " + vec.z);
+                transform.rotation = Quaternion.Euler(roll, pitch, yaw);//Quaternion.Slerp(transform.rotation, Quaternion.Euler(vec), 0.25f);
             }
 
-            #region assan's code
-            //else if ()
-            //{
-            //    float pitchChange = (float)theGyro.pitchAngle;
-            //    float rollChange = (float)theGyro.rollAngle;
-
-            //    pitch += pitchChange;
-            //    roll += rollChange;
-
-            //    //check to make sure not at to steep an angle using our max variable
-            //    if (roll > rollMax || roll < -rollMax)
-            //    {
-            //        roll -= (float)theGyro.rollAngle;
-            //    }
-
-            //    //preform the actual rotation on the object
-            //    theTransform.rotation =
-            //        Quaternion.Euler(roll, pitch, 0.0f);
-
-            //    rollChange *= Mathf.Rad2Deg;
-
-            //    //speed check based on the angle you are at, steeper down equals faster, and steeper up means slower
-
-            //    currSpeed += (speedUpMultiplier * rollChange);
-            //    if (currSpeed > maxSpeed)
-            //    {
-            //        currSpeed = maxSpeed;
-            //    }
-            //    if (currSpeed < minSpeed)
-            //    {
-            //        currSpeed = minSpeed;
-            //    }
-
-
-            //    //actual movment of the player
-            //    theTransform.Translate(Vector3.forward * currSpeed);
-            //}
-            #endregion
+            yield return null;
         }
     }
 
+    #region old update code
+    // Update is called once per frame
+    //void Update()
+    //{
+    //    if (!lockPlayerMovement)
+    //    {
+    //        //GetAxis returns a floating value that is in-between -1 and 1
+    //        float lVertVal = Input.GetAxis("LVertical");
+    //        float lHoriVal = Input.GetAxis("LHorizontal");
+    //        currSpeed = moveRate * Time.deltaTime;
+
+    //        //print(lVertVal + " LEFT VERT JOYSTICK VAL");
+    //        //print(lHoriVal + " LEFT HORIZONTAL JOYSTICK VAL");
+    //        //print(currSpeed + " SPEED VAL");
+
+    //        if (debugControls)
+    //        {
+    //            //rotates about the x axis
+    //            theTransform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+    //            //rotates about the y axis
+    //            theTransform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+    //            //rotates about the z axis
+    //            theTransform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+    //            //rotates about the y axis
+    //            theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
+    //            //translates forward
+    //            theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
+    //        }
+    //        else
+    //        {
+    //            float pitchChange = (float)theGyro.pitchAngle;
+    //            float rollChange = (float)theGyro.rollAngle;
+
+    //            pitch += pitchChange;
+    //            roll += rollChange;
+
+    //            //check to make sure not at to steep an angle using our max variable
+    //            if (roll > rollMax || roll < -rollMax)
+    //            {
+    //                roll -= (float)theGyro.rollAngle;
+    //            }
+
+    //            //preform the actual rotation on the object
+    //            theTransform.rotation =
+    //                Quaternion.Euler(roll, pitch, 0.0f);
+
+    //            rollChange *= Mathf.Rad2Deg;
+
+    //            //speed check based on the angle you are at, steeper down equals faster, and steeper up means slower
+
+    //            currSpeed += (speedUpMultiplier * rollChange);
+    //            if (currSpeed > maxSpeed)
+    //            {
+    //                currSpeed = maxSpeed;
+    //            }
+    //            if (currSpeed < minSpeed)
+    //            {
+    //                currSpeed = minSpeed;
+    //            }
+    //            //actual movment of the player
+    //            theTransform.Translate(Vector3.forward * currSpeed);
+    //        }
+    //    }
+    //}
+    #endregion
+
     void OnEnable()
     {
-        EventManager.OnDisableActualControls += usingDebugControls;
+        EventManager.OnToggleMovement += SetPlayerMovementLock;
     }
 
     void OnDisable()
     {
-        EventManager.OnDisableActualControls -= usingDebugControls;
+        EventManager.OnToggleMovement -= SetPlayerMovementLock;
+    }
+
+    //cleanup our gyroscope so we don't crash
+    private void OnApplicationQuit()
+    {
+        if (!debugControls)
+            gyro.Close();
     }
 }
