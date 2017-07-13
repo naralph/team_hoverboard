@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     ManagerUtilities.RoundTimer roundTimer;
     int score;
     int prevRing;
-    float originalCRM;
+    float originalCM;
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerUtilities.RoundTimer rt, GameObject p)
@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
         //that way the first run of UpdateScore won't include a consecutive multiplier
         score = 0;
         prevRing = -1;
-        originalCRM = ScoreMultipliers.consecutiveRingMultiplier;
+        originalCM = ScoreMultipliers.consecutiveMultiplier;
         roundTimer = rt;
     }
 
@@ -35,13 +35,13 @@ public class ScoreManager : MonoBehaviour
             //if it's consecutive
             if (rp.positionInOrder == prevRing + 1)
             {
-                score += (int)(ScoreMultipliers.consecutiveRingMultiplier * baseScorePerRing);
-                ScoreMultipliers.consecutiveRingMultiplier += ScoreMultipliers.consecutiveMultiplierIncreaseAmount;
+                score += (int)(ScoreMultipliers.consecutiveMultiplier * baseScorePerRing);
+                ScoreMultipliers.consecutiveMultiplier += ScoreMultipliers.consecutiveIncreaseAmount;
             }
             //otherwise, reset our CRM to it's original value
             else
             {
-                ScoreMultipliers.consecutiveRingMultiplier = originalCRM;
+                ScoreMultipliers.consecutiveMultiplier = originalCM;
                 score += (int)baseScorePerRing;
             }
 
