@@ -12,16 +12,6 @@ public class LevelManager : MonoBehaviour
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
-    public void OnEnable()
-    {
-        EventManager.OnChangeScenes += InitializeLevel;
-    }
-
-    public void OnDisable()
-    {
-        EventManager.OnChangeScenes -= InitializeLevel;
-    }
-
     public void SetupLevelManager(ManagerUtilities.GameState s, GameObject p)
     {
         player = p;
@@ -33,17 +23,22 @@ public class LevelManager : MonoBehaviour
     //called by our GameManager once the scene changes
     public void InitializeLevel(int sceneIndex)
     {
+        if (sceneIndex != SceneManager.GetActiveScene().buildIndex)
+            SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+
         //set our state based off of our scene build index
         switch (sceneIndex)
         {
             case 0:
                 //do things like lock player movement here....
+                EventManager.OnSetMovementLock(true);
                 state.currentState = States.MainMenu;
                 break;
             case 1:
             case 2:
                 //do things like unlock player movement here....
                 state.currentState = States.GamePlay;
+                EventManager.OnSetMovementLock(false);
                 StopCoroutine(GameManager.instance.GameCoroutine());
                 StartCoroutine(GameManager.instance.GameCoroutine());
                 break;
@@ -53,9 +48,22 @@ public class LevelManager : MonoBehaviour
         }
 
         player.transform.rotation = spawnPoints[sceneIndex].rotation;
-        player.transform.position = spawnPoints[sceneIndex].position;
-
-        SceneManager.LoadScene(sceneIndex);
+        player.transform.position = spawnPoints[sceneIndex].position;      
     }
 
+    public void OnEnable()
+    {
+        EventManager.OnChangeScenes += InitializeLevel;
+    }
+
+    public void OnDisable()
+    {
+        EventManager.OnChangeScenes -= InitializeLevel;
+    }
+
+    //for debugging
+    void OnLevelWasLoaded(int level)
+    {
+        print("Scene changed to: " + SceneManager.GetActiveScene().name);
+    }
 }

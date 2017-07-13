@@ -6,15 +6,15 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     //delegates can be overwritten (less secure)
-    public delegate void ActualControlsDisabled();
+    public delegate void ToggleMovementLock(bool locked);
     //events can only be subscribed to or unsubscribed to (more secure)
-    public static event ActualControlsDisabled OnDisableActualControls;
+    public static event ToggleMovementLock OnToggleMovement;
 
-    static public void OnNotUsingActualControls()
+    static public void OnSetMovementLock(bool locked)
     {
         //if the event is subscribed to
-        if (OnDisableActualControls != null)
-            OnDisableActualControls();
+        if (OnToggleMovement != null)
+            OnToggleMovement(locked);
     }
 
     //Event for selection success

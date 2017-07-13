@@ -5,19 +5,19 @@ using UnityEngine;
 public class PhidgetInterfaceExample : MonoBehaviour
 {
     //for gyro
-    SpatialData sd;
+   // SpatialData sd;
 
     public new Transform transform;
     // Use this for initialization
     void Awake()
     {
-        InterfaceData.instance.Wake();
-        sd = new SpatialData();
+       // InterfaceData.instance.Wake();
+       // sd = new SpatialData();
     }
 
     private void Start()
     {
-        sd.device.DataRate = 4;      
+        //sd.device.DataRate = 8;      
     }
 
     // Update is called once per frame
@@ -35,8 +35,8 @@ public class PhidgetInterfaceExample : MonoBehaviour
         //SPATIAL DATA
        // print(sd.pitchAngle * Mathf.Rad2Deg);
        // print("DATA RATE : " + sd.device.DataRate);
-        Vector3 vec = new Vector3((float)sd.pitchAngle * Mathf.Rad2Deg, 0.0f, (float)sd.rollAngle * Mathf.Rad2Deg);
-        transform.rotation = Quaternion.Euler(vec);
+        //Vector3 vec = new Vector3((float)sd.pitchAngle * Mathf.Rad2Deg, 0.0f, (float)sd.rollAngle * Mathf.Rad2Deg);
+        //transform.rotation = Quaternion.Euler(vec);
     }
 
     //private void OnDestroy()
@@ -46,6 +46,6 @@ public class PhidgetInterfaceExample : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        sd.Close();
+        //sd.Close();
     }
 }
