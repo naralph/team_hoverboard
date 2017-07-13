@@ -7,11 +7,13 @@ public class Movement : MonoBehaviour
     bool debugControls = false;
     bool playerMovementLocked = false;
 
-    public float rotationSensativity = 1.0f;
-    public float moveRate = 50.0f;
     float currSpeed = 0.0f;
-
+    float Rad2DegSensativity;
+    Transform theTransform;
     SpatialData gyro;
+
+    ManagerUtilities.DebugMovementVariables dmv;
+    ManagerUtilities.GyroMovementVariables gmv;
 
     #region assan's code
     //SpatialData theGyro;
@@ -32,20 +34,20 @@ public class Movement : MonoBehaviour
     //public float maxSpeed = 10.0f;
     #endregion
 
-
     void SetPlayerMovementLock(bool locked)
     {
         //make sure we want to re-start our coroutine
         if (locked != playerMovementLocked)
-        {
             playerMovementLocked = locked;
-            StartCoroutine(MovementCoroutine());
-        }
     }
 
-    public void SetupMovement(bool debugCon)
+    public void SetupMovementScript(bool debugCon, ManagerUtilities.DebugMovementVariables d, ManagerUtilities.GyroMovementVariables g)
     {
         debugControls = debugCon;
+        dmv = d;
+        gmv = g;
+
+        theTransform = GetComponent<Transform>();
 
         if (!debugControls)
             gyro = new SpatialData();
@@ -55,43 +57,45 @@ public class Movement : MonoBehaviour
 
     IEnumerator MovementCoroutine()
     {
-        while (!playerMovementLocked)
+        if (debugControls)
         {
-            currSpeed = moveRate * Time.deltaTime;
+            currSpeed = dmv.moveRate * Time.deltaTime;
 
-            if (debugControls)
-            {
-                //rotates about the x axis
-                transform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
-                //rotates about the y axis
-                transform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
-                //rotates about the z axis
-                transform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
-                //rotates about the y axis
-                transform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
-                //translates forward
-                transform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
-            }
-            else
-            {
-                transform.Translate(Vector3.forward * currSpeed);
-
-                //transform.Rotate(Vector3.right * (float)gyro.rollAngle * Mathf.Rad2Deg);
-                //transform.Rotate(Vector3.up * (float)gyro.pitchAngle * Mathf.Rad2Deg);
-
-                //print("X ROTATION: " + transform.eulerAngles.x);
-                //print("Y ROTATION: " + transform.eulerAngles.y);
-                //print("Z ROTATION: " + transform.eulerAngles.z);
-
-                float pitch = (float)gyro.pitchAngle * Mathf.Rad2Deg;
-                float yaw = transform.eulerAngles.y;
-                float roll = (float)gyro.rollAngle * Mathf.Rad2Deg;
-
-                transform.rotation = Quaternion.Euler(roll, pitch, yaw);//Quaternion.Slerp(transform.rotation, Quaternion.Euler(vec), 0.25f);
-            }
-
-            yield return null;
+            //rotates about the x axis
+            theTransform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
+            //rotates about the y axis
+            theTransform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
+            //rotates about the z axis
+            theTransform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
+            //rotates about the y axis
+            theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
+            //translates forward
+            if (!playerMovementLocked)
+                theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
         }
+        else if (!playerMovementLocked)
+        {
+            currSpeed = gmv.moveRate * Time.deltaTime;
+            theTransform.Translate(Vector3.forward * currSpeed);
+
+            //transform.Rotate(Vector3.right * (float)gyro.rollAngle * Mathf.Rad2Deg);
+            //transform.Rotate(Vector3.up * (float)gyro.pitchAngle * Mathf.Rad2Deg);
+
+            //print("X ROTATION: " + transform.eulerAngles.x);
+            //print("Y ROTATION: " + transform.eulerAngles.y);
+            //print("Z ROTATION: " + transform.eulerAngles.z);
+
+            float pitch = theTransform.eulerAngles.x + (float)gyro.pitchAngle * Mathf.Rad2Deg;
+            float yaw = theTransform.eulerAngles.y;
+            float roll = theTransform.eulerAngles.z + (float)gyro.rollAngle * Mathf.Rad2Deg;
+
+            Vector3 vec = new Vector3(pitch, yaw, roll);
+
+            //TODO:: could be worth looking into a less expensive way of smoothing movement
+            theTransform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(vec), gmv.smoothing);
+        }
+        yield return null;
+        StartCoroutine(MovementCoroutine());
     }
 
     #region old update code

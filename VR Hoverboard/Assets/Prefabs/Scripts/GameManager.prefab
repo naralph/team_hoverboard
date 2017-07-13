@@ -55,6 +55,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugControls: 1
+  debugMovementVariables:
+    moveRate: 50
+  gyroMovementVariables:
+    moveRate: 10
+    smoothing: 0.25
+    sensitivity: 0
 --- !u!114 &114284126497002870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,5 +109,5 @@ MonoBehaviour:
   baseScorePerRing: 100
   ScoreMultipliers:
     speedMultiplier: 1
-    consecutiveRingMultiplier: 1
-    consecutiveMultiplierIncreaseAmount: 0.5
+    consecutiveMultiplier: 1
+    consecutiveIncreaseAmount: 0.5

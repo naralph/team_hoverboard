@@ -22,10 +22,10 @@ public class ManagerUtilities : MonoBehaviour
     public class ScoreMultipliers
     {
         public float speedMultiplier;
-        public float consecutiveRingMultiplier;
-        public float consecutiveMultiplierIncreaseAmount;
+        public float consecutiveMultiplier;
+        public float consecutiveIncreaseAmount;
 
-        public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveRingMultiplier = crMul; consecutiveMultiplierIncreaseAmount = crInAmt; }
+        public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveMultiplier = crMul; consecutiveIncreaseAmount = crInAmt; }
     }
 
 
@@ -33,5 +33,22 @@ public class ManagerUtilities : MonoBehaviour
     {       
         public States currentState;
         public GameState() { currentState = States.MainMenu; }
+    }
+
+    [System.Serializable]
+    public class GyroMovementVariables
+    {
+        public float moveRate = 50.0f;
+
+        [Range(0.0f, 1.0f)]
+        public float smoothing = 0.25f;
+        [Range(0.0f, 1.0f)]
+        public float sensitivity;
+    }
+
+    [System.Serializable]
+    public class DebugMovementVariables
+    {
+        public float moveRate = 50.0f;
     }
 }
