@@ -54,13 +54,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugControls: 1
-  debugMovementVariables:
-    moveRate: 50
+  debugControls: 0
   gyroMovementVariables:
-    moveRate: 10
-    smoothing: 0.25
-    sensitivity: 0
+    startSpeed: 10
+    maxSpeed: 15
+    minSpeed: 5
+    decelerateRate: 0.15
+    accelerateRate: 0.15
+    pitchSensitivity: 0.05
+    yawSensitivity: 0.05
+    maxAscendAngle: 30
+    maxDescendAngle: 30
 --- !u!114 &114284126497002870
 MonoBehaviour:
   m_ObjectHideFlags: 1

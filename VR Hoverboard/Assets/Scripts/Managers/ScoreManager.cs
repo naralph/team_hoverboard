@@ -5,15 +5,15 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public float baseScorePerRing = 0;
-    public ManagerUtilities.ScoreMultipliers ScoreMultipliers = new ManagerUtilities.ScoreMultipliers(1.0f, 1.0f, 0.5f);
+    public ManagerClasses.ScoreMultipliers ScoreMultipliers = new ManagerClasses.ScoreMultipliers(1.0f, 1.0f, 0.5f);
 
-    ManagerUtilities.RoundTimer roundTimer;
+    ManagerClasses.RoundTimer roundTimer;
     int score;
     int prevRing;
     float originalCM;
 
     //this will get called by our game manager
-    public void SetupScoreManager(ManagerUtilities.RoundTimer rt, GameObject p)
+    public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
     {
         //assign our manager to our player clone
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
@@ -38,7 +38,7 @@ public class ScoreManager : MonoBehaviour
                 score += (int)(ScoreMultipliers.consecutiveMultiplier * baseScorePerRing);
                 ScoreMultipliers.consecutiveMultiplier += ScoreMultipliers.consecutiveIncreaseAmount;
             }
-            //otherwise, reset our CRM to it's original value
+            //otherwise, reset our CM to it's original value
             else
             {
                 ScoreMultipliers.consecutiveMultiplier = originalCM;

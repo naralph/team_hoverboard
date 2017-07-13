@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 //we'll use our LevelManger to initialize any objects that carry from one scene to the next
 public class LevelManager : MonoBehaviour
 {
-    ManagerUtilities.GameState state;
+    ManagerClasses.GameState state;
     GameObject player;
 
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
-    public void SetupLevelManager(ManagerUtilities.GameState s, GameObject p)
+    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p)
     {
         player = p;
         state = s;

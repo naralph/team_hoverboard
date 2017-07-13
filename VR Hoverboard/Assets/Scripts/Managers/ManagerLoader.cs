@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ManagerLoader : MonoBehaviour
 {
-
     public GameObject gameManager;
 
     //loads our GameManager into the scene,
