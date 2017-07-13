@@ -17,21 +17,6 @@ public class EventManager : MonoBehaviour
             OnToggleMovement(locked);
     }
 
-    //Event for selection success
-    //delegate for selectionSuccess
-    public delegate void SelectionSuccess();
-    //holds the funtions to call on a selection success
-    //use to store functions to call
-    public static event SelectionSuccess selectionEvents;
-
-    //use this to call the functions stored in the event
-    static public void selectionCall()
-    {
-        //if the event is subscribed to
-        if (selectionEvents != null)
-            selectionEvents();
-    }
-
     public delegate void SwitchScene(int scInd);
     public static event SwitchScene OnChangeScenes;
 
@@ -39,5 +24,31 @@ public class EventManager : MonoBehaviour
     {
         if (OnChangeScenes != null)
             OnChangeScenes(sceneIndex);
+    }
+
+    public delegate void Transition(int sceneIndex);
+    public static event Transition OnTransition;
+
+    static public void OnTriggerTransition(int sceneIndex)
+    {
+        if (OnTransition != null)
+            OnTransition(sceneIndex);
+    }
+
+    public delegate void fade();
+    public static event fade OnFade;
+
+    static public void OnTriggerFade()
+    {
+        if (OnFade != null)
+            OnFade();
+    }
+
+    public delegate void ToggleSelectionLock(bool locked);
+    public static event ToggleSelectionLock OnSelectionLock;
+    static public void OnTriggerSelectionLock(bool locked)
+    {
+        if (OnSelectionLock != null)
+            OnSelectionLock(locked);
     }
 }

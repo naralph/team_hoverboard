@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToWait: 50
   sceneIndex: 1
+  screenFade: {fileID: 0}
 --- !u!1001 &811890713
 Prefab:
   m_ObjectHideFlags: 0
@@ -404,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToWait: 50
   sceneIndex: 1
+  screenFade: {fileID: 0}
 --- !u!1001 &1486721886
 Prefab:
   m_ObjectHideFlags: 0
@@ -607,6 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToWait: 50
   sceneIndex: 2
+  screenFade: {fileID: 0}
 --- !u!1 &2117654037
 GameObject:
   m_ObjectHideFlags: 0

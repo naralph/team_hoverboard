@@ -5,6 +5,7 @@ using UnityEngine;
 public class MenuButton : SelectedObject
 {
     [SerializeField] int sceneIndex;
+
     //runs while object is selected
     override public void selectedFuntion()
     {
@@ -20,10 +21,7 @@ public class MenuButton : SelectedObject
     //runs when timer succeeds
     override public void selectSuccessFunction()
     {
-        //should change to event
-        ScreenFade screenFade = new ScreenFade();
-        screenFade.FadeOut();
-
-        EventManager.OnTriggerSceneChange(sceneIndex);
+        //changes the current state of the game
+        EventManager.OnTriggerTransition(sceneIndex);
     }
 }
