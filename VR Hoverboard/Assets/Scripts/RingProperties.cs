@@ -8,4 +8,5 @@ public class RingProperties : MonoBehaviour
     public int positionInOrder = 0;
     public float timeToReach = 0.0f;
     public bool lastRingInScene = false;
+    public int nextScene = 0;
 }

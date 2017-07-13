@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class SelectedObject : MonoBehaviour
 {
-    [SerializeField] int timeToWait = 50;
+    [SerializeField]
+    int timeToWait = 50;
     int timeWaited = 0;
     bool isSelected = false;
     //object to update for reticle

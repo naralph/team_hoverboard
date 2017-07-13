@@ -15,7 +15,14 @@ public class PlayerScoreScript : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Ring")
-            scoreManager.UpdateScore(col.gameObject.GetComponent<RingProperties>());
+        {
+            RingProperties theRing = col.gameObject.GetComponent<RingProperties>();
+            scoreManager.UpdateScore(theRing);
+            if (theRing.lastRingInScene)
+            {
+                EventManager.OnTriggerSceneChange(theRing.nextScene);
+            }
+        }
     }
 
 }
