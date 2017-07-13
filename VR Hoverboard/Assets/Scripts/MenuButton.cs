@@ -20,6 +20,10 @@ public class MenuButton : SelectedObject
     //runs when timer succeeds
     override public void selectSuccessFunction()
     {
+        //should change to event
+        ScreenFade screenFade = new ScreenFade();
+        screenFade.FadeOut();
+
         EventManager.OnTriggerSceneChange(sceneIndex);
     }
 }
