@@ -8,12 +8,12 @@ public class Movement : MonoBehaviour
     bool playerMovementLocked = false;
 
     float currSpeed = 0.0f;
-    float Rad2DegPitchSensativity, Rad2DegYawSensativity;
     float pitch, yaw, roll;
-    Transform theTransform;
+    Rigidbody theRigidbody;
     SpatialData gyro;
 
     ManagerClasses.GyroMovementVariables gmv;
+    ManagerClasses.DebugMovementVariables dmv;
 
     void SetPlayerMovementLock(bool locked)
     {
@@ -21,18 +21,22 @@ public class Movement : MonoBehaviour
         if (locked != playerMovementLocked)
         {
             if (!locked && !debugControls)
+            {
+                StopCoroutine(GyroMovementCoroutine());
                 StartCoroutine(GyroMovementCoroutine());
+            }
 
             playerMovementLocked = locked;
         }           
     }
 
-    public void SetupMovementScript(bool debugCon, ManagerClasses.GyroMovementVariables g)
+    public void SetupMovementScript(bool debugCon, ManagerClasses.GyroMovementVariables g, ManagerClasses.DebugMovementVariables d)
     {
         debugControls = debugCon;
         gmv = g;
+        dmv = d;
 
-        theTransform = GetComponent<Transform>();      
+        theRigidbody = GetComponent<Rigidbody>();
 
         if (debugControls)
             StartCoroutine(DebugMovementCoroutine());
@@ -40,16 +44,23 @@ public class Movement : MonoBehaviour
         {
             gyro = new SpatialData();
 
-            //adjust our sensitivities
-            //  since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg
-            Rad2DegPitchSensativity = Mathf.Rad2Deg *  gmv.pitchSensitivity;
-            Rad2DegYawSensativity = Mathf.Rad2Deg * gmv.yawSensitivity;
+            //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
+            gmv.pitchSensitivity *= Mathf.Rad2Deg;
+            gmv.yawSensitivity *= Mathf.Rad2Deg;
 
-            //initialize our currSpeed
-            currSpeed = gmv.startSpeed * Time.deltaTime;
+            //initialize our currSpeed as the average of min and max speed
+            currSpeed = (gmv.minSpeed + gmv.maxSpeed) * 0.5f;
 
             //adjust our max ascend value for easier use in our GyroMovementCoroutine           
             gmv.maxAscendAngle = 360 - gmv.maxAscendAngle;
+
+            //adjust our pitch and yaw sensitivities
+            gmv.pitchSensitivity *= 0.01f;
+            gmv.yawSensitivity *= 0.01f;
+
+            //adjust our decelerate and accelerate rates
+            gmv.decelerateRate *= .001f;
+            gmv.accelerateRate *= .001f;
 
             StartCoroutine(GyroMovementCoroutine());
         }
@@ -58,19 +69,17 @@ public class Movement : MonoBehaviour
     //Note: debug rotation controls are needed for menu interaction
     IEnumerator DebugMovementCoroutine()
     {
-        //rotates about the x axis
-        theTransform.Rotate(Vector3.right * Input.GetAxis("RVertical"));
-        //rotates about the y axis
-        theTransform.Rotate(Vector3.up * Input.GetAxis("LHorizontal"));
-        //rotates about the z axis
-        theTransform.Rotate(Vector3.forward * Input.GetAxis("LHorizontal"));
-        //rotates about the y axis
-        theTransform.Rotate(Vector3.up * Input.GetAxis("RHorizontal"));
-        //translates forward
-        if (!playerMovementLocked)
-            theTransform.Translate(Vector3.forward * Input.GetAxis("LVertical"));
+        yield return new WaitForFixedUpdate();
 
-        yield return null;
+        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * -1 * dmv.pitchSensitivity;
+        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * dmv.yawSensitivity; 
+        roll = 0.0f;
+
+        theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, roll));
+
+        if (!playerMovementLocked)
+            theRigidbody.velocity = theRigidbody.transform.forward * dmv.startSpeed;
+
         StartCoroutine(DebugMovementCoroutine());
     }
 
@@ -78,10 +87,10 @@ public class Movement : MonoBehaviour
     {
         while (!playerMovementLocked)
         {
-            theTransform.Translate(Vector3.forward * currSpeed);
+            yield return new WaitForFixedUpdate();
 
-            pitch = theTransform.eulerAngles.x + (float)gyro.rollAngle * Rad2DegPitchSensativity;
-            yaw = theTransform.eulerAngles.y + (float)gyro.pitchAngle * Rad2DegYawSensativity;
+            pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * gmv.pitchSensitivity;
+            yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * gmv.yawSensitivity;
             roll = 0.0f;
 
             //for our gyro, 0 is resting position
@@ -97,9 +106,8 @@ public class Movement : MonoBehaviour
 
                 //calculate deceleration depending on the angle
                 //float angleDifference = pitch - gmv.maxAscendAngle;
-                //currSpeed *= angleDifference * gmv.decelerateRate;
 
-                currSpeed = Mathf.Lerp((gmv.decelerateRate * Time.deltaTime), currSpeed, gmv.decelerateRate);
+                currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
             }
             //pointing down
             else
@@ -107,8 +115,8 @@ public class Movement : MonoBehaviour
                 if (pitch > gmv.maxDescendAngle)
                     pitch = gmv.maxDescendAngle;
 
-                float angleDifference = gmv.maxDescendAngle - pitch;
-
+                //float angleDifference = gmv.maxDescendAngle - pitch;
+                currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
 
                 //print("AngleDifference: " + angleDifference);
                 //print("Pitch: " + pitch);
@@ -116,10 +124,9 @@ public class Movement : MonoBehaviour
                 //print("Decelerated speed: " + (angleDifference * gmv.decelerateRate));
             }
 
-            print("Speed: " + currSpeed);
-
-            theTransform.rotation = Quaternion.Euler(new Vector3(pitch, yaw, roll));
-            yield return null;
+            theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, roll));
+            theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
+            //print("Curr Speed: " + currSpeed);
         }
     }
 

@@ -55,14 +55,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugControls: 0
+  debugMovementVariables:
+    startSpeed: 5
+    pitchSensitivity: 3
+    yawSensitivity: 3
   gyroMovementVariables:
-    startSpeed: 10
-    maxSpeed: 15
+    startSpeed: 8
+    maxSpeed: 20
     minSpeed: 5
-    decelerateRate: 0.15
-    accelerateRate: 0.15
-    pitchSensitivity: 0.05
-    yawSensitivity: 0.05
+    decelerateRate: 10
+    accelerateRate: 10
+    pitchSensitivity: 3
+    yawSensitivity: 3
     maxAscendAngle: 30
     maxDescendAngle: 30
 --- !u!114 &114284126497002870
