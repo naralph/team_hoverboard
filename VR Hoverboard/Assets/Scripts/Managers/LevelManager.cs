@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
     public bool fadeing = false;
     public int nextScene;
 
+    public bool makeSureMovementStaysLocked;
+
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
@@ -36,13 +38,14 @@ public class LevelManager : MonoBehaviour
             case 0:
                 //do things like lock player movement here....
                 EventManager.OnSetMovementLock(true);
+                makeSureMovementStaysLocked = true;
                 state.currentState = States.MainMenu;
                 break;
             case 1:
             case 2:
                 //do things like unlock player movement here....
+                makeSureMovementStaysLocked = false;
                 state.currentState = States.GamePlay;
-                EventManager.OnSetMovementLock(false);
                 break;
             default:
                 state.currentState = States.GamePlay;
@@ -83,12 +86,14 @@ public class LevelManager : MonoBehaviour
         EventManager.OnSetMovementLock(true);
         fadeing = true;
         EventManager.OnTriggerFade();
-
     }
 
     public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
-        EventManager.OnTriggerSelectionLock(false);
-        EventManager.OnSetMovementLock(false);
+        if (!makeSureMovementStaysLocked)
+        {
+            EventManager.OnTriggerSelectionLock(false);
+            EventManager.OnSetMovementLock(false);
+        }       
     }
 }
