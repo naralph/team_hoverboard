@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //store our state
-    ManagerUtilities.GameState state = new ManagerUtilities.GameState();
+    ManagerClasses.GameState state = new ManagerClasses.GameState();
 
     //this shows up in our inspector since the class is using [System.Serializable]
-    public ManagerUtilities.RoundTimer roundTimer = new ManagerUtilities.RoundTimer(15.0f);
+    public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);
 
     //store our player prefab through the inspector
     public GameObject playerPrefab;

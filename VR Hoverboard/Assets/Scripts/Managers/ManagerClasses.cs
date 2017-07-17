@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum States { MainMenu, GamePlay, GameOver, SceneTransition };
 
-public class ManagerUtilities : MonoBehaviour
+public class ManagerClasses : MonoBehaviour
 {
     // Using Serializable allows us to embed a class with sub properties in the inspector.
     [System.Serializable]
@@ -38,17 +38,25 @@ public class ManagerUtilities : MonoBehaviour
     [System.Serializable]
     public class GyroMovementVariables
     {
-        public float moveRate = 50.0f;
+        public float startSpeed = 10.0f;
+        public float maxSpeed = 15.0f;
+        public float minSpeed = 5.0f;
+        [Range(0.5f, 10.0f)] public float decelerateRate = 0.5f;
+        [Range(0.5f, 10.0f)] public float accelerateRate = 0.5f;
 
-        [Range(0.0f, 1.0f)]
-        public float smoothing = 0.25f;
-        [Range(0.0f, 1.0f)]
-        public float sensitivity;
+        [Range(1.0f, 8.0f)] public float pitchSensitivity = 8.0f;
+        [Range(1.0f, 8.0f)] public float yawSensitivity = 4.0f;
+        [Range(10.0f, 50.0f)] public float maxAscendAngle = 30.0f;
+        [Range(10.0f, 50.0f)] public float maxDescendAngle = 30.0f;
     }
 
     [System.Serializable]
     public class DebugMovementVariables
     {
-        public float moveRate = 50.0f;
+        public float startSpeed = 5.0f;
+
+        [Range(0.5f, 5.0f)] public float pitchSensitivity = 3.0f;
+        [Range(0.5f, 5.0f)] public float yawSensitivity = 3.0f;
     }
+
 }
