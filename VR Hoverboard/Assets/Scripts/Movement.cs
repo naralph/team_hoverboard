@@ -4,42 +4,43 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    bool debugControls = false;
+    bool controllerEnabled = false;
     bool playerMovementLocked = false;
 
     float currSpeed = 0.0f;
-    float pitch, yaw, roll;
+    float pitch, yaw;
     Rigidbody theRigidbody;
     SpatialData gyro;
 
     ManagerClasses.GyroMovementVariables gmv;
-    ManagerClasses.DebugMovementVariables dmv;
+    ManagerClasses.ControllerMovementVariables cmv;
 
     void SetPlayerMovementLock(bool locked)
     {
         //make sure we have a different value
         if (locked != playerMovementLocked)
         {
-            if (!locked && !debugControls)
+            if (!locked && !controllerEnabled)
             {
+                //be sure to not have multiple instances of the gyro coroutine going
                 StopCoroutine(GyroMovementCoroutine());
                 StartCoroutine(GyroMovementCoroutine());
             }
 
             playerMovementLocked = locked;
-        }           
+        }
     }
 
-    public void SetupMovementScript(bool debugCon, ManagerClasses.GyroMovementVariables g, ManagerClasses.DebugMovementVariables d)
+    public void SetupMovementScript(bool cEnabled, ManagerClasses.GyroMovementVariables g, ManagerClasses.ControllerMovementVariables c)
     {
-        debugControls = debugCon;
+        controllerEnabled = cEnabled;
         gmv = g;
-        dmv = d;
+        cmv = c;
 
         theRigidbody = GetComponent<Rigidbody>();
 
-        if (debugControls)
-            StartCoroutine(DebugMovementCoroutine());
+        if (controllerEnabled)
+            StartCoroutine(ControllerMovementCoroutine());
         else
         {
             gyro = new SpatialData();
@@ -49,7 +50,7 @@ public class Movement : MonoBehaviour
             gmv.yawSensitivity *= Mathf.Rad2Deg;
 
             //initialize our currSpeed as the average of min and max speed
-            currSpeed = (gmv.minSpeed + gmv.maxSpeed) * 0.5f;
+            currSpeed = gmv.startSpeed;
 
             //adjust our max ascend value for easier use in our GyroMovementCoroutine           
             gmv.maxAscendAngle = 360 - gmv.maxAscendAngle;
@@ -63,24 +64,25 @@ public class Movement : MonoBehaviour
             gmv.accelerateRate *= .001f;
 
             StartCoroutine(GyroMovementCoroutine());
+            //enable the debug coroutine so you can move the camera around with the left joystick, even when using the gyro
+            StartCoroutine(ControllerMovementCoroutine());
         }
     }
 
     //Note: debug rotation controls are needed for menu interaction
-    IEnumerator DebugMovementCoroutine()
+    IEnumerator ControllerMovementCoroutine()
     {
         yield return new WaitForFixedUpdate();
 
-        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * dmv.pitchSensitivity;
-        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * dmv.yawSensitivity; 
-        roll = 0.0f;
+        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * cmv.pitchSensitivity;
+        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * cmv.yawSensitivity;
 
-        theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, roll));
+        theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
 
-        if (!playerMovementLocked)
-            theRigidbody.velocity = theRigidbody.transform.forward * dmv.startSpeed;
+        if (!playerMovementLocked && !controllerEnabled)
+            theRigidbody.velocity = theRigidbody.transform.forward * cmv.startSpeed;
 
-        StartCoroutine(DebugMovementCoroutine());
+        StartCoroutine(ControllerMovementCoroutine());
     }
 
     IEnumerator GyroMovementCoroutine()
@@ -91,42 +93,28 @@ public class Movement : MonoBehaviour
 
             pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * gmv.pitchSensitivity;
             yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * gmv.yawSensitivity;
-            roll = 0.0f;
 
-            //for our gyro, 0 is resting position
-            //when angled up, degrees go down from 360 to 0, depending on the degree of the angle
-            //when angled down, derees go up from 0 to 360, depending on the degree of the angle
-            //we can think of the degrees of 0 to 180 as pointing down, and 180 to 360 as pointing up
+            if (pitch < 180.0f)
+            {
+                if (pitch > gmv.maxDescendAngle)
+                    pitch = gmv.maxDescendAngle;
 
-            //pointing down
-            //if (pitch < 180.0f)
-            //{
-            //    if (pitch > gmv.maxAscendAngle)
-            //        pitch = gmv.maxAscendAngle;
+                //calculate deceleration depending on the angle
+                //float angleDifference = pitch - gmv.maxAscendAngle;
 
-            //    //calculate deceleration depending on the angle
-            //    //float angleDifference = pitch - gmv.maxAscendAngle;
+                currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
+            }
+            else
+            {
+                if (pitch < gmv.maxAscendAngle)
+                    pitch = gmv.maxAscendAngle;
 
-            //    currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
-            //}
-            ////pointing up
-            //else
-            //{
-            //    if (pitch < gmv.maxDescendAngle)
-            //        pitch = gmv.maxDescendAngle;
+                currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
+            }
 
-            //    //float angleDifference = gmv.maxDescendAngle - pitch;
-            //    currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
-
-            //    //print("AngleDifference: " + angleDifference);
-            //    //print("Pitch: " + pitch);
-            //    //print("Speed: " + currSpeed);
-            //    //print("Decelerated speed: " + (angleDifference * gmv.decelerateRate));
-            //}
-
-            Vector3 vec = new Vector3(pitch, yaw, 0f);
-            theRigidbody.rotation = (Quaternion.Euler(vec));
-            //theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
+            theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
+            //theRigidbody.AddRelativeTorque()
+            theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
             //print("Curr Speed: " + currSpeed);
         }
     }
@@ -144,7 +132,7 @@ public class Movement : MonoBehaviour
     //cleanup our gyroscope so we don't crash
     private void OnApplicationQuit()
     {
-        if (!debugControls)
+        if (!controllerEnabled)
             gyro.Close();
     }
 }

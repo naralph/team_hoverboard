@@ -8,7 +8,7 @@ public class ManagerLoader : MonoBehaviour
 
     //loads our GameManager into the scene,
     //      By doing this instead of having our GameManger already in the scene, we
-    //      prevent GameManager's seperate managers from calling Awake().
+    //      prevent attached scripts from calling Awake() more than once.
     void Awake()
     {
         if (GameManager.instance == null)

@@ -51,7 +51,7 @@ public class ManagerClasses : MonoBehaviour
     }
 
     [System.Serializable]
-    public class DebugMovementVariables
+    public class ControllerMovementVariables
     {
         public float startSpeed = 5.0f;
 

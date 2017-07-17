@@ -7,14 +7,14 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     ManagerClasses.GameState state;
-    GameObject player;
+    Transform playerTransform;
 
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
     public void SetupLevelManager(ManagerClasses.GameState s, GameObject p)
     {
-        player = p;
+        playerTransform = p.GetComponent<Transform>();
         state = s;
 
         InitializeLevel(SceneManager.GetActiveScene().buildIndex);
@@ -47,8 +47,8 @@ public class LevelManager : MonoBehaviour
                 break;
         }
 
-        player.transform.rotation = spawnPoints[sceneIndex].rotation;
-        player.transform.position = spawnPoints[sceneIndex].position;      
+        playerTransform.rotation = spawnPoints[sceneIndex].rotation;
+        playerTransform.position = spawnPoints[sceneIndex].position;      
     }
 
     public void OnEnable()

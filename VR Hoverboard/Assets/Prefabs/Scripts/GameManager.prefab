@@ -54,14 +54,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugControls: 0
+  debugControls: 1
   debugMovementVariables:
     startSpeed: 5
     pitchSensitivity: 3
     yawSensitivity: 3
   gyroMovementVariables:
     startSpeed: 8
-    maxSpeed: 20
+    maxSpeed: 15
     minSpeed: 5
     decelerateRate: 10
     accelerateRate: 10

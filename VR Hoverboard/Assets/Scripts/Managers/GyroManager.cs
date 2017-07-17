@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GyroManager : MonoBehaviour
 {
-    public bool debugControls = false;
+    public bool controllerEnabled = false;
 
-    public ManagerClasses.DebugMovementVariables debugMovementVariables = new ManagerClasses.DebugMovementVariables();
+    public ManagerClasses.ControllerMovementVariables gamepadMovementVariables = new ManagerClasses.ControllerMovementVariables();
     public ManagerClasses.GyroMovementVariables gyroMovementVariables = new ManagerClasses.GyroMovementVariables();
 
     public void SetupGyroManager(GameObject p)
     {
         //let our movement script know we are using debug controls
-        p.GetComponent<Movement>().SetupMovementScript(debugControls, gyroMovementVariables, debugMovementVariables);
+        p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, gyroMovementVariables, gamepadMovementVariables);
     }
 }
