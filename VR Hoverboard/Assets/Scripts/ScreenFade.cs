@@ -59,34 +59,14 @@ public class ScreenFade : MonoBehaviour
     // Fades alpha from 1.0 to 0.0, use at beginning of scene
     IEnumerator FadeIn()
     {
-        float elapsedTime = 0.0f;
-        fadeMaterial.color = fadeInColor;
-        Color color = fadeInColor;
-        isFading = true;
-        while (elapsedTime < fadeTime)
-        {
-            yield return fadeInstruction;
-            elapsedTime += Time.deltaTime;
-            color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
-            fadeMaterial.color = color;
-        }
+        yield return fadeInstruction;
         isFading = false;
     }
 
     // Fades from 0.0 to 1.0, use at end of scene
     public IEnumerator FadeOut()
     {
-        float elapsedTime = 0.0f;
-        fadeMaterial.color = fadeOutColor;
-        Color color = fadeOutColor;
-        isFading = true;
-        while (elapsedTime < fadeTime)
-        {
-            yield return fadeInstruction;
-            elapsedTime += Time.deltaTime;
-            color.a = Mathf.Clamp01(elapsedTime / fadeTime);
-            fadeMaterial.color = color;
-        }
+        yield return fadeInstruction;
         isFading = false;
         GameManager.instance.levelScript.fadeing = false;
     }
