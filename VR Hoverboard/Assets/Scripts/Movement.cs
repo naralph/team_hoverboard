@@ -56,7 +56,7 @@ public class Movement : MonoBehaviour
 
             //adjust our pitch and yaw sensitivities
             gmv.pitchSensitivity *= 0.01f;
-            gmv.yawSensitivity *= 0.01f;
+            gmv.yawSensitivity *= 0.01f * -1f;
 
             //adjust our decelerate and accelerate rates
             gmv.decelerateRate *= .001f;
@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
 
-        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * -1 * dmv.pitchSensitivity;
+        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * dmv.pitchSensitivity;
         yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * dmv.yawSensitivity; 
         roll = 0.0f;
 
@@ -98,34 +98,35 @@ public class Movement : MonoBehaviour
             //when angled down, derees go up from 0 to 360, depending on the degree of the angle
             //we can think of the degrees of 0 to 180 as pointing down, and 180 to 360 as pointing up
 
-            //pointing up
-            if (pitch > 180.0f)
-            {
-                if (pitch < gmv.maxAscendAngle)
-                    pitch = gmv.maxAscendAngle;
-
-                //calculate deceleration depending on the angle
-                //float angleDifference = pitch - gmv.maxAscendAngle;
-
-                currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
-            }
             //pointing down
-            else
-            {
-                if (pitch > gmv.maxDescendAngle)
-                    pitch = gmv.maxDescendAngle;
+            //if (pitch < 180.0f)
+            //{
+            //    if (pitch > gmv.maxAscendAngle)
+            //        pitch = gmv.maxAscendAngle;
 
-                //float angleDifference = gmv.maxDescendAngle - pitch;
-                currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
+            //    //calculate deceleration depending on the angle
+            //    //float angleDifference = pitch - gmv.maxAscendAngle;
 
-                //print("AngleDifference: " + angleDifference);
-                //print("Pitch: " + pitch);
-                //print("Speed: " + currSpeed);
-                //print("Decelerated speed: " + (angleDifference * gmv.decelerateRate));
-            }
+            //    currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
+            //}
+            ////pointing up
+            //else
+            //{
+            //    if (pitch < gmv.maxDescendAngle)
+            //        pitch = gmv.maxDescendAngle;
 
-            theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, roll));
-            theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
+            //    //float angleDifference = gmv.maxDescendAngle - pitch;
+            //    currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
+
+            //    //print("AngleDifference: " + angleDifference);
+            //    //print("Pitch: " + pitch);
+            //    //print("Speed: " + currSpeed);
+            //    //print("Decelerated speed: " + (angleDifference * gmv.decelerateRate));
+            //}
+
+            Vector3 vec = new Vector3(pitch, yaw, 0f);
+            theRigidbody.rotation = (Quaternion.Euler(vec));
+            //theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
             //print("Curr Speed: " + currSpeed);
         }
     }
