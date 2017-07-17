@@ -79,7 +79,7 @@ public class Movement : MonoBehaviour
 
         theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
 
-        if (!playerMovementLocked && !controllerEnabled)
+        if (!playerMovementLocked)
             theRigidbody.velocity = theRigidbody.transform.forward * cmv.startSpeed;
 
         StartCoroutine(ControllerMovementCoroutine());

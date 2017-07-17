@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
         nextScene = sceneIndex;
         state.currentState = States.SceneTransition;
         EventManager.OnTriggerSelectionLock(true);
-        EventManager.OnSetMovementLock(true);
+        EventManager.OnSetMovementLock(false);
         fadeing = true;
         EventManager.OnTriggerFade();
 
@@ -89,6 +89,6 @@ public class LevelManager : MonoBehaviour
     public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
         EventManager.OnTriggerSelectionLock(false);
-        EventManager.OnSetMovementLock(false);
+        EventManager.OnSetMovementLock(true);
     }
 }
