@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class ScreenFade : MonoBehaviour
 {
-    public float fadeTime = 2.0f;
+    public float fadeTime = 200.0f;
 
-    //The initial screen color.
-    public Color fadeColor = new Color(0.01f, 0.01f, 0.01f, 1.0f);
+    //The initial screen color. SHould have opposite alphas(0.0 and 1.0)
+    public Color fadeOutColor = new Color(0.01f, 0.01f, 0.01f, 0.0f);
+    public Color fadeInColor = new Color(0.01f, 0.01f, 0.01f, 1.0f);
 
     public Material fadeMaterial = null;
     private bool isFading = false;
@@ -25,12 +26,14 @@ public class ScreenFade : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinished;
+        EventManager.OnFade += startFadeOutCoroutine;
         StartCoroutine(FadeIn());
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinished;
+        EventManager.OnFade -= startFadeOutCoroutine;
     }
 
     // Starts a fade in when a new level is loaded
@@ -39,47 +42,33 @@ public class ScreenFade : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
+    void startFadeOutCoroutine()
+    {
+        StartCoroutine(FadeOut());
+    }
+
     // Cleans up the fade material
     void OnDestroy()
     {
         if (fadeMaterial != null)
         {
-            Destroy(fadeMaterial);
+           //Destroy(fadeMaterial);
         }
     }
 
     // Fades alpha from 1.0 to 0.0, use at beginning of scene
     IEnumerator FadeIn()
     {
-        float elapsedTime = 0.0f;
-        fadeMaterial.color = fadeColor;
-        Color color = fadeColor;
-        isFading = true;
-        while (elapsedTime < fadeTime)
-        {
-            yield return fadeInstruction;
-            elapsedTime += Time.deltaTime;
-            color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
-            fadeMaterial.color = color;
-        }
+        yield return fadeInstruction;
         isFading = false;
     }
 
     // Fades from 0.0 to 1.0, use at end of scene
     public IEnumerator FadeOut()
     {
-        float elapsedTime = 0.0f;
-        fadeMaterial.color = fadeColor;
-        Color color = fadeColor;
-        isFading = true;
-        while (elapsedTime < fadeTime)
-        {
-            yield return fadeInstruction;
-            elapsedTime += Time.deltaTime;
-            color.a = 0.0f + Mathf.Clamp01(elapsedTime / fadeTime);
-            fadeMaterial.color = color;
-        }
+        yield return fadeInstruction;
         isFading = false;
+        GameManager.instance.levelScript.fadeing = false;
     }
 
     // Renders the fade overlay when attached to a camera object
