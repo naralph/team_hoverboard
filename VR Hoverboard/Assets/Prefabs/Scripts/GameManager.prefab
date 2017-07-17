@@ -54,14 +54,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerEnabled: 1
-  gamepadMovementVariables:
+  debugControls: 1
+  debugMovementVariables:
     startSpeed: 5
     pitchSensitivity: 3
     yawSensitivity: 3
   gyroMovementVariables:
     startSpeed: 8
-    maxSpeed: 15
+    maxSpeed: 20
     minSpeed: 5
     decelerateRate: 10
     accelerateRate: 10
@@ -82,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeing: 0
   nextScene: 0
+  makeSureMovementStaysLocked: 0
   spawnPoints:
   - {fileID: 4462082338848660, guid: 1e84304eaf6b50a42bc47a643971793f, type: 2}
   - {fileID: 4331926204908470, guid: a2ced6232cd4de64bbc21acf9ea9c71e, type: 2}
