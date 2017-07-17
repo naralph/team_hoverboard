@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EyeRayCaster : MonoBehaviour
 {
+    //turns on or off the ability to do selecting
+    public bool canSelect = true;
+
     //object for selection purposes;
     GameObject preObj = null;
     GameObject curObj = null;
@@ -27,12 +30,12 @@ public class EyeRayCaster : MonoBehaviour
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
         Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength, Color.blue);
         //if ray collides with something
-        if(Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength))
+        if (Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength))
         {
             if (hit.collider.tag != "Player")
             {
                 reticleScript.setPosition(hit, true);
-                if (hit.collider.tag == "Selectable")
+                if (hit.collider.tag == "Selectable" && canSelect)
                 {
                     curObj = hit.collider.gameObject;
                     curObj.GetComponent<SelectedObject>().selected(reticleScript);
@@ -45,11 +48,30 @@ public class EyeRayCaster : MonoBehaviour
         else
         {
             reticleScript.setPosition(hit, false);
-            preObj = null; 
+            preObj = null;
         }
-        if ((preObj == null || preObj != curObj) && curObj != null)
+        if (((preObj == null || preObj != curObj) && curObj != null))
         {
             curObj.GetComponent<SelectedObject>().deSelected();
         }
+    }
+
+    void SetSelectionLock(bool locked)
+    {
+        canSelect = !locked;
+        if (curObj != null)
+        {
+            curObj.GetComponent<SelectedObject>().deSelected();
+        }
+    }
+
+    public void OnEnable()
+    {
+        EventManager.OnSelectionLock += SetSelectionLock;
+    }
+
+    public void OnDisable()
+    {
+        EventManager.OnSelectionLock -= SetSelectionLock;
     }
 }

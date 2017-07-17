@@ -56,23 +56,27 @@ public class GameManager : MonoBehaviour
         levelScript.SetupLevelManager(state, player);
         gyroScript.SetupGyroManager(player);
     }
-
-    //coroutines are called after Unity's Update()
-    public IEnumerator GameCoroutine()
+    
+    public void Update()
     {
+        if (state.currentState == States.SceneTransition)
+        {
+            //keep going until fade finishes
+            if (!levelScript.fadeing)
+            {
+                EventManager.OnTriggerSceneChange(levelScript.nextScene);
+            }
+        }
+        
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
-        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit)
+        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
             
-            //temporarily interrupts this loop
-            yield return null;
         }
         //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
         //       else, load in the next level and update our managers as required
 
         roundTimer.ResetTimer();
-        StartCoroutine(GameCoroutine());
     }
-
 }

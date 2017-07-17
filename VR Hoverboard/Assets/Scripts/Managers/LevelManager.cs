@@ -9,6 +9,10 @@ public class LevelManager : MonoBehaviour
     ManagerClasses.GameState state;
     Transform playerTransform;
 
+    //for transitions
+    public bool fadeing = false;
+    public int nextScene;
+
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
@@ -39,8 +43,6 @@ public class LevelManager : MonoBehaviour
                 //do things like unlock player movement here....
                 state.currentState = States.GamePlay;
                 EventManager.OnSetMovementLock(false);
-                StopCoroutine(GameManager.instance.GameCoroutine());
-                StartCoroutine(GameManager.instance.GameCoroutine());
                 break;
             default:
                 state.currentState = States.GamePlay;
@@ -54,16 +56,39 @@ public class LevelManager : MonoBehaviour
     public void OnEnable()
     {
         EventManager.OnChangeScenes += InitializeLevel;
+        EventManager.OnTransition += DoSceneTransition;
+        SceneManager.sceneLoaded += UndoSceneTransitionLocks;
+        SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
     public void OnDisable()
     {
         EventManager.OnChangeScenes -= InitializeLevel;
+        EventManager.OnTransition -= DoSceneTransition;
+        SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
+        SceneManager.sceneLoaded -= OnLevelLoaded;
     }
 
     //for debugging
-    void OnLevelWasLoaded(int level)
+    void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         print("Scene changed to: " + SceneManager.GetActiveScene().name);
+    }
+
+    public void DoSceneTransition(int sceneIndex)
+    {
+        nextScene = sceneIndex;
+        state.currentState = States.SceneTransition;
+        EventManager.OnTriggerSelectionLock(true);
+        EventManager.OnSetMovementLock(true);
+        fadeing = true;
+        EventManager.OnTriggerFade();
+
+    }
+
+    public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
+    {
+        EventManager.OnTriggerSelectionLock(false);
+        EventManager.OnSetMovementLock(false);
     }
 }
