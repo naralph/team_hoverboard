@@ -20,7 +20,7 @@ public class PlayerScoreScript : MonoBehaviour
             scoreManager.UpdateScore(theRing);
             if (theRing.lastRingInScene)
             {
-                EventManager.OnTriggerSceneChange(theRing.nextScene);
+                EventManager.OnTriggerTransition(theRing.nextScene);
             }
         }
     }

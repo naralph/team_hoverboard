@@ -126,11 +126,12 @@ public class Movement : MonoBehaviour
         foreach (ContactPoint contact in collision.contacts)
         {
             Debug.DrawRay(contact.point, contact.normal * 10, Color.red);
-            Debug.DrawRay(Vector3.forward, contact.normal * 10, Color.blue);
+            Debug.DrawRay(Vector3.forward * theRigidbody.velocity.magnitude, contact.normal - Vector3.forward * 10, Color.blue);
             Debug.DrawRay(contact.point, contact.normal * 10, Color.black);
 
-            theRigidbody.AddForce((contact.normal - Vector3.forward) * 1f / currSpeed, ForceMode.VelocityChange);
+            theRigidbody.AddForce((contact.normal - Vector3.forward) * (1f / currSpeed), ForceMode.VelocityChange);
             stopMovingForward = true;
+            UnityEditor.EditorApplication.isPaused = true;
         }
     }
 
