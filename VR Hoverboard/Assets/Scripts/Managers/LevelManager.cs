@@ -22,44 +22,10 @@ public class LevelManager : MonoBehaviour
     {
         player = p;
         state = s;
-
-        InitializeLevel(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    //called by our GameManager once the scene changes
-    public void InitializeLevel(int sceneIndex)
-    {
-        if (sceneIndex != SceneManager.GetActiveScene().buildIndex)
-            SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
-
-        //set our state based off of our scene build index
-        switch (sceneIndex)
-        {
-            case 0:
-                //do things like lock player movement here....
-                EventManager.OnSetMovementLock(true);
-                makeSureMovementStaysLocked = true;
-                state.currentState = States.MainMenu;
-                break;
-            case 1:
-            case 2:
-                //do things like unlock player movement here....
-                makeSureMovementStaysLocked = false;
-                state.currentState = States.GamePlay;
-                break;
-            default:
-                state.currentState = States.GamePlay;
-                break;
-        }
-
-        player.transform.rotation = spawnPoints[sceneIndex].rotation;
-        //player.GetComponent<Transform>().rotation = spawnPoints[sceneIndex].rotation;
-        player.transform.position = spawnPoints[sceneIndex].position;     
     }
 
     public void OnEnable()
     {
-        EventManager.OnChangeScenes += InitializeLevel;
         EventManager.OnTransition += DoSceneTransition;
         SceneManager.sceneLoaded += UndoSceneTransitionLocks;
         SceneManager.sceneLoaded += OnLevelLoaded;
@@ -67,7 +33,6 @@ public class LevelManager : MonoBehaviour
 
     public void OnDisable()
     {
-        EventManager.OnChangeScenes -= InitializeLevel;
         EventManager.OnTransition -= DoSceneTransition;
         SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
         SceneManager.sceneLoaded -= OnLevelLoaded;
@@ -95,6 +60,28 @@ public class LevelManager : MonoBehaviour
         {
             EventManager.OnTriggerSelectionLock(false);
             EventManager.OnSetMovementLock(false);
-        }       
+        }
+
+        //set our state based off of our scene build index
+        switch (scene.buildIndex)
+        {
+            case 0:
+                //do things like lock player movement here....
+                EventManager.OnSetMovementLock(true);
+                makeSureMovementStaysLocked = true;
+                state.currentState = States.MainMenu;
+                break;
+            case 1:
+            case 2:
+                //do things like unlock player movement here....
+                makeSureMovementStaysLocked = false;
+                state.currentState = States.GamePlay;
+                break;
+            default:
+                state.currentState = States.GamePlay;
+                break;
+        }
+        player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
+        player.transform.position = spawnPoints[scene.buildIndex].position;
     }
 }

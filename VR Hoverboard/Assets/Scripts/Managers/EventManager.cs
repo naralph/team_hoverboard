@@ -17,15 +17,6 @@ public class EventManager : MonoBehaviour
             OnToggleMovement(locked);
     }
 
-    public delegate void SwitchScene(int scInd);
-    public static event SwitchScene OnChangeScenes;
-
-    static public void OnTriggerSceneChange(int sceneIndex)
-    {
-        if (OnChangeScenes != null)
-            OnChangeScenes(sceneIndex);
-    }
-
     public delegate void Transition(int sceneIndex);
     public static event Transition OnTransition;
 

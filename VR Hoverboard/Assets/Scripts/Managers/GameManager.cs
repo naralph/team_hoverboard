@@ -64,19 +64,23 @@ public class GameManager : MonoBehaviour
             //keep going until fade finishes
             if (!levelScript.fadeing)
             {
-                EventManager.OnTriggerSceneChange(levelScript.nextScene);
+                if (levelScript.nextScene != SceneManager.GetActiveScene().buildIndex)
+                    SceneManager.LoadSceneAsync(levelScript.nextScene, LoadSceneMode.Single);
             }
         }
-        
+
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
-        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit && state.currentState == States.GamePlay)
+        if (roundTimer.currRoundTime < roundTimer.roundTimeLimit && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
-            
-        }
-        //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
-        //       else, load in the next level and update our managers as required
 
-        roundTimer.ResetTimer();
+        }
+        else
+        {
+            //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
+            //       else, load in the next level and update our managers as required
+
+            roundTimer.ResetTimer();
+        }
     }
 }
