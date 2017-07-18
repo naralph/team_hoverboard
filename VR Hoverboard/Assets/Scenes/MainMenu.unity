@@ -564,6 +564,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114684878871443060, guid: 883f770cffad95944bbc09eec8a345e6,
         type: 2}
       propertyPath: m_havePropertiesChanged

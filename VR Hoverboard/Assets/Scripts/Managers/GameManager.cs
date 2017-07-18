@@ -62,15 +62,18 @@ public class GameManager : MonoBehaviour
         if (state.currentState == States.SceneTransition)
         {
             //keep going until fade finishes
-            if (!levelScript.fadeing)
+            if (!levelScript.fadeing && levelScript.doLoadOnce)
             {
                 if (levelScript.nextScene != SceneManager.GetActiveScene().buildIndex)
-                    SceneManager.LoadSceneAsync(levelScript.nextScene, LoadSceneMode.Single);
+                {
+                    SceneManager.LoadScene(levelScript.nextScene, LoadSceneMode.Single);
+                }
+                levelScript.doLoadOnce = false;
             }
         }
 
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
-        if (roundTimer.currRoundTime < roundTimer.roundTimeLimit && state.currentState == States.GamePlay)
+        if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
 

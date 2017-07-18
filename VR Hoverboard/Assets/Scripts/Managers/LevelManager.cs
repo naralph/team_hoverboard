@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
 
     //for transitions
     public bool fadeing = false;
+    public bool doLoadOnce = true;
     public int nextScene;
 
     public bool makeSureMovementStaysLocked;
@@ -50,17 +51,13 @@ public class LevelManager : MonoBehaviour
         state.currentState = States.SceneTransition;
         EventManager.OnTriggerSelectionLock(true);
         EventManager.OnSetMovementLock(true);
+        doLoadOnce = true;
         fadeing = true;
         EventManager.OnTriggerFade();
     }
 
     public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
-        if (!makeSureMovementStaysLocked)
-        {
-            EventManager.OnTriggerSelectionLock(false);
-            EventManager.OnSetMovementLock(false);
-        }
 
         //set our state based off of our scene build index
         switch (scene.buildIndex)
@@ -83,5 +80,12 @@ public class LevelManager : MonoBehaviour
         }
         player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
         player.transform.position = spawnPoints[scene.buildIndex].position;
+
+        EventManager.OnTriggerSelectionLock(false);
+
+        if (!makeSureMovementStaysLocked)
+        {
+            EventManager.OnSetMovementLock(false);
+        }
     }
 }

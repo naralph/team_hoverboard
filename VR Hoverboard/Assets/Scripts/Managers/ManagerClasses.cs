@@ -13,9 +13,13 @@ public class ManagerClasses : MonoBehaviour
         [HideInInspector] public float currRoundTime;
         public float roundTimeLimit;
 
-        public RoundTimer(float rtLim = 0.0f, float crTime = 0.0f) { roundTimeLimit = rtLim; currRoundTime = crTime; }
-        public void UpdateTimer() { currRoundTime += Time.deltaTime; }
-        public void ResetTimer() { currRoundTime = 0.0f; }
+        public RoundTimer(float rtLim = 15.0f)
+        {
+            roundTimeLimit = rtLim;
+            currRoundTime = rtLim;
+        }
+        public void UpdateTimer() { currRoundTime -= Time.deltaTime; }
+        public void ResetTimer() { currRoundTime = roundTimeLimit; }
     }
 
     [System.Serializable]
