@@ -192,7 +192,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1250839810360536}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff836c77e1218b4f9be9eb5e5a3dfbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSelect: 1
   myCam: {fileID: 20531404844742030}
   debugRayDrawLength: 5
   rayCheckLength: 50
@@ -382,7 +383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 2
-  fadeColor: {r: 0.01, g: 0.01, b: 0.01, a: 0}
+  fadeOutColor: {r: 0.01, g: 0.01, b: 0.01, a: 0}
+  fadeInColor: {r: 0.01, g: 0.01, b: 0.01, a: 1}
   fadeMaterial: {fileID: 2100000, guid: 03bb264aae7816a4ea7bf34bb50180df, type: 2}
 --- !u!114 &114784849725877122
 MonoBehaviour:

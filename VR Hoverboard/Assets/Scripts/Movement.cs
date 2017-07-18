@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
 {
     bool controllerEnabled = false;
     bool playerMovementLocked = false;
+    bool stopMovingForward = false;
 
     float currSpeed = 0.0f;
     float pitch, yaw;
@@ -79,7 +80,7 @@ public class Movement : MonoBehaviour
 
         theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
 
-        if (!playerMovementLocked)
+        if (!playerMovementLocked && !stopMovingForward)
             theRigidbody.velocity = theRigidbody.transform.forward * cmv.startSpeed;
 
         StartCoroutine(ControllerMovementCoroutine());
@@ -114,8 +115,22 @@ public class Movement : MonoBehaviour
 
             theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
             //theRigidbody.AddRelativeTorque()
-            theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
+            if (!stopMovingForward)
+                theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
             //print("Curr Speed: " + currSpeed);
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal * 10, Color.red);
+            Debug.DrawRay(Vector3.forward, contact.normal * 10, Color.blue);
+            Debug.DrawRay(contact.point, contact.normal * 10, Color.black);
+
+            theRigidbody.AddForce((contact.normal - Vector3.forward) * 1f / currSpeed, ForceMode.VelocityChange);
+            stopMovingForward = true;
         }
     }
 
