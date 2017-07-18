@@ -52,9 +52,9 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
+        gyroScript.SetupGyroManager(player);
         scoreScript.SetupScoreManager(roundTimer, player);
         levelScript.SetupLevelManager(state, player);
-        gyroScript.SetupGyroManager(player);
     }
     
     public void Update()

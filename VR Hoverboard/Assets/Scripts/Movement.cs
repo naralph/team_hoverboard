@@ -32,8 +32,10 @@ public class Movement : MonoBehaviour
                 }
             }
             else
+            {
                 //if we're locking movement, then set the velocity to zero
                 theRigidbody.velocity = Vector3.zero;
+            }
 
             playerMovementLocked = locked;
         }
