@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
+    [HideInInspector] public KeyInputManager keyInputScript;
 
         void Awake()
     {
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
         scoreScript = GetComponent<ScoreManager>();
         levelScript = GetComponent<LevelManager>();
         gyroScript = GetComponent<GyroManager>();
+        keyInputScript = GetComponent<KeyInputManager>();
 
         //Instantiate our player, store the clone, then make sure it persists between scenes
         player = Instantiate(playerPrefab);
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         gyroScript.SetupGyroManager(player);
         scoreScript.SetupScoreManager(roundTimer, player);
         levelScript.SetupLevelManager(state, player);
+        keyInputScript.setupKeyInputManager(state);
     }
     
     public void Update()
