@@ -52,8 +52,9 @@ public class LevelManager : MonoBehaviour
                 break;
         }
 
-        player.transform.rotation = spawnPoints[sceneIndex].rotation;
-        player.transform.position = spawnPoints[sceneIndex].position;      
+        //player.transform.rotation = spawnPoints[sceneIndex].rotation;
+        player.GetComponent<Transform>().rotation = spawnPoints[sceneIndex].rotation;
+        player.transform.position = spawnPoints[sceneIndex].position;     
     }
 
     public void OnEnable()

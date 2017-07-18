@@ -20,12 +20,20 @@ public class Movement : MonoBehaviour
         //make sure we have a different value
         if (locked != playerMovementLocked)
         {
-            if (!locked && !controllerEnabled)
+            //if we aren't locked
+            if (!locked)
             {
-                //be sure to not have multiple instances of the gyro coroutine going
-                StopCoroutine(GyroMovementCoroutine());
-                StartCoroutine(GyroMovementCoroutine());
+                //don't start our coroutine if we aren't using the gyro
+                if (!controllerEnabled)
+                {
+                    //be sure to not have multiple instances of the gyro coroutine going
+                    StopCoroutine(GyroMovementCoroutine());
+                    StartCoroutine(GyroMovementCoroutine());
+                }
             }
+            else
+                //if we're locking movement, then set the velocity to zero
+                theRigidbody.velocity = Vector3.zero;
 
             playerMovementLocked = locked;
         }
