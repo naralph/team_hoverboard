@@ -36,27 +36,18 @@ public class ManagerClasses : MonoBehaviour
     }
 
     [System.Serializable]
-    public class GyroMovementVariables
+    public class PlayerMovementVariables
     {
-        public float startSpeed = 10.0f;
-        public float maxSpeed = 15.0f;
-        public float minSpeed = 5.0f;
-        [Range(0.5f, 10.0f)] public float decelerateRate = 0.5f;
-        [Range(0.5f, 10.0f)] public float accelerateRate = 0.5f;
-
-        [Range(1.0f, 8.0f)] public float pitchSensitivity = 8.0f;
-        [Range(1.0f, 8.0f)] public float yawSensitivity = 4.0f;
-        [Range(10.0f, 50.0f)] public float maxAscendAngle = 30.0f;
-        [Range(10.0f, 50.0f)] public float maxDescendAngle = 30.0f;
-    }
-
-    [System.Serializable]
-    public class ControllerMovementVariables
-    {
-        public float startSpeed = 5.0f;
+        [Range(0.0f, 10.0f)] public float bounceModifier = 1.0f;
+        public float restingSpeed = 5.0f;
+        public float maxSpeed = 10.0f;
+        public float minSpeed = 2.0f;
 
         [Range(0.5f, 5.0f)] public float pitchSensitivity = 3.0f;
         [Range(0.5f, 5.0f)] public float yawSensitivity = 3.0f;
+        [Tooltip("The threshold at which the object returns to Resting Speed.")] [Range(0.0f, 20.0f)] public float restingThreshold = 10.0f;
+        [Range(10.0f, 75.0f)] public float maxAscendAngle = 30.0f;
+        [Range(10.0f, 75.0f)] public float maxDescendAngle = 30.0f;
     }
 
 }

@@ -55,18 +55,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerEnabled: 0
-  gamepadMovementVariables:
-    startSpeed: 5
+  controllerMovementVariables:
+    bounceModifier: 1
+    restingSpeed: 5
+    maxSpeed: 10
+    minSpeed: 2
     pitchSensitivity: 3
     yawSensitivity: 3
+    restingThreshold: 10
+    maxAscendAngle: 30
+    maxDescendAngle: 30
   gyroMovementVariables:
-    startSpeed: 8
-    maxSpeed: 20
+    bounceModifier: 1
+    restingSpeed: 5
+    maxSpeed: 10
     minSpeed: 5
-    decelerateRate: 10
-    accelerateRate: 10
     pitchSensitivity: 3
     yawSensitivity: 3
+    restingThreshold: 10
     maxAscendAngle: 30
     maxDescendAngle: 30
 --- !u!114 &114284126497002870

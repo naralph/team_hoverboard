@@ -6,15 +6,12 @@ public class Movement : MonoBehaviour
 {
     bool controllerEnabled = false;
     bool playerMovementLocked = false;
-    bool stopMovingForward = false;
 
-    float currSpeed = 0.0f;
     float pitch, yaw;
     Rigidbody theRigidbody;
     SpatialData gyro;
 
-    ManagerClasses.GyroMovementVariables gmv;
-    ManagerClasses.ControllerMovementVariables cmv;
+    ManagerClasses.PlayerMovementVariables movementVariables;
 
     void SetPlayerMovementLock(bool locked)
     {
@@ -32,13 +29,12 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void SetupMovementScript(bool cEnabled, ManagerClasses.GyroMovementVariables g, ManagerClasses.ControllerMovementVariables c)
+    public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
     {
         controllerEnabled = cEnabled;
-        gmv = g;
-        cmv = c;
 
         theRigidbody = GetComponent<Rigidbody>();
+        movementVariables = variables;
 
         if (controllerEnabled)
             StartCoroutine(ControllerMovementCoroutine());
@@ -47,27 +43,61 @@ public class Movement : MonoBehaviour
             gyro = new SpatialData();
 
             //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
-            gmv.pitchSensitivity *= Mathf.Rad2Deg;
-            gmv.yawSensitivity *= Mathf.Rad2Deg;
-
-            //initialize our currSpeed as the average of min and max speed
-            currSpeed = gmv.startSpeed;
+            movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
+            movementVariables.yawSensitivity *= Mathf.Rad2Deg;
 
             //adjust our max ascend value for easier use in our GyroMovementCoroutine           
-            gmv.maxAscendAngle = 360 - gmv.maxAscendAngle;
+            movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
 
             //adjust our pitch and yaw sensitivities
-            gmv.pitchSensitivity *= 0.01f;
-            gmv.yawSensitivity *= 0.01f * -1f;
-
-            //adjust our decelerate and accelerate rates
-            gmv.decelerateRate *= .001f;
-            gmv.accelerateRate *= .001f;
+            movementVariables.pitchSensitivity *= 0.01f;
+            movementVariables.yawSensitivity *= 0.01f * -1f;
 
             StartCoroutine(GyroMovementCoroutine());
-            //enable the debug coroutine so you can move the camera around with the left joystick, even when using the gyro
-            StartCoroutine(ControllerMovementCoroutine());
         }
+    }
+
+    void ClampPitch()
+    {
+        //pitch rests at 0 degrees
+        //when decending pitch travels in a positive direction (from 0 to 360)
+        //when ascending pitch travels in a negative direction (from 360 to 0)
+
+        //descending
+        if (pitch < 180f)
+        {
+            if (pitch > movementVariables.maxDescendAngle)
+                pitch = movementVariables.maxDescendAngle;
+        }
+        //ascending
+        else
+        {
+            if (pitch < 360f - movementVariables.maxAscendAngle)
+                pitch = 360f - movementVariables.maxAscendAngle;
+        }
+
+        //print("Pitch: " + pitch);
+        //print("Yaw:   " + yaw);
+    }
+
+    void ApplyForce()
+    {
+        //if restingThreshold were set to 10
+        //         pitch > 350 or pitch < 10
+        if (!playerMovementLocked)
+        {
+            if (pitch > 360f - movementVariables.restingThreshold || pitch < movementVariables.restingThreshold)
+            {
+                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.restingSpeed, ForceMode.Acceleration);
+                //print("In resting threshold!");
+            }
+            else if (pitch < 180f)
+                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.maxSpeed, ForceMode.Acceleration);
+            else
+                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
+        }
+        
+        print("Current Velocity Magnitude: " + theRigidbody.velocity.magnitude);
     }
 
     //Note: debug rotation controls are needed for menu interaction
@@ -75,13 +105,13 @@ public class Movement : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
 
-        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * cmv.pitchSensitivity;
-        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * cmv.yawSensitivity;
+        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * movementVariables.pitchSensitivity;
+        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * movementVariables.yawSensitivity;
+
+        ClampPitch();
+        ApplyForce();
 
         theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
-
-        if (!playerMovementLocked && !stopMovingForward)
-            theRigidbody.velocity = theRigidbody.transform.forward * cmv.startSpeed;
 
         StartCoroutine(ControllerMovementCoroutine());
     }
@@ -92,47 +122,21 @@ public class Movement : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
 
-            pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * gmv.pitchSensitivity;
-            yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * gmv.yawSensitivity;
+                //rotate using the gyro
+                pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
+                yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
 
-            if (pitch < 180.0f)
-            {
-                if (pitch > gmv.maxDescendAngle)
-                    pitch = gmv.maxDescendAngle;
+                ClampPitch();
+                ApplyForce();
 
-                //calculate deceleration depending on the angle
-                //float angleDifference = pitch - gmv.maxAscendAngle;
-
-                currSpeed = Mathf.Lerp(currSpeed, gmv.maxSpeed, gmv.accelerateRate);
-            }
-            else
-            {
-                if (pitch < gmv.maxAscendAngle)
-                    pitch = gmv.maxAscendAngle;
-
-                currSpeed = Mathf.Lerp(currSpeed, gmv.minSpeed, gmv.decelerateRate);
-            }
-
-            theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
-            //theRigidbody.AddRelativeTorque()
-            if (!stopMovingForward)
-                theRigidbody.velocity = theRigidbody.transform.forward * currSpeed;
-            //print("Curr Speed: " + currSpeed);
+                theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));        
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal * 10, Color.red);
-            Debug.DrawRay(Vector3.forward * theRigidbody.velocity.magnitude, contact.normal - Vector3.forward * 10, Color.blue);
-            Debug.DrawRay(contact.point, contact.normal * 10, Color.black);
-
-            theRigidbody.AddForce((contact.normal - Vector3.forward) * (1f / currSpeed), ForceMode.VelocityChange);
-            stopMovingForward = true;
-            UnityEditor.EditorApplication.isPaused = true;
-        }
+        //scale our impulse by our bounce amount
+        theRigidbody.AddForce(collision.impulse * movementVariables.bounceModifier, ForceMode.Impulse);
     }
 
     void OnEnable()
