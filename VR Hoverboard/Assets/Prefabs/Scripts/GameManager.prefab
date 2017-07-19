@@ -57,7 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerEnabled: 1
   gamepadMovementVariables:
-    startSpeed: 5
+    startSpeed: 0
     pitchSensitivity: 3
     yawSensitivity: 3
   gyroMovementVariables:
@@ -114,7 +114,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1250839810360536, guid: 883f770cffad95944bbc09eec8a345e6,
+  playerPrefab: {fileID: 1034132968365448, guid: 883f770cffad95944bbc09eec8a345e6,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
@@ -137,3 +137,4 @@ MonoBehaviour:
     consecutiveMultiplier: 1
     consecutiveIncreaseAmount: 0.5
   score: 0
+  prevRing: 0
