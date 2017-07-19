@@ -57,7 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerEnabled: 1
   gamepadMovementVariables:
-    startSpeed: 0
+    startSpeed: 5
     pitchSensitivity: 3
     yawSensitivity: 3
   gyroMovementVariables:
