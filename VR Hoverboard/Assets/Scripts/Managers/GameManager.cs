@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         gyroScript.SetupGyroManager(player);
         scoreScript.SetupScoreManager(roundTimer, player);
-        levelScript.SetupLevelManager(state, player);
+        levelScript.SetupLevelManager(state, player, instance);
         keyInputScript.setupKeyInputManager(state);
     }
     

@@ -10,7 +10,8 @@ public class ScoreManager : MonoBehaviour
     ManagerClasses.RoundTimer roundTimer;
     [HideInInspector]
     public int score;
-    int prevRing;
+    [HideInInspector]
+    public int prevRing;
     float originalCM;
 
     //this will get called by our game manager

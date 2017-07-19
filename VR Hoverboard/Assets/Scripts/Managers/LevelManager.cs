@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     ManagerClasses.GameState state;
+    GameManager gameManager;
     GameObject player;
 
     //for transitions
@@ -19,10 +20,11 @@ public class LevelManager : MonoBehaviour
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
-    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p)
+    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p, GameManager g)
     {
         player = p;
         state = s;
+        gameManager = g;
     }
 
     public void OnEnable()
@@ -67,6 +69,8 @@ public class LevelManager : MonoBehaviour
                 EventManager.OnSetMovementLock(true);
                 makeSureMovementStaysLocked = true;
                 state.currentState = States.MainMenu;
+                gameManager.scoreScript.prevRing = -1;
+                gameManager.scoreScript.score = 0;
                 break;
             case 1:
             case 2:

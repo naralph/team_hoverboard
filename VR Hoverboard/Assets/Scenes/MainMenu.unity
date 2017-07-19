@@ -443,6 +443,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114037207523684370, guid: 001990d346009e74282c774367bef4fa,
+        type: 2}
+      propertyPath: sceneIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 001990d346009e74282c774367bef4fa, type: 2}
   m_IsPrefabParent: 0
@@ -564,22 +569,32 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 114684878871443060, guid: 883f770cffad95944bbc09eec8a345e6,
+    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
         type: 2}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114684878871443060, guid: 883f770cffad95944bbc09eec8a345e6,
+    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
+    - target: {fileID: 114980122104657996, guid: 883f770cffad95944bbc09eec8a345e6,
         type: 2}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114907246785238782, guid: 883f770cffad95944bbc09eec8a345e6,
+    - target: {fileID: 114980122104657996, guid: 883f770cffad95944bbc09eec8a345e6,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114684878871443060, guid: 883f770cffad95944bbc09eec8a345e6,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114684878871443060, guid: 883f770cffad95944bbc09eec8a345e6,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
