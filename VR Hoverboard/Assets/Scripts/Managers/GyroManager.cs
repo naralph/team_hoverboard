@@ -9,7 +9,7 @@ public class GyroManager : MonoBehaviour
     public ManagerClasses.PlayerMovementVariables controllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
     public ManagerClasses.PlayerMovementVariables gyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
-    public void SetupGyroManager(GameObject p)
+    public void SetupGyroManager(GameObject p) //OnAwake
     {
         //let our movement script know we are using debug controls
         if (controllerEnabled)

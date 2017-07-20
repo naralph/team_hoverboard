@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     bool controllerEnabled = false;
-    bool playerMovementLocked = false;
+    bool playerMovementLocked = true;
 
     float pitch, yaw;
     Rigidbody theRigidbody;
@@ -18,14 +18,30 @@ public class Movement : MonoBehaviour
         //make sure we have a different value
         if (locked != playerMovementLocked)
         {
-            if (!locked && !controllerEnabled)
+            //if we aren't locked
+            if (!locked)
             {
-                //be sure to not have multiple instances of the gyro coroutine going
+                print("Player Movement UNLOCKED!");
+
+                //don't start our coroutine if we aren't using the gyro
+                if (!controllerEnabled)
+                {
+                    //be sure to not have multiple instances of the gyro coroutine going
+                    StopCoroutine(GyroMovementCoroutine());
+                    StartCoroutine(GyroMovementCoroutine());
+                }
+            }
+            else
+            {
+                //if we're locking movement, then set the velocity to zero
+                theRigidbody.velocity = Vector3.zero;
                 StopCoroutine(GyroMovementCoroutine());
-                StartCoroutine(GyroMovementCoroutine());
+
+                print("Player Movement LOCKED!");
             }
 
             playerMovementLocked = locked;
+
         }
     }
 
@@ -53,7 +69,7 @@ public class Movement : MonoBehaviour
             movementVariables.pitchSensitivity *= 0.01f;
             movementVariables.yawSensitivity *= 0.01f * -1f;
 
-            StartCoroutine(GyroMovementCoroutine());
+            //StartCoroutine(GyroMovementCoroutine());
         }
     }
 
@@ -96,8 +112,9 @@ public class Movement : MonoBehaviour
             else
                 theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
-        
+
         print("Current Velocity Magnitude: " + theRigidbody.velocity.magnitude);
+
     }
 
     //Note: debug rotation controls are needed for menu interaction
@@ -118,19 +135,20 @@ public class Movement : MonoBehaviour
 
     IEnumerator GyroMovementCoroutine()
     {
-        while (!playerMovementLocked)
-        {
-            yield return new WaitForFixedUpdate();
+        print("started gyro movement");
 
-                //rotate using the gyro
-                pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
-                yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
+        yield return new WaitForFixedUpdate();
 
-                ClampPitch();
-                ApplyForce();
+        //rotate using the gyro
+        pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
+        yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
 
-                theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));        
-        }
+        ClampPitch();
+        ApplyForce();
+
+        theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
+
+        StartCoroutine(GyroMovementCoroutine());
     }
 
     private void OnCollisionEnter(Collision collision)

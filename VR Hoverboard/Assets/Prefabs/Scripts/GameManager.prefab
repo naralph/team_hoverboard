@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114829543247464576}
   - component: {fileID: 114284126497002870}
   - component: {fileID: 114004138978651842}
+  - component: {fileID: 114412701324416950}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -87,12 +88,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeing: 0
+  doLoadOnce: 1
   nextScene: 0
   makeSureMovementStaysLocked: 0
   spawnPoints:
   - {fileID: 4462082338848660, guid: 1e84304eaf6b50a42bc47a643971793f, type: 2}
   - {fileID: 4331926204908470, guid: a2ced6232cd4de64bbc21acf9ea9c71e, type: 2}
   - {fileID: 4151778606627490, guid: 1adacc0651b819042a61898400984668, type: 2}
+--- !u!114 &114412701324416950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056030855755648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00ee9a31585c6eb4893e95289a251b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114714506037350866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,11 +120,12 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1250839810360536, guid: 883f770cffad95944bbc09eec8a345e6,
+  playerPrefab: {fileID: 1034132968365448, guid: 883f770cffad95944bbc09eec8a345e6,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
   gyroScript: {fileID: 0}
+  keyInputScript: {fileID: 0}
 --- !u!114 &114829543247464576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,3 +142,5 @@ MonoBehaviour:
     speedMultiplier: 1
     consecutiveMultiplier: 1
     consecutiveIncreaseAmount: 0.5
+  score: 0
+  prevRing: 0

@@ -8,8 +8,10 @@ public class ScoreManager : MonoBehaviour
     public ManagerClasses.ScoreMultipliers ScoreMultipliers = new ManagerClasses.ScoreMultipliers(1.0f, 1.0f, 0.5f);
 
     ManagerClasses.RoundTimer roundTimer;
-    int score;
-    int prevRing;
+    [HideInInspector]
+    public int score;
+    [HideInInspector]
+    public int prevRing;
     float originalCM;
 
     //this will get called by our game manager
@@ -46,7 +48,7 @@ public class ScoreManager : MonoBehaviour
             }
 
             //if we're in time
-            if (rp.timeToReach < roundTimer.currRoundTime)
+            if (rp.timeToReach > roundTimer.currRoundTime)
                 score += (int)(ScoreMultipliers.speedMultiplier * baseScorePerRing);
 
             //remember what ring we went through

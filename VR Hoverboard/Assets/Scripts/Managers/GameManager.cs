@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public LevelManager levelScript;
     [HideInInspector] public GyroManager gyroScript;
+    [HideInInspector] public KeyInputManager keyInputScript;
 
         void Awake()
     {
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
         scoreScript = GetComponent<ScoreManager>();
         levelScript = GetComponent<LevelManager>();
         gyroScript = GetComponent<GyroManager>();
+        keyInputScript = GetComponent<KeyInputManager>();
 
         //Instantiate our player, store the clone, then make sure it persists between scenes
         player = Instantiate(playerPrefab);
@@ -52,9 +54,10 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-        scoreScript.SetupScoreManager(roundTimer, player);
-        levelScript.SetupLevelManager(state, player);
         gyroScript.SetupGyroManager(player);
+        scoreScript.SetupScoreManager(roundTimer, player);
+        levelScript.SetupLevelManager(state, player, instance);
+        keyInputScript.setupKeyInputManager(state);
     }
     
     public void Update()
@@ -62,21 +65,28 @@ public class GameManager : MonoBehaviour
         if (state.currentState == States.SceneTransition)
         {
             //keep going until fade finishes
-            if (!levelScript.fadeing)
+            if (!levelScript.fadeing && levelScript.doLoadOnce)
             {
-                EventManager.OnTriggerSceneChange(levelScript.nextScene);
+                if (levelScript.nextScene != SceneManager.GetActiveScene().buildIndex)
+                {
+                    SceneManager.LoadScene(levelScript.nextScene, LoadSceneMode.Single);
+                }
+                levelScript.doLoadOnce = false;
             }
         }
-        
+
         //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
-        while (roundTimer.currRoundTime < roundTimer.roundTimeLimit && state.currentState == States.GamePlay)
+        if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
-            
-        }
-        //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
-        //       else, load in the next level and update our managers as required
 
-        roundTimer.ResetTimer();
+        }
+        else
+        {
+            //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
+            //       else, load in the next level and update our managers as required
+
+            roundTimer.ResetTimer();
+        }
     }
 }

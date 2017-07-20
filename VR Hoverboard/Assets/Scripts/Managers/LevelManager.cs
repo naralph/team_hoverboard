@@ -7,10 +7,12 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     ManagerClasses.GameState state;
+    GameManager gameManager;
     GameObject player;
 
     //for transitions
     public bool fadeing = false;
+    public bool doLoadOnce = true;
     public int nextScene;
 
     public bool makeSureMovementStaysLocked;
@@ -18,47 +20,15 @@ public class LevelManager : MonoBehaviour
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
-    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p)
+    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p, GameManager g)
     {
         player = p;
         state = s;
-
-        InitializeLevel(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    //called by our GameManager once the scene changes
-    public void InitializeLevel(int sceneIndex)
-    {
-        if (sceneIndex != SceneManager.GetActiveScene().buildIndex)
-            SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
-
-        //set our state based off of our scene build index
-        switch (sceneIndex)
-        {
-            case 0:
-                //do things like lock player movement here....
-                EventManager.OnSetMovementLock(true);
-                makeSureMovementStaysLocked = true;
-                state.currentState = States.MainMenu;
-                break;
-            case 1:
-            case 2:
-                //do things like unlock player movement here....
-                makeSureMovementStaysLocked = false;
-                state.currentState = States.GamePlay;
-                break;
-            default:
-                state.currentState = States.GamePlay;
-                break;
-        }
-
-        player.transform.rotation = spawnPoints[sceneIndex].rotation;
-        player.transform.position = spawnPoints[sceneIndex].position;      
+        gameManager = g;
     }
 
     public void OnEnable()
     {
-        EventManager.OnChangeScenes += InitializeLevel;
         EventManager.OnTransition += DoSceneTransition;
         SceneManager.sceneLoaded += UndoSceneTransitionLocks;
         SceneManager.sceneLoaded += OnLevelLoaded;
@@ -66,7 +36,6 @@ public class LevelManager : MonoBehaviour
 
     public void OnDisable()
     {
-        EventManager.OnChangeScenes -= InitializeLevel;
         EventManager.OnTransition -= DoSceneTransition;
         SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
         SceneManager.sceneLoaded -= OnLevelLoaded;
@@ -84,16 +53,42 @@ public class LevelManager : MonoBehaviour
         state.currentState = States.SceneTransition;
         EventManager.OnTriggerSelectionLock(true);
         EventManager.OnSetMovementLock(true);
+        doLoadOnce = true;
         fadeing = true;
         EventManager.OnTriggerFade();
     }
 
     public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
+        //set our state based off of our scene build index
+        switch (scene.buildIndex)
+        {
+            case 0:
+                //do things like lock player movement here....
+                EventManager.OnSetMovementLock(true);
+                makeSureMovementStaysLocked = true;
+                state.currentState = States.MainMenu;
+                gameManager.scoreScript.prevRing = -1;
+                gameManager.scoreScript.score = 0;
+                break;
+            case 1:
+            case 2:
+                //do things like unlock player movement here....
+                makeSureMovementStaysLocked = false;
+                state.currentState = States.GamePlay;
+                break;
+            default:
+                state.currentState = States.GamePlay;
+                break;
+        }
+        player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
+        player.transform.position = spawnPoints[scene.buildIndex].position;
+
+        EventManager.OnTriggerSelectionLock(false);
+
         if (!makeSureMovementStaysLocked)
         {
-            EventManager.OnTriggerSelectionLock(false);
             EventManager.OnSetMovementLock(false);
-        }       
+        }
     }
 }
