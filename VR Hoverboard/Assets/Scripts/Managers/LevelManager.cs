@@ -60,7 +60,6 @@ public class LevelManager : MonoBehaviour
 
     public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
-
         //set our state based off of our scene build index
         switch (scene.buildIndex)
         {

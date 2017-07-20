@@ -28,7 +28,7 @@ public class EyeRayCaster : MonoBehaviour
 	void Update ()
     {
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
-        Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength, Color.blue);
+        //Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength);
         //if ray collides with something
         if (Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength))
         {

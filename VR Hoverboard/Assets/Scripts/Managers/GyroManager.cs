@@ -5,13 +5,16 @@ using UnityEngine;
 public class GyroManager : MonoBehaviour
 {
     public bool controllerEnabled = false;
-
-    public ManagerClasses.ControllerMovementVariables gamepadMovementVariables = new ManagerClasses.ControllerMovementVariables();
-    public ManagerClasses.GyroMovementVariables gyroMovementVariables = new ManagerClasses.GyroMovementVariables();
+    
+    public ManagerClasses.PlayerMovementVariables controllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
+    public ManagerClasses.PlayerMovementVariables gyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
     public void SetupGyroManager(GameObject p) //OnAwake
     {
         //let our movement script know we are using debug controls
-        p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, gyroMovementVariables, gamepadMovementVariables);
+        if (controllerEnabled)
+        p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, controllerMovementVariables);
+        else
+            p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, gyroMovementVariables);
     }
 }
