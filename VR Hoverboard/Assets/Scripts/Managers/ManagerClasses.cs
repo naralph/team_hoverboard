@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum States { MainMenu, GamePlay, GameOver, SceneTransition };
+public enum States { MainMenu, GamePlay, GameOver, SceneTransition, OptionsMenu };
 
 public class ManagerClasses : MonoBehaviour
 {
