@@ -29,6 +29,13 @@ public class HudOverallOnOffButton : SelectedObject
     //runs when timer succeeds
     override public void selectSuccessFunction()
     {
-        textElementController.SetActive(!textElementController.activeSelf);
+        if (safeCheck)
+        {
+            textElementController.SetActive(!textElementController.activeSelf);
+        }
+        else
+        {
+            Debug.Log("The button couldn't find the players text element controller to turn off");
+        }
     }
 }
