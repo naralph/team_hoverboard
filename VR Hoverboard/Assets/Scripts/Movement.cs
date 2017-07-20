@@ -113,7 +113,7 @@ public class Movement : MonoBehaviour
                 theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
 
-        print("Current Velocity Magnitude: " + theRigidbody.velocity.magnitude);
+
 
     }
 

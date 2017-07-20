@@ -1,17 +1,17 @@
 fileFormatVersion: 2
 guid: 8ddacc6139e999647b5a8915af4f1ad6
-timeCreated: 1500564946
+timeCreated: 1500574702
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pCube1
+    100002: Arrow:pCube1
     400000: //RootNode
-    400002: pCube1
-    2300000: pCube1
-    3300000: pCube1
-    4300000: pCube1
+    400002: Arrow:pCube1
+    2300000: Arrow:pCube1
+    3300000: Arrow:pCube1
+    4300000: Arrow:pCube1
   materials:
     importMaterials: 1
     materialName: 0
