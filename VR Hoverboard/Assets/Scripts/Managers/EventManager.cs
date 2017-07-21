@@ -61,4 +61,13 @@ public class EventManager : MonoBehaviour
         if (OnToggleArrow != null)
             OnToggleArrow(isOn);
     }
+
+    public delegate void updateOptionButtons();
+    public static event updateOptionButtons OnUpdateButtons;
+
+    static public void OnCallUpdateButtons()
+    {
+        if (OnUpdateButtons != null)
+            OnUpdateButtons();
+    }
 }

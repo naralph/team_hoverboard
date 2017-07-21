@@ -9,15 +9,16 @@ public class TextElementControllerScript : MonoBehaviour {
     GameObject arrow;
     GameObject ringCountText;
 
-    struct hudElementsBools
+    public struct hudElementsBools
     {
         public bool timerBool;
         public bool scoreBool;
         public bool fpsBool;
         public bool arrowBool;
         public bool ringCountBool;
+        public bool overAllBool;
     }
-    hudElementsBools hudElementsControl;
+    public hudElementsBools hudElementsControl;
 
     public void setTimer(bool isOn) { hudElementsControl.timerBool = isOn; }
     public void setScore(bool isOn) { hudElementsControl.scoreBool = isOn; }
@@ -31,6 +32,7 @@ public class TextElementControllerScript : MonoBehaviour {
         setFPS(isOn);
         setArrow(isOn);
         setRingCount(isOn);
+        hudElementsControl.overAllBool = isOn;
     }
 
     //For level use

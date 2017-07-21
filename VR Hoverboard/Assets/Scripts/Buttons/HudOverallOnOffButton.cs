@@ -8,6 +8,8 @@ public class HudOverallOnOffButton : SelectedObject
     TextElementControllerScript textElementController;
     bool safeCheck = false;
 
+    GameObject[] indButtons;
+
     TextMeshPro onOffText;
     bool isOn = true;
     void Start () {
@@ -17,6 +19,16 @@ public class HudOverallOnOffButton : SelectedObject
             safeCheck = true;
         }
         onOffText = gameObject.GetComponentsInChildren<TextMeshPro>()[0];
+        isOn = textElementController.hudElementsControl.overAllBool;
+        if (isOn)
+        {
+            onOffText.SetText("On");
+        }
+        else
+        {
+            onOffText.SetText("Off");
+        }
+        EventManager.OnCallUpdateButtons();
     }
     //runs while object is selected
     override public void selectedFuntion()
@@ -45,6 +57,7 @@ public class HudOverallOnOffButton : SelectedObject
             {
                 onOffText.SetText("Off");
             }
+            EventManager.OnCallUpdateButtons();
         }
         else
         {
