@@ -7,9 +7,21 @@ public class PlayerArrowHandler : MonoBehaviour
     ArrowAimAt arrowScript;
 
 
-    void Start()
+    void getArrowScipt(bool isOn)
     {
-        arrowScript = GetComponentInChildren<ArrowAimAt>();
+        if (isOn)
+        {
+            arrowScript = GetComponentInChildren<ArrowAimAt>();
+        }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.OnToggleArrow += getArrowScipt;
+    }
+    private void OnDisable()
+    {
+        EventManager.OnToggleArrow -= getArrowScipt;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -66,15 +66,18 @@ public class LevelManager : MonoBehaviour
             case 0:
                 //do things like lock player movement here....
                 EventManager.OnSetMovementLock(true);
+                EventManager.OnSetHudOnOff(false);
                 makeSureMovementStaysLocked = true;
                 state.currentState = States.MainMenu;
-                gameManager.scoreScript.prevRing = -1;
                 gameManager.scoreScript.score = 0;
+                gameManager.scoreScript.ringHitCount = 0;
                 break;
             case 1:
             case 2:
                 //do things like unlock player movement here....
                 makeSureMovementStaysLocked = false;
+                EventManager.OnSetHudOnOff(true);
+                EventManager.OnSetArrowOnOff(true);
                 state.currentState = States.GamePlay;
                 break;
             case 3:
@@ -85,6 +88,7 @@ public class LevelManager : MonoBehaviour
                 state.currentState = States.GamePlay;
                 break;
         }
+        gameManager.scoreScript.prevRing = -1;
         player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
         player.transform.position = spawnPoints[scene.buildIndex].position;
 
