@@ -90,6 +90,14 @@ public class TextElementControllerScript : MonoBehaviour {
         scoreText = GetComponentInChildren<ScoreTextUpdateScript>().gameObject;
         arrow = GetComponentInChildren<ArrowAimAt>().gameObject;
         ringCountText = GetComponentInChildren<RingCountTextUpdate>().gameObject;
+
+        hudElementsControl.timerBool = true;
+        hudElementsControl.scoreBool = true;
+        hudElementsControl.fpsBool = true;
+        hudElementsControl.arrowBool = true;
+        hudElementsControl.ringCountBool = true;
+        hudElementsControl.overAllBool = true;
+
         EventManager.OnToggleHud += setHud;
     }
 
