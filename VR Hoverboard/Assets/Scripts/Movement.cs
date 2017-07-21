@@ -9,7 +9,6 @@ public class Movement : MonoBehaviour
 
     float pitch, yaw;
     Rigidbody theRigidbody;
-    Transform theTransform;
     SpatialData gyro;
 
     ManagerClasses.PlayerMovementVariables movementVariables;
@@ -28,7 +27,7 @@ public class Movement : MonoBehaviour
                 if (!controllerEnabled)
                 {
                     //be sure to not have multiple instances of the gyro coroutine going
-                    StopCoroutine(GyroMovementCoroutine());
+                    StopAllCoroutines();
                     StartCoroutine(GyroMovementCoroutine());
                 }
             }
@@ -38,7 +37,9 @@ public class Movement : MonoBehaviour
 
                 //if we're locking movement, then set the velocity to zero
                 theRigidbody.velocity = Vector3.zero;
-                StopCoroutine(GyroMovementCoroutine());
+
+                if (!controllerEnabled)
+                    StopAllCoroutines();
             }
             playerMovementLocked = locked;
         }
@@ -50,7 +51,6 @@ public class Movement : MonoBehaviour
         movementVariables = variables;
 
         theRigidbody = GetComponent<Rigidbody>();
-        theTransform = GetComponent<Transform>();
 
         if (controllerEnabled)
             StartCoroutine(ControllerMovementCoroutine());
@@ -86,8 +86,8 @@ public class Movement : MonoBehaviour
         //ascending
         else
         {
-            if (pitch < 360f - movementVariables.maxAscendAngle)
-                pitch = 360f - movementVariables.maxAscendAngle;
+            if (pitch < movementVariables.maxAscendAngle)
+                pitch = movementVariables.maxAscendAngle;
         }
 
         //print("Pitch: " + pitch);
@@ -110,9 +110,6 @@ public class Movement : MonoBehaviour
             else
                 theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
-
-
-
     }
 
     //Note: debug rotation controls are needed for menu interaction

@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerEnabled: 1
+  controllerEnabled: 0
   controllerMovementVariables:
     bounceModifier: 1
     restingSpeed: 5
@@ -90,6 +90,7 @@ MonoBehaviour:
   fadeing: 0
   doLoadOnce: 1
   nextScene: 0
+  HudOnOff: 1
   makeSureMovementStaysLocked: 0
   spawnPoints:
   - {fileID: 4462082338848660, guid: 1e84304eaf6b50a42bc47a643971793f, type: 2}
@@ -123,7 +124,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1034132968365448, guid: 883f770cffad95944bbc09eec8a345e6,
+  playerPrefab: {fileID: 1101896485286022, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
@@ -147,3 +148,4 @@ MonoBehaviour:
     consecutiveIncreaseAmount: 0.5
   score: 0
   prevRing: 0
+  ringHitCount: 0

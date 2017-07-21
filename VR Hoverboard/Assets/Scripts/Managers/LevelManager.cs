@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour
     GameManager gameManager;
     GameObject player;
 
+    Transform playerTransform, boardTransform = null, cameraContainerTransform = null;
+
     //for transitions
     public bool fadeing = false;
     public bool doLoadOnce = true;
@@ -27,6 +29,25 @@ public class LevelManager : MonoBehaviour
         player = p;
         state = s;
         gameManager = g;
+
+        int i = 0;
+        Transform testTransform;
+
+        playerTransform = p.GetComponent<Transform>();
+        while (true)
+        {
+            testTransform = playerTransform.GetChild(i);
+
+            if (testTransform.tag == "Board")
+                boardTransform = testTransform;
+            else if (testTransform.tag == "CameraContainer")
+                cameraContainerTransform = testTransform;
+
+            if (boardTransform != null && cameraContainerTransform != null)
+                break;
+                
+            ++i;
+        }
     }
 
     public void OnEnable()
@@ -85,14 +106,17 @@ public class LevelManager : MonoBehaviour
             case 3:
                 makeSureMovementStaysLocked = true;
                 state.currentState = States.OptionsMenu;
-                break; 
+                break;
             default:
                 state.currentState = States.GamePlay;
                 break;
         }
         gameManager.scoreScript.prevRing = -1;
-        player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
-        player.transform.position = spawnPoints[scene.buildIndex].position;
+
+        playerTransform.rotation = spawnPoints[scene.buildIndex].rotation;
+        playerTransform.position = spawnPoints[scene.buildIndex].position;
+
+        cameraContainerTransform.Rotate(Vector3.up, Mathf.Abs(cameraContainerTransform.eulerAngles.y - boardTransform.eulerAngles.y), Space.World);
 
         //recenter our forward looking position when we get into a new scene
         //InputTracking.Recenter();
