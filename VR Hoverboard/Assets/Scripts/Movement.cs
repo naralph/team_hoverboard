@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
 
     float pitch, yaw;
     Rigidbody theRigidbody;
+    Transform theTransform;
     SpatialData gyro;
 
     ManagerClasses.PlayerMovementVariables movementVariables;
@@ -33,24 +34,23 @@ public class Movement : MonoBehaviour
             }
             else
             {
+                print("Player Movement LOCKED!");
+
                 //if we're locking movement, then set the velocity to zero
                 theRigidbody.velocity = Vector3.zero;
                 StopCoroutine(GyroMovementCoroutine());
-
-                print("Player Movement LOCKED!");
             }
-
             playerMovementLocked = locked;
-
         }
     }
 
     public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
     {
         controllerEnabled = cEnabled;
+        movementVariables = variables;
 
         theRigidbody = GetComponent<Rigidbody>();
-        movementVariables = variables;
+        theTransform = GetComponent<Transform>();
 
         if (controllerEnabled)
             StartCoroutine(ControllerMovementCoroutine());
@@ -68,8 +68,6 @@ public class Movement : MonoBehaviour
             //adjust our pitch and yaw sensitivities
             movementVariables.pitchSensitivity *= 0.01f;
             movementVariables.yawSensitivity *= 0.01f * -1f;
-
-            //StartCoroutine(GyroMovementCoroutine());
         }
     }
 
@@ -113,8 +111,7 @@ public class Movement : MonoBehaviour
                 theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
 
-        print("Current Velocity Magnitude: " + theRigidbody.velocity.magnitude);
-
+        //print("Current Velocity Magnitude: " + theRigidbody.velocity.magnitude);
     }
 
     //Note: debug rotation controls are needed for menu interaction
@@ -135,8 +132,6 @@ public class Movement : MonoBehaviour
 
     IEnumerator GyroMovementCoroutine()
     {
-        print("started gyro movement");
-
         yield return new WaitForFixedUpdate();
 
         //rotate using the gyro

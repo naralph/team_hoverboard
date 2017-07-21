@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VR;
 
 //we'll use our LevelManger to initialize any objects that carry from one scene to the next
 public class LevelManager : MonoBehaviour
@@ -81,8 +82,12 @@ public class LevelManager : MonoBehaviour
                 state.currentState = States.GamePlay;
                 break;
         }
+                
         player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
         player.transform.position = spawnPoints[scene.buildIndex].position;
+
+        //recenter our forward looking position when we get into a new scene
+        //InputTracking.Recenter();
 
         EventManager.OnTriggerSelectionLock(false);
 

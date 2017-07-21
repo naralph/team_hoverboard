@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
+        //TODO:: if round < roundTimeLimit... and we aren't at the end of the level
         if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();

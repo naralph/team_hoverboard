@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerEnabled: 0
+  controllerEnabled: 1
   controllerMovementVariables:
     bounceModifier: 1
     restingSpeed: 5
@@ -106,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ee9a31585c6eb4893e95289a251b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flippedTimer: 4
+  menuOnFlippedHMD: 1
 --- !u!114 &114714506037350866
 MonoBehaviour:
   m_ObjectHideFlags: 1
