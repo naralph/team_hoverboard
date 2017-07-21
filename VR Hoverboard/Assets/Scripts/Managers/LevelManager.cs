@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     GameManager gameManager;
     GameObject player;
 
-    Transform playerTransform, boardTransform = null, cameraContainerTransform = null;
+    Transform playerTransform, boardTransform = null, cameraContainerTransform = null, mainCameraTransform;
 
     //for transitions
     public bool fadeing = false;
@@ -38,9 +38,9 @@ public class LevelManager : MonoBehaviour
         {
             testTransform = playerTransform.GetChild(i);
 
-            if (testTransform.tag == "Board")
+            if (testTransform.name == "Board")
                 boardTransform = testTransform;
-            else if (testTransform.tag == "CameraContainer")
+            else if (testTransform.name == "CameraContainer")
                 cameraContainerTransform = testTransform;
 
             if (boardTransform != null && cameraContainerTransform != null)
@@ -48,6 +48,8 @@ public class LevelManager : MonoBehaviour
                 
             ++i;
         }
+
+        mainCameraTransform = cameraContainerTransform.GetChild(0).transform;
     }
 
     public void OnEnable()
@@ -116,7 +118,8 @@ public class LevelManager : MonoBehaviour
         playerTransform.rotation = spawnPoints[scene.buildIndex].rotation;
         playerTransform.position = spawnPoints[scene.buildIndex].position;
 
-        cameraContainerTransform.Rotate(Vector3.up, Mathf.Abs(cameraContainerTransform.eulerAngles.y - boardTransform.eulerAngles.y), Space.World);
+        float headsetY = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y;
+        cameraContainerTransform.Rotate(Vector3.up, Mathf.Abs(headsetY - boardTransform.eulerAngles.y));
 
         //recenter our forward looking position when we get into a new scene
         //InputTracking.Recenter();

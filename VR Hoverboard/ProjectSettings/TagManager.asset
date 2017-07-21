@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Ring
   - Selectable
-  - Board
-  - CameraContainer
   layers:
   - Default
   - TransparentFX
