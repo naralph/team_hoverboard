@@ -36,8 +36,8 @@ public class HudTimerOnOffScript : SelectedObject
     {
         if (safeCheck)
         {
-            textElementController.toggleTimertext();
             isOn = !isOn;
+            textElementController.setTimer(isOn);
             if (isOn)
             {
                 onOffText.SetText("On");

@@ -36,8 +36,8 @@ public class HudScoreOnOffScript : SelectedObject
     {
         if (safeCheck)
         {
-            textElementController.toggleScoreText();
             isOn = !isOn;
+            textElementController.setScore(isOn);
             if (isOn)
             {
                 onOffText.SetText("On");

@@ -35,16 +35,14 @@ public class HudOverallOnOffButton : SelectedObject
     {
         if (safeCheck)
         {
-            if (textElementController.allToggledOff)
+            isOn = !isOn;
+            textElementController.setAll(isOn);
+            if (isOn)
             {
-                textElementController.toggleAllOn();
-                textElementController.allToggledOff = false;
                 onOffText.SetText("On");
             }
             else
             {
-                textElementController.toggleAllOff();
-                textElementController.allToggledOff = true;
                 onOffText.SetText("Off");
             }
         }

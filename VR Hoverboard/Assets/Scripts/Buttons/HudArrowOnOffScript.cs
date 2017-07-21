@@ -36,8 +36,8 @@ public class HudArrowOnOffScript : SelectedObject
     {
         if (safeCheck)
         {
-            textElementController.toggleArrow();
             isOn = !isOn;
+            textElementController.setArrow(isOn);
             if (isOn)
             {
                 onOffText.SetText("On");

@@ -36,8 +36,8 @@ public class HudRingCountOnOffScript : SelectedObject
     {
         if (safeCheck)
         {
-            textElementController.toggleRingCountText();
             isOn = !isOn;
+            textElementController.setRingCount(isOn);
             if (isOn)
             {
                 onOffText.SetText("On");

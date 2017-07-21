@@ -9,84 +9,75 @@ public class TextElementControllerScript : MonoBehaviour {
     GameObject arrow;
     GameObject ringCountText;
 
-    public bool allToggledOff = false;
+    struct hudElementsBools
+    {
+        public bool timerBool;
+        public bool scoreBool;
+        public bool fpsBool;
+        public bool arrowBool;
+        public bool ringCountBool;
+    }
+    hudElementsBools hudElementsControl;
 
-    public void toggleFPSText()
+    public void setTimer(bool isOn) { hudElementsControl.timerBool = isOn; }
+    public void setScore(bool isOn) { hudElementsControl.scoreBool = isOn; }
+    public void setFPS(bool isOn) { hudElementsControl.fpsBool = isOn; }
+    public void setArrow(bool isOn){ hudElementsControl.arrowBool = isOn; }
+    public void setRingCount(bool isOn) { hudElementsControl.ringCountBool = isOn; }
+    public void setAll(bool isOn)
     {
-        fpsText.SetActive(!fpsText.activeSelf);
+        setTimer(isOn);
+        setScore(isOn);
+        setFPS(isOn);
+        setArrow(isOn);
+        setRingCount(isOn);
     }
-    public void toggleTimertext()
+
+    //For level use
+    public void gameStart()
     {
-        timerText.SetActive(!timerText.activeSelf);
+        timerText.SetActive(hudElementsControl.timerBool);
+        scoreText.SetActive(hudElementsControl.scoreBool);
+        fpsText.SetActive(hudElementsControl.fpsBool);
+        arrow.SetActive(hudElementsControl.arrowBool);
+        ringCountText.SetActive(hudElementsControl.ringCountBool);
     }
-    public void toggleScoreText()
-    {
-        scoreText.SetActive(!scoreText.activeSelf);
-    }
-    public void toggleArrow()
-    {
-        arrow.SetActive(!arrow.activeSelf);
-    }
-    public void toggleRingCountText()
-    {
-        ringCountText.SetActive(!ringCountText.activeSelf);
-    }
-    public void toggleAllOff()
+ 
+    //For menu's use
+    public void menuStart()
     {
         if (fpsText.activeSelf)
         {
-            toggleFPSText();
+            fpsText.SetActive(false);
         }
         if(timerText.activeSelf)
         {
-            toggleTimertext();
+            timerText.SetActive(false);
         }
         if(scoreText.activeSelf)
         {
-            toggleScoreText();
+            scoreText.SetActive(false);
         }
         if (arrow.activeSelf)
         {
-            toggleArrow();
+            arrow.SetActive(false);
         }
         if(ringCountText.activeSelf)
         {
-            toggleRingCountText();
+            ringCountText.SetActive(false);
         }
     }
-    public void toggleAllOn()
-    {
-        if (!fpsText.activeSelf)
-        {
-            toggleFPSText();
-        }
-        if (!timerText.activeSelf)
-        {
-            toggleTimertext();
-        }
-        if (!scoreText.activeSelf)
-        {
-            toggleScoreText();
-        }
-        if (!arrow.activeSelf)
-        {
-            toggleArrow();
-        }
-        if (!ringCountText.activeSelf)
-        {
-            toggleRingCountText();
-        }
-    }
+   
 
     void setHud(bool isOn)
     {
         if (isOn)
         {
-            toggleAllOn();
+            gameStart();
         }
         else
         {
-            toggleAllOff();
+            menuStart();
         }
     }
 

@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
     public bool fadeing = false;
     public bool doLoadOnce = true;
     public int nextScene;
+    public bool HudOnOff = true;
 
     public bool makeSureMovementStaysLocked;
 
@@ -76,8 +77,8 @@ public class LevelManager : MonoBehaviour
             case 2:
                 //do things like unlock player movement here....
                 makeSureMovementStaysLocked = false;
-                EventManager.OnSetHudOnOff(true);
-                EventManager.OnSetArrowOnOff(true);
+                EventManager.OnSetHudOnOff(HudOnOff);
+                EventManager.OnSetArrowOnOff(HudOnOff);
                 state.currentState = States.GamePlay;
                 break;
             case 3:
