@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VR;
 
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
@@ -49,6 +50,10 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefab);
         DontDestroyOnLoad(player);
 
+        //only track rotation on our HMD
+        if (VRDevice.isPresent)
+            InputTracking.disablePositionalTracking = true;
+
         InitGame();
     }
 
@@ -79,7 +84,6 @@ public class GameManager : MonoBehaviour
         if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
-
         }
         else
         {
