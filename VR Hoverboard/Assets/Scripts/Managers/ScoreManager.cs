@@ -12,6 +12,8 @@ public class ScoreManager : MonoBehaviour
     public int score;
     [HideInInspector]
     public int prevRing;
+    [HideInInspector]
+    public int ringHitCount = 0;
     float originalCM;
 
     //this will get called by our game manager
@@ -53,6 +55,9 @@ public class ScoreManager : MonoBehaviour
 
             //remember what ring we went through
             prevRing = rp.positionInOrder;
+            
+            //increase the number of rings we hit count
+            ringHitCount++;
 
             Debug.Log("Time since round start: " + roundTimer.currRoundTime);
             Debug.Log("Score is now " + score);

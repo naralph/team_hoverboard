@@ -42,4 +42,23 @@ public class EventManager : MonoBehaviour
         if (OnSelectionLock != null)
             OnSelectionLock(locked);
     }
+
+    public delegate void ToggleHud(bool isOn);
+    public static event ToggleHud OnToggleHud;
+
+    static public void OnSetHudOnOff(bool isOn)
+    {
+        if (OnToggleHud != null)
+            OnToggleHud(isOn);
+    }
+
+    //Needed to turn the arrow back on, and let it aim at consecutive rings
+    public delegate void ToggleArrow(bool isOn);
+    public static event ToggleArrow OnToggleArrow;
+
+    static public void OnSetArrowOnOff(bool isOn)
+    {
+        if (OnToggleArrow != null)
+            OnToggleArrow(isOn);
+    }
 }

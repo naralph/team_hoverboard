@@ -11,7 +11,6 @@ public class PlayerScoreScript : MonoBehaviour
     {
         scoreManager = sm;
     }
-
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Ring")
