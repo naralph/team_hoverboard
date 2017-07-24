@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     bool controllerEnabled = false;
     bool playerMovementLocked = true;
 
     float pitch, yaw;
-    Rigidbody theRigidbody;
+    Rigidbody playerRigidbody;
     SpatialData gyro;
 
     ManagerClasses.PlayerMovementVariables movementVariables;
@@ -36,7 +36,7 @@ public class Movement : MonoBehaviour
                 print("Player Movement LOCKED!");
 
                 //if we're locking movement, then set the velocity to zero
-                theRigidbody.velocity = Vector3.zero;
+                playerRigidbody.velocity = Vector3.zero;
 
                 if (!controllerEnabled)
                     StopAllCoroutines();
@@ -50,7 +50,7 @@ public class Movement : MonoBehaviour
         controllerEnabled = cEnabled;
         movementVariables = variables;
 
-        theRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
 
         if (controllerEnabled)
             StartCoroutine(ControllerMovementCoroutine());
@@ -102,13 +102,13 @@ public class Movement : MonoBehaviour
         {
             if (pitch > 360f - movementVariables.restingThreshold || pitch < movementVariables.restingThreshold)
             {
-                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.restingSpeed, ForceMode.Acceleration);
+                playerRigidbody.AddRelativeForce(Vector3.forward * movementVariables.restingSpeed, ForceMode.Acceleration);
                 //print("In resting threshold!");
             }
             else if (pitch < 180f)
-                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.maxSpeed, ForceMode.Acceleration);
+                playerRigidbody.AddRelativeForce(Vector3.forward * movementVariables.maxSpeed, ForceMode.Acceleration);
             else
-                theRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
+                playerRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
     }
 
@@ -117,13 +117,13 @@ public class Movement : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
 
-        pitch = theRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * movementVariables.pitchSensitivity;
-        yaw = theRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * movementVariables.yawSensitivity;
+        pitch = playerRigidbody.rotation.eulerAngles.x + Input.GetAxis("LVertical") * movementVariables.pitchSensitivity;
+        yaw = playerRigidbody.rotation.eulerAngles.y + Input.GetAxis("LHorizontal") * movementVariables.yawSensitivity;
 
         ClampPitch();
         ApplyForce();
 
-        theRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
+        playerRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
 
         StartCoroutine(ControllerMovementCoroutine());
     }
@@ -133,13 +133,13 @@ public class Movement : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         //rotate using the gyro
-        pitch = theRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
-        yaw = theRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
+        pitch = playerRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
+        yaw = playerRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
 
         ClampPitch();
         ApplyForce();
 
-        theRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
+        playerRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
 
         StartCoroutine(GyroMovementCoroutine());
     }
@@ -147,7 +147,7 @@ public class Movement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //scale our impulse by our bounce amount
-        theRigidbody.AddForce(collision.impulse * movementVariables.bounceModifier, ForceMode.Impulse);
+        playerRigidbody.AddForce(collision.impulse * movementVariables.bounceModifier, ForceMode.Impulse);
     }
 
     void OnEnable()

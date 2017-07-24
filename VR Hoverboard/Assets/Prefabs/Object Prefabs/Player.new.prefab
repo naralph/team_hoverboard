@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4730227974381308}
+  - component: {fileID: 114802693927327890}
   m_Layer: 0
   m_Name: CameraContainer
   m_TagString: CameraContainer
@@ -234,7 +235,7 @@ GameObject:
   - component: {fileID: 33529904019957494}
   - component: {fileID: 65093103614679006}
   - component: {fileID: 23216188168249962}
-  - component: {fileID: 114236863401920882}
+  - component: {fileID: 114755641117074642}
   m_Layer: 0
   m_Name: Board
   m_TagString: Board
@@ -325,7 +326,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1101896485286022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 20.29, z: 0}
+  m_LocalPosition: {x: 0, y: 34.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4730227974381308}
@@ -705,17 +706,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114236863401920882
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995787857847748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fbbcddbd5da7924e93319dfcb28dfb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114253453894986364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1090,6 +1080,31 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 15
+--- !u!114 &114755641117074642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1995787857847748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9278efe81a5a24f95b1564d5ef38cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114802693927327890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1672324838649638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa1fd70e45431f4baa7693778f57a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCameraTransform: {fileID: 4177964698721702}
+  cameraContainerTransform: {fileID: 4730227974381308}
+  boardTransform: {fileID: 4763189075426338}
 --- !u!114 &114838601785297018
 MonoBehaviour:
   m_ObjectHideFlags: 1
