@@ -13,12 +13,17 @@ public class LevelManager : MonoBehaviour
     Transform playerTransform = null, boardTransform = null, cameraContainerTransform = null, mainCameraTransform = null;
 
     //for transitions
-    [HideInInspector] public bool fadeing = false;
-    [HideInInspector] public bool doLoadOnce = true;
-    [HideInInspector] public int nextScene;
-    [HideInInspector] public bool HudOnOff = true;
+    [HideInInspector]
+    public bool fadeing = false;
+    [HideInInspector]
+    public bool doLoadOnce = true;
+    [HideInInspector]
+    public int nextScene;
+    [HideInInspector]
+    public bool HudOnOff = true;
 
-    [HideInInspector] public bool makeSureMovementStaysLocked;
+    [HideInInspector]
+    public bool makeSureMovementStaysLocked;
 
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
@@ -45,13 +50,6 @@ public class LevelManager : MonoBehaviour
         }
 
         mainCameraTransform = cameraContainerTransform.GetChild(0).transform;
-
-        StartCoroutine(WaitForHeadsetInfo());
-    }
-
-    IEnumerator WaitForHeadsetInfo()
-    {
-        yield return new WaitForEndOfFrame();
     }
 
     public void DoSceneTransition(int sceneIndex)
@@ -84,6 +82,7 @@ public class LevelManager : MonoBehaviour
                 state.currentState = States.GamePlay;
                 makeSureMovementStaysLocked = false;
                 EventManager.OnSetArrowOnOff(HudOnOff);
+                EventManager.OnSetHudOnOff(true);
                 break;
             case 3:
                 state.currentState = States.OptionsMenu;
@@ -99,7 +98,17 @@ public class LevelManager : MonoBehaviour
         playerTransform.rotation = spawnPoints[scene.buildIndex].rotation;
         playerTransform.position = spawnPoints[scene.buildIndex].position;
 
-        cameraContainerTransform.Rotate(Vector3.up, Mathf.Abs(InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y));
+        //print("PLAYER ROTATION Y: " + playerTransform.eulerAngles.y);
+        //print("MAIN CAMERA ROATAION Y: " + mainCameraTransform.eulerAngles.y);
+        //print("VR LOCAL ROTATION: " + InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y);
+        //print("CAMERA CONTAINER ROTATION Y: " + cameraContainerTransform.eulerAngles.y);
+
+        if (VRDevice.isPresent)
+        {
+            cameraContainerTransform.Rotate(Vector3.up, playerTransform.eulerAngles.y - InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y);
+        }
+
+        //print("NEW CAMERA CONTAINER ROTATION Y: " + cameraContainerTransform.eulerAngles.y);
 
         EventManager.OnTriggerSelectionLock(false);
 

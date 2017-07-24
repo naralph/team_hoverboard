@@ -13,6 +13,32 @@ public class PlayerController : MonoBehaviour
 
     ManagerClasses.PlayerMovementVariables movementVariables;
 
+    public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
+    {
+        controllerEnabled = cEnabled;
+        movementVariables = variables;
+
+        playerRigidbody = GetComponent<Rigidbody>();
+
+        if (controllerEnabled)
+            StartCoroutine(ControllerMovementCoroutine());
+        else
+        {
+            gyro = new SpatialData();
+
+            //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
+            movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
+            movementVariables.yawSensitivity *= Mathf.Rad2Deg;
+
+            //adjust our pitch and yaw sensitivities
+            movementVariables.pitchSensitivity *= 0.01f;
+            movementVariables.yawSensitivity *= 0.01f * -1f;
+        }
+
+        //adjust our max ascend value for easier use in our GyroMovementCoroutine   
+        movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
+    }
+
     void SetPlayerMovementLock(bool locked)
     {
         //make sure we have a different value
@@ -42,32 +68,6 @@ public class PlayerController : MonoBehaviour
                     StopAllCoroutines();
             }
             playerMovementLocked = locked;
-        }
-    }
-
-    public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
-    {
-        controllerEnabled = cEnabled;
-        movementVariables = variables;
-
-        playerRigidbody = GetComponent<Rigidbody>();
-
-        if (controllerEnabled)
-            StartCoroutine(ControllerMovementCoroutine());
-        else
-        {
-            gyro = new SpatialData();
-
-            //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
-            movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
-            movementVariables.yawSensitivity *= Mathf.Rad2Deg;
-
-            //adjust our max ascend value for easier use in our GyroMovementCoroutine           
-            movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
-
-            //adjust our pitch and yaw sensitivities
-            movementVariables.pitchSensitivity *= 0.01f;
-            movementVariables.yawSensitivity *= 0.01f * -1f;
         }
     }
 
