@@ -51,11 +51,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(player);
 
         //only track rotation on our HMD
-        //if (VRDevice.isPresent)
-        //{
-        //    InputTracking.Recenter();
-        //    InputTracking.disablePositionalTracking = true;
-        //}
+        if (VRDevice.isPresent)
+        {
+            //disabling positional tracking seems to do nothing
+            //InputTracking.disablePositionalTracking = true;
+        }
 
         InitGame();
     }
