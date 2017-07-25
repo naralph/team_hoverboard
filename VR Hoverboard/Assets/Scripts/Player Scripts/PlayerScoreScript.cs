@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardScoreScript : MonoBehaviour
+public class PlayerScoreScript : MonoBehaviour
 {
     //variable to store our score manager
     ScoreManager scoreManager;
@@ -11,6 +11,7 @@ public class BoardScoreScript : MonoBehaviour
     {
         scoreManager = sm;
     }
+
     void OnTriggerExit(Collider col)
     {
         if (col.gameObject.tag == "Ring")
@@ -23,10 +24,4 @@ public class BoardScoreScript : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        print(collision.gameObject.name);
-    }
-
 }
