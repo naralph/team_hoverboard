@@ -58,9 +58,9 @@ MonoBehaviour:
   controllerEnabled: 1
   controllerMovementVariables:
     bounceModifier: 1
-    restingSpeed: 5
-    maxSpeed: 20
-    minSpeed: 20
+    restingSpeed: 15
+    maxSpeed: 25
+    minSpeed: 13
     pitchSensitivity: 3
     yawSensitivity: 3
     restingThreshold: 10
@@ -124,7 +124,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1101896485286022, guid: cd6996909900ff44cac341d9483ba297,
+  playerPrefab: {fileID: 1075907571092120, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}

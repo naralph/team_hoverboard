@@ -8,19 +8,16 @@ public class ScoreManager : MonoBehaviour
     public ManagerClasses.ScoreMultipliers ScoreMultipliers = new ManagerClasses.ScoreMultipliers(1.0f, 1.0f, 0.5f);
 
     ManagerClasses.RoundTimer roundTimer;
-    [HideInInspector]
-    public int score;
-    [HideInInspector]
-    public int prevRing;
-    [HideInInspector]
-    public int ringHitCount = 0;
+    [HideInInspector] public int score;
+    [HideInInspector] public int prevRing;
+    [HideInInspector] public int ringHitCount = 0;
     float originalCM;
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
     {
         //assign our manager to our player clone
-        PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
+        BoardScoreScript pss = p.GetComponentInChildren<BoardScoreScript>();
         pss.AssignManager(this);
 
         //set our prevRing to -1, and make sure our rings start at 1
