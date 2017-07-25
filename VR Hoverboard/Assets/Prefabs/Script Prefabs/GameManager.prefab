@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerEnabled: 0
+  controllerEnabled: 1
   controllerMovementVariables:
     bounceModifier: 1
     restingSpeed: 15
@@ -124,7 +124,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1075907571092120, guid: cd6996909900ff44cac341d9483ba297,
+  playerPrefab: {fileID: 1730275241658306, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}

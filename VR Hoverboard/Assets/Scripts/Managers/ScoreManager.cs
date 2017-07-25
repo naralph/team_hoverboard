@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
     public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
     {
         //assign our manager to our player clone
-        BoardScoreScript pss = p.GetComponentInChildren<BoardScoreScript>();
+        BoardScoreScript pss = p.GetComponent<BoardScoreScript>();
         pss.AssignManager(this);
 
         //set our prevRing to -1, and make sure our rings start at 1
