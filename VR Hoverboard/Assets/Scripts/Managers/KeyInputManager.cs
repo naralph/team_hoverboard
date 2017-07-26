@@ -50,6 +50,7 @@ public class KeyInputManager : MonoBehaviour
                 else
                     countingDown = false;
 
+                //go back to main menu once we've been upside down long enough
                 if (timeUpsideDown > flippedTimer)
                 {
                     countingDown = false;

@@ -25,11 +25,15 @@ public class RingSetupScript : MonoBehaviour
             
             //assign the transforms from the sorted array
             ringTransforms = new Transform[rings.GetLength(0)];
-            for (int i = 0; i < arrayLength; i++)
-            {
-                ringTransforms[i] = rings[i].transform;
-            }
 
+            for (int i = 0; i < arrayLength; i++)
+                ringTransforms[i] = rings[i].transform;
+
+            arrowScript.thingsToLookAt = ringTransforms;
+            arrowScript.sortedRings = rings;
+            arrowScript.currentlyLookingAt = 0;
+
+            #region old code
             //int ringCount = gameObject.transform.childCount;
             //rings = new Transform[ringCount];
             //for (int i = 0; i < ringCount; i++)
@@ -39,10 +43,7 @@ public class RingSetupScript : MonoBehaviour
             //    rings[child.gameObject.GetComponent<RingProperties>().positionInOrder - 1] = child;
             //    //Debug.Log("Ring: " + i + " is at " + rings[i].transform.position);
             //}
-
-            arrowScript.thingsToLookAt = ringTransforms;
-            arrowScript.ringArr = rings;
-            arrowScript.currentlyLookingAt = 0;
+            #endregion
         }
     }
 

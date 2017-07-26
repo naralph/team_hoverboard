@@ -56,26 +56,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerEnabled: 1
-  controllerMovementVariables:
-    bounceModifier: 1
+  boardSelection: 0
+  customControllerMovementVariables:
+    maxSpeed: 25
     restingSpeed: 20
-    maxSpeed: 20
-    minSpeed: 25
+    minSpeed: 15
     pitchSensitivity: 3
     yawSensitivity: 3
-    restingThreshold: 20
-    maxAscendAngle: 30
     maxDescendAngle: 30
-  gyroMovementVariables:
-    bounceModifier: 1
-    restingSpeed: 10
-    maxSpeed: 15
-    minSpeed: 8
-    pitchSensitivity: 3
-    yawSensitivity: 3
     restingThreshold: 10
     maxAscendAngle: 30
+    bounceModifier: 1
+    mass: 1
+    drag: 1
+    angularDrag: 5
+  customGyroMovementVariables:
+    maxSpeed: 10
+    restingSpeed: 5
+    minSpeed: 2
+    pitchSensitivity: 3
+    yawSensitivity: 3
     maxDescendAngle: 30
+    restingThreshold: 10
+    maxAscendAngle: 30
+    bounceModifier: 1
+    mass: 1
+    drag: 1
+    angularDrag: 5
 --- !u!114 &114284126497002870
 MonoBehaviour:
   m_ObjectHideFlags: 1

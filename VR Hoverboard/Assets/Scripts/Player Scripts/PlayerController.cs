@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
 
         playerRigidbody = GetComponent<Rigidbody>();
 
+        playerRigidbody.mass = movementVariables.mass;
+        playerRigidbody.drag = movementVariables.drag;
+        playerRigidbody.angularDrag = movementVariables.angularDrag;
+
         if (controllerEnabled)
             StartCoroutine(ControllerMovementCoroutine());
         else
@@ -35,7 +39,7 @@ public class PlayerController : MonoBehaviour
             movementVariables.yawSensitivity *= 0.01f * -1f;
         }
 
-        //adjust our max ascend value for easier use in our GyroMovementCoroutine   
+        //adjust our max ascend value for easier use in ClampPitch()
         movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
     }
 
@@ -95,11 +99,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void ApplyForce()
-    {
-        //if restingThreshold were set to 10
-        //         pitch > 350 or pitch < 10
+    {       
         if (!playerMovementLocked)
         {
+            //if restingThreshold were set to 10
+            //         pitch > 350 or pitch < 10
             if (pitch > 360f - movementVariables.restingThreshold || pitch < movementVariables.restingThreshold)
             {
                 playerRigidbody.AddRelativeForce(Vector3.forward * movementVariables.restingSpeed, ForceMode.Acceleration);
@@ -123,6 +127,7 @@ public class PlayerController : MonoBehaviour
         ClampPitch();
         ApplyForce();
 
+        //since we don't want to make our player sick, make sure we never roll the camera
         playerRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
 
         StartCoroutine(ControllerMovementCoroutine());
@@ -132,13 +137,13 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
 
-        //rotate using the gyro
         pitch = playerRigidbody.rotation.eulerAngles.x + (float)gyro.rollAngle * movementVariables.pitchSensitivity;
         yaw = playerRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
 
         ClampPitch();
         ApplyForce();
 
+        //since we don't want to make our player sick, make sure we never roll the camera
         playerRigidbody.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
 
         StartCoroutine(GyroMovementCoroutine());

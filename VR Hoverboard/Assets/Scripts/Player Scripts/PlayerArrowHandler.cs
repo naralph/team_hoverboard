@@ -29,9 +29,11 @@ public class PlayerArrowHandler : MonoBehaviour
         if (other.tag == "Ring")
         {
             RingProperties theRing = other.gameObject.GetComponent<RingProperties>();
-            if (arrowScript != null)
+
+            //if we have the arrowScript, and we are going through the correct ring
+            if (arrowScript != null && arrowScript.sortedRings[arrowScript.currentlyLookingAt].positionInOrder == theRing.positionInOrder)
             {
-                int ringArrLength = arrowScript.ringArr.GetLength(0);
+                int ringArrLength = arrowScript.sortedRings.GetLength(0);
 
                 //if there is more than one ring at this position in the ring order
                 if (theRing.duplicatePosition)
@@ -46,7 +48,7 @@ public class PlayerArrowHandler : MonoBehaviour
                     for (int offset = 1; arrowScript.currentlyLookingAt + offset < ringArrLength; ++offset)
                     {
                         //store our comparePosition using our offset
-                        comparePosition = arrowScript.ringArr[originalLookingAt + offset].positionInOrder;
+                        comparePosition = arrowScript.sortedRings[originalLookingAt + offset].positionInOrder;
 
                         if (originalPosition != comparePosition)
                         {
@@ -55,17 +57,16 @@ public class PlayerArrowHandler : MonoBehaviour
                             break;
                         }
                     }
-
                 }
-                else if (arrowScript.currentlyLookingAt + 1 < ringArrLength)
+                //if it isn't a duplicate ring, and it isn't the last ring in the scene
+                else if (!theRing.lastRingInScene)
                 {
-                    if (!theRing.lastRingInScene)
-                    {
-                        arrowScript.currentlyLookingAt++;
-                    }
+                    arrowScript.currentlyLookingAt++;
                 }
                 else
+                {
                     arrowScript.currentlyLookingAt = -1;
+                }
             }
         }
     }

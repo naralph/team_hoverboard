@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowAimAt : MonoBehaviour
 {
     public Transform[] thingsToLookAt;
-    public RingProperties[] ringArr;
+    public RingProperties[] sortedRings;
 
     [HideInInspector] public int currentlyLookingAt = -1;
     void Update()
