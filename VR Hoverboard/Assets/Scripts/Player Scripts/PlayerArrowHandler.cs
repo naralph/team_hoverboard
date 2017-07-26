@@ -31,17 +31,41 @@ public class PlayerArrowHandler : MonoBehaviour
             RingProperties theRing = other.gameObject.GetComponent<RingProperties>();
             if (arrowScript != null)
             {
-                if (arrowScript.currentlyLookingAt == theRing.positionInOrder - 1)
+                int ringArrLength = arrowScript.ringArr.GetLength(0);
+
+                //if there is more than one ring at this position in the ring order
+                if (theRing.duplicatePosition)
+                {
+                    //find the next ring without the same position
+                    int originalPosition = theRing.positionInOrder;
+                    int originalLookingAt = arrowScript.currentlyLookingAt;
+                    int comparePosition = 0;
+
+                    //set currentlyLookingAt to -1 in case we don't find a ring after the duplicates
+                    arrowScript.currentlyLookingAt = -1;
+                    for (int offset = 1; arrowScript.currentlyLookingAt + offset < ringArrLength; ++offset)
+                    {
+                        //store our comparePosition using our offset
+                        comparePosition = arrowScript.ringArr[originalLookingAt + offset].positionInOrder;
+
+                        if (originalPosition != comparePosition)
+                        {
+                            //once we find a different ring, set it and break from the loop
+                            arrowScript.currentlyLookingAt = originalLookingAt + offset;
+                            break;
+                        }
+                    }
+
+                }
+                else if (arrowScript.currentlyLookingAt + 1 < ringArrLength)
                 {
                     if (!theRing.lastRingInScene)
                     {
                         arrowScript.currentlyLookingAt++;
                     }
-                    else
-                    {
-                        arrowScript.currentlyLookingAt = -1;
-                    }
                 }
+                else
+                    arrowScript.currentlyLookingAt = -1;
             }
         }
     }

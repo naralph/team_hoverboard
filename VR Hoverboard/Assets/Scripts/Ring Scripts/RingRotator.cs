@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RingAnchorRotator : MonoBehaviour
+public class RingRotator : MonoBehaviour
 {
     Transform anchor;
     public float rotateRate = 5f;

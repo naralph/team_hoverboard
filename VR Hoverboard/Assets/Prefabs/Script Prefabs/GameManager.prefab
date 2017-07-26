@@ -58,9 +58,9 @@ MonoBehaviour:
   controllerEnabled: 1
   controllerMovementVariables:
     bounceModifier: 1
-    restingSpeed: 25
-    maxSpeed: 25
-    minSpeed: 30
+    restingSpeed: 20
+    maxSpeed: 20
+    minSpeed: 25
     pitchSensitivity: 3
     yawSensitivity: 3
     restingThreshold: 20
