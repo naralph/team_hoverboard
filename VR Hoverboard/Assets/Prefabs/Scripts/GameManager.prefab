@@ -90,6 +90,7 @@ MonoBehaviour:
   fadeing: 0
   doLoadOnce: 1
   nextScene: 0
+  HudOnOff: 1
   makeSureMovementStaysLocked: 0
   spawnPoints:
   - {fileID: 4462082338848660, guid: 1e84304eaf6b50a42bc47a643971793f, type: 2}
@@ -121,7 +122,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1034132968365448, guid: 883f770cffad95944bbc09eec8a345e6,
+  playerPrefab: {fileID: 1289448502706482, guid: 883f770cffad95944bbc09eec8a345e6,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
@@ -145,3 +146,4 @@ MonoBehaviour:
     consecutiveIncreaseAmount: 0.5
   score: 0
   prevRing: 0
+  ringHitCount: 0
