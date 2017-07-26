@@ -5,8 +5,8 @@ using TMPro;
 
 public class HudRingCountOnOffScript : SelectedObject
 {
-    TextElementControllerScript textElementController;
     bool safeCheck = false;
+    Light temp;
 
     TextMeshPro onOffText;
     bool isOn = true;
@@ -16,7 +16,6 @@ public class HudRingCountOnOffScript : SelectedObject
     }
     public void isOnUpdate()
     {
-        isOn = textElementController.hudElementsControl.ringCountBool;
         if (isOn)
         {
             onOffText.SetText("On");
@@ -29,11 +28,6 @@ public class HudRingCountOnOffScript : SelectedObject
 
     private void OnEnable()
     {
-        textElementController = GameObject.Find("TextElementController").GetComponent<TextElementControllerScript>();
-        if (textElementController != null)
-        {
-            safeCheck = true;
-        }
         onOffText = gameObject.GetComponentsInChildren<TextMeshPro>()[0];
         EventManager.OnUpdateButtons += isOnUpdate;
     }
@@ -60,7 +54,6 @@ public class HudRingCountOnOffScript : SelectedObject
         if (safeCheck)
         {
             isOn = !isOn;
-            textElementController.setRingCount(isOn);
             if (isOn)
             {
                 onOffText.SetText("On");

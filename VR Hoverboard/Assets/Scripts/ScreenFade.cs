@@ -5,9 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class ScreenFade : MonoBehaviour
 {
+
+    public Texture2D fadeOutTexture;
+    public float fadeSpeed = 0.8f;
+    public float fadeTime = 10.0f;
+
+    private int drawDepth = -1000;
+    private float alpha = 1.0f;
+    private int fadeDir = -1;
     
     private bool isFading = false;
-    private YieldInstruction fadeInstruction = new WaitForEndOfFrame();
     
     // Starts the fade in
     void OnEnable()
@@ -36,21 +43,34 @@ public class ScreenFade : MonoBehaviour
     // Fades alpha from 1.0 to 0.0, use at beginning of scene
     IEnumerator FadeIn()
     {
-        yield return fadeInstruction;
+        fadeTime = BeginFade(-1);
+        yield return new WaitForSeconds(fadeTime);
         isFading = false;
     }
 
     // Fades from 0.0 to 1.0, use at end of scene
     public IEnumerator FadeOut()
     {
-        yield return fadeInstruction;
+        fadeTime = BeginFade(1);
+        yield return new WaitForSeconds(fadeTime);
         isFading = false;
         GameManager.instance.levelScript.fadeing = false;
     }
 
-    // Renders the fade overlay when attached to a camera object
-    void OnPostRender()
+    private void OnGUI()
     {
+        alpha += fadeDir * fadeSpeed * Time.deltaTime;
 
+        alpha = Mathf.Clamp01(alpha);
+
+        GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
+        GUI.depth = drawDepth;
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeOutTexture);
+    }
+
+    public float BeginFade (int direction)
+    {
+        fadeDir = direction;
+        return (fadeSpeed);
     }
 }

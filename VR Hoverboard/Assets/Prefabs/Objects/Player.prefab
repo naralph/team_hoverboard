@@ -1096,6 +1096,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21285914cb6b37541920327a12733cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeOutTexture: {fileID: 2800000, guid: b0d8d060130619d4094328fa33fccdee, type: 3}
+  fadeSpeed: 0.8
 --- !u!114 &114915815205848686
 MonoBehaviour:
   m_ObjectHideFlags: 1
