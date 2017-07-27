@@ -131,7 +131,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1730275241658306, guid: cd6996909900ff44cac341d9483ba297,
+  playerPrefab: {fileID: 1562513331500744, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
