@@ -13,9 +13,13 @@ public class cameraChoiceScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         headsetUsed = VRSettings.loadedDeviceName;
-        Debug.Log(headsetUsed);
+        Debug.Log("Headset used: " + headsetUsed);
 
         if (headsetUsed == "OpenVR")
+        {
+            OcculusCameraSet.SetActive(false);
+        }
+        else if(headsetUsed == "Object")
         {
             OcculusCameraSet.SetActive(false);
         }
