@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
         PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
         pss.AssignManager(this);
 
-        //set our prevRing to -1, and make sure our rings start at 1
+        //set our prevRing to -1, and make sure our rings start at 1 in the scene
         //that way the first run of UpdateScore won't include a consecutive multiplier
         score = 0;
         prevRing = -1;
@@ -53,14 +53,14 @@ public class ScoreManager : MonoBehaviour
             //remember what ring we went through
             prevRing = rp.positionInOrder;
             
-            //increase the number of rings we hit count
+            //increase the count of rings we hit
             ringHitCount++;
 
             Debug.Log("Time since round start: " + roundTimer.currRoundTime);
             Debug.Log("Score is now " + score);
         }
         else
-            Debug.Log("Already went through this ring!");
+            Debug.Log("Score not applied!");
     }
 
 }

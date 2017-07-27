@@ -14,6 +14,7 @@ public class HudArrowOnOffScript : SelectedObject
     {
         isOnUpdate();
     }
+
     public void isOnUpdate()
     {
         isOn = textElementController.hudElementsControl.arrowBool;

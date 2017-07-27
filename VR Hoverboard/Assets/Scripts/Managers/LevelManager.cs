@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VR;
 
 //we'll use our LevelManger to initialize any objects that carry from one scene to the next
 public class LevelManager : MonoBehaviour
 {
     ManagerClasses.GameState state;
     GameManager gameManager;
-    GameObject player;
+    Transform playerTransform;
 
     //for transitions
     public bool fadeing = false;
@@ -21,26 +22,34 @@ public class LevelManager : MonoBehaviour
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;
 
+    #region calibrate testing code
+    Transform boardTransform = null, cameraContainerTransform = null, mainCameraTransform = null;
+    #endregion
+
     public void SetupLevelManager(ManagerClasses.GameState s, GameObject p, GameManager g)
     {
-        player = p;
+        playerTransform = p.GetComponent<Transform>();
         state = s;
         gameManager = g;
-    }
 
-    public void OnEnable()
-    {
-        EventManager.OnTransition += DoSceneTransition;
-        SceneManager.sceneLoaded += UndoSceneTransitionLocks;
-        SceneManager.sceneLoaded += OnLevelLoaded;
-    }
+        #region calibrate testing code
+        Transform testTransform;
+        for (int i = 0; i < playerTransform.childCount; ++i)
+        {
+            testTransform = playerTransform.GetChild(i);
 
-    public void OnDisable()
-    {
-        EventManager.OnTransition -= DoSceneTransition;
-        SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
-        SceneManager.sceneLoaded -= OnLevelLoaded;
-    }
+            if (testTransform.name == "BoardMesh")
+                boardTransform = testTransform;
+            else if (testTransform.name == "CameraContainer")
+                cameraContainerTransform = testTransform;
+
+            if (boardTransform != null && cameraContainerTransform != null)
+                break;
+        }
+
+        mainCameraTransform = cameraContainerTransform.GetChild(0).transform;
+        #endregion
+    } 
 
     //for debugging
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
@@ -90,8 +99,13 @@ public class LevelManager : MonoBehaviour
                 break;
         }
         gameManager.scoreScript.prevRing = -1;
-        player.transform.rotation = spawnPoints[scene.buildIndex].rotation;
-        player.transform.position = spawnPoints[scene.buildIndex].position;
+        playerTransform.rotation = spawnPoints[scene.buildIndex].rotation;
+        playerTransform.position = spawnPoints[scene.buildIndex].position;
+
+        //if (VRDevice.isPresent)
+        //    StartCoroutine(DelayedHMDCalibrate());
+        //else
+        //    cameraContainerTransform.position = new Vector3(cameraContainerTransform.position.x, 1.8f, cameraContainerTransform.position.z);
 
         EventManager.OnTriggerSelectionLock(false);
 
@@ -99,5 +113,50 @@ public class LevelManager : MonoBehaviour
         {
             EventManager.OnSetMovementLock(false);
         }
+    }
+
+    #region calibrate testing code
+    IEnumerator DelayedHMDCalibrate()
+    {
+        //we can't get positional data from the HMD until our scene has loaded and a single frame has elapsed
+        yield return new WaitForEndOfFrame();
+
+        Vector3 HMDLocalPosition = InputTracking.GetLocalPosition(VRNode.Head);
+        print("88888888888888888888888888888");
+        print("INPUT TRACKING LOCAL ROTATION: " + InputTracking.GetLocalRotation(VRNode.Head).eulerAngles);
+        print("MAIN CAMERA TRANSFORM LOCAL ROTATION: " + mainCameraTransform.localEulerAngles);
+        print("MAIN CAMERA TRANSFORM ROTATION: " + mainCameraTransform.eulerAngles);
+        print("+++++++++++++++++++++++++++++");
+        print("INPUT TRACKING LOCAL POSITION: " + HMDLocalPosition);
+        print("MAIN CAMERA TRANSFORM LOCAL POSITION: " + mainCameraTransform.localPosition);
+        print("MAIN CAMERA TRANSFORM POSITION: " + mainCameraTransform.position);
+        print("88888888888888888888888888888");
+
+        //set our local position to be 1.8 meters off the board, and positioned on top of it
+
+        float heightDifference = 1.8f - HMDLocalPosition.y;
+
+        print("HEIGHT DIFFERENCE: " + heightDifference);
+        cameraContainerTransform.position = new Vector3(cameraContainerTransform.position.x, heightDifference, cameraContainerTransform.position.z);
+
+        if (VRDevice.isPresent)
+        {
+            //cameraContainerTransform.Rotate(Vector3.up, Mathf.Abs(playerTransform.eulerAngles.y - InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y));
+        }
+    }
+    #endregion
+
+    public void OnEnable()
+    {
+        EventManager.OnTransition += DoSceneTransition;
+        SceneManager.sceneLoaded += UndoSceneTransitionLocks;
+        SceneManager.sceneLoaded += OnLevelLoaded;
+    }
+
+    public void OnDisable()
+    {
+        EventManager.OnTransition -= DoSceneTransition;
+        SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
+        SceneManager.sceneLoaded -= OnLevelLoaded;
     }
 }

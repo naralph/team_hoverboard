@@ -5,6 +5,7 @@ using UnityEngine;
 public class RingProperties : MonoBehaviour
 {
     //assign through the inspector
+    public bool duplicatePosition = false;
     public int positionInOrder = 0;
     public float timeToReach = 0.0f;
     public bool lastRingInScene = false;
