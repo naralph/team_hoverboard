@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ScreenFade : MonoBehaviour
 {
-
-    public Texture2D fadeOutTexture;
+    public Image theFadeObj;
     public float fadeSpeed = 0.8f;
     public float fadeTime = 10.0f;
 
@@ -63,9 +63,7 @@ public class ScreenFade : MonoBehaviour
 
         alpha = Mathf.Clamp01(alpha);
 
-        GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
-        GUI.depth = drawDepth;
-        GUI.Box(new Rect(0, 0, Screen.width, Screen.height), fadeOutTexture);
+        theFadeObj.color = new Color(0, 0, 0, alpha);
     }
 
     public float BeginFade (int direction)
