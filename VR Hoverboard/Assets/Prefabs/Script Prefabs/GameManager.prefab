@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerEnabled: 1
-  boardSelection: 0
+  boardSelection: 3
   customControllerMovementVariables:
     maxSpeed: 25
     restingSpeed: 20
@@ -71,11 +71,11 @@ MonoBehaviour:
     drag: 1
     angularDrag: 5
   customGyroMovementVariables:
-    maxSpeed: 10
-    restingSpeed: 5
-    minSpeed: 2
-    pitchSensitivity: 3
-    yawSensitivity: 3
+    maxSpeed: 15
+    restingSpeed: 12
+    minSpeed: 8
+    pitchSensitivity: 4
+    yawSensitivity: 4
     maxDescendAngle: 30
     restingThreshold: 10
     maxAscendAngle: 30
