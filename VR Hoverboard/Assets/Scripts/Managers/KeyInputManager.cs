@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VR;
 
 public class KeyInputManager : MonoBehaviour
 {
     ManagerClasses.GameState state;
 
-	public void setupKeyInputManager(ManagerClasses.GameState s)
+    //variables for returning back to menu
+    public float flippedTimer = 4f;
+    public bool menuOnFlippedHMD = false;
+    bool countingDown = false;
+    float timeUpsideDown = 0f;
+
+    public void setupKeyInputManager(ManagerClasses.GameState s)
     {
         state = s;
     }
-	void Update ()
+
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(state.currentState == States.GamePlay)
+            if (state.currentState != States.MainMenu)
             {
                 EventManager.OnTriggerTransition(0);
             }
@@ -23,5 +31,32 @@ public class KeyInputManager : MonoBehaviour
                 Application.Quit();
             }
         }
-	}
+
+        if (state.currentState != States.MainMenu && menuOnFlippedHMD && VRDevice.isPresent)
+        {
+            Quaternion q = InputTracking.GetLocalRotation(VRNode.Head);
+
+            //if we're upside down, start the countdown and reset our timer
+            if (q.eulerAngles.z > 150f && q.eulerAngles.z < 210f && !countingDown)
+            {
+                countingDown = true;
+                timeUpsideDown = 0f;
+            }
+            else if (countingDown)
+            {
+                //if we're still upside down
+                if (q.eulerAngles.z > 150f && q.eulerAngles.z < 210f)
+                    timeUpsideDown += Time.deltaTime;
+                else
+                    countingDown = false;
+
+                if (timeUpsideDown > flippedTimer)
+                {
+                    countingDown = false;
+                    EventManager.OnTriggerTransition(0);
+                }
+            }
+        }
+    }
+
 }

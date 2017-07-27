@@ -37,7 +37,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1056030855755648}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -58,9 +58,9 @@ MonoBehaviour:
   controllerEnabled: 1
   controllerMovementVariables:
     bounceModifier: 1
-    restingSpeed: 5
-    maxSpeed: 20
-    minSpeed: 20
+    restingSpeed: 15
+    maxSpeed: 25
+    minSpeed: 13
     pitchSensitivity: 3
     yawSensitivity: 3
     restingThreshold: 10
@@ -108,6 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ee9a31585c6eb4893e95289a251b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flippedTimer: 4
+  menuOnFlippedHMD: 1
 --- !u!114 &114714506037350866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,7 +124,7 @@ MonoBehaviour:
   roundTimer:
     currRoundTime: 0
     roundTimeLimit: 15
-  playerPrefab: {fileID: 1289448502706482, guid: 883f770cffad95944bbc09eec8a345e6,
+  playerPrefab: {fileID: 1730275241658306, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}

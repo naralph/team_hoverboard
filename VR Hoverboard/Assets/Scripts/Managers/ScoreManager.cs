@@ -8,12 +8,9 @@ public class ScoreManager : MonoBehaviour
     public ManagerClasses.ScoreMultipliers ScoreMultipliers = new ManagerClasses.ScoreMultipliers(1.0f, 1.0f, 0.5f);
 
     ManagerClasses.RoundTimer roundTimer;
-    [HideInInspector]
-    public int score;
-    [HideInInspector]
-    public int prevRing;
-    [HideInInspector]
-    public int ringHitCount = 0;
+    [HideInInspector] public int score;
+    [HideInInspector] public int prevRing;
+    [HideInInspector] public int ringHitCount = 0;
     float originalCM;
 
     //this will get called by our game manager

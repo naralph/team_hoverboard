@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VR;
 
 //our Load script, will ensure that an instance of GameManager is loaded
 public class GameManager : MonoBehaviour
@@ -27,12 +28,12 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GyroManager gyroScript;
     [HideInInspector] public KeyInputManager keyInputScript;
 
-        void Awake()
+    void Awake()
     {
         //make sure we only have one instance of GameManager
         if (instance == null)
             instance = this;
-                  
+
         else if (instance != this)
             Destroy(gameObject);
 
@@ -48,6 +49,13 @@ public class GameManager : MonoBehaviour
         //Instantiate our player, store the clone, then make sure it persists between scenes
         player = Instantiate(playerPrefab);
         DontDestroyOnLoad(player);
+
+        //only track rotation on our HMD
+        if (VRDevice.isPresent)
+        {
+            //disabling positional tracking seems to do nothing
+            //InputTracking.disablePositionalTracking = true;
+        }
 
         InitGame();
     }
@@ -75,11 +83,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //TODO:: while round < roundTimeLimit... and we aren't at the end of the level
+        //TODO:: if round < roundTimeLimit... and we aren't at the end of the level
         if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();
-
         }
         else
         {

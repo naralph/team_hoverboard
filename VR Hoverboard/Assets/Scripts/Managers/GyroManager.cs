@@ -5,7 +5,7 @@ using UnityEngine;
 public class GyroManager : MonoBehaviour
 {
     public bool controllerEnabled = false;
-    
+
     public ManagerClasses.PlayerMovementVariables controllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
     public ManagerClasses.PlayerMovementVariables gyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
@@ -13,8 +13,8 @@ public class GyroManager : MonoBehaviour
     {
         //let our movement script know we are using debug controls
         if (controllerEnabled)
-        p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, controllerMovementVariables);
+            p.GetComponent<PlayerController>().SetupMovementScript(controllerEnabled, controllerMovementVariables);
         else
-            p.GetComponent<Movement>().SetupMovementScript(controllerEnabled, gyroMovementVariables);
+            p.GetComponent<PlayerController>().SetupMovementScript(controllerEnabled, gyroMovementVariables);
     }
 }
