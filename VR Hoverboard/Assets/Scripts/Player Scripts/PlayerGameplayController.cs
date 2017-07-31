@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerGameplayController : MonoBehaviour
 {
     bool controllerEnabled = false;
     bool playerMovementLocked = true;
@@ -24,9 +24,7 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.drag = movementVariables.drag;
         playerRigidbody.angularDrag = movementVariables.angularDrag;
 
-        if (controllerEnabled)
-            StartCoroutine(ControllerMovementCoroutine());
-        else
+        if (!controllerEnabled)
         {
             gyro = new SpatialData();
 
@@ -45,34 +43,29 @@ public class PlayerController : MonoBehaviour
 
     void SetPlayerMovementLock(bool locked)
     {
-        //make sure we have a different value
-        if (locked != playerMovementLocked)
+        //if we aren't locked
+        if (!locked)
         {
-            //if we aren't locked
-            if (!locked)
-            {
-                print("Player Movement UNLOCKED!");
+            print("Player Movement UNLOCKED!");
 
-                //don't start our coroutine if we aren't using the gyro
-                if (!controllerEnabled)
-                {
-                    //be sure to not have multiple instances of the gyro coroutine going
-                    StopAllCoroutines();
-                    StartCoroutine(GyroMovementCoroutine());
-                }
-            }
+            //be sure to not have multiple instances of our coroutines going
+            StopAllCoroutines();
+
+            if (controllerEnabled)
+                StartCoroutine(ControllerMovementCoroutine());
             else
-            {
-                print("Player Movement LOCKED!");
-
-                //if we're locking movement, then set the velocity to zero
-                playerRigidbody.velocity = Vector3.zero;
-
-                if (!controllerEnabled)
-                    StopAllCoroutines();
-            }
-            playerMovementLocked = locked;
+                StartCoroutine(GyroMovementCoroutine());
         }
+        else
+        {
+            print("Player Movement LOCKED!");
+            StopAllCoroutines();
+
+            //if we're locking movement, then set the velocity to zero
+            playerRigidbody.velocity = Vector3.zero;
+        }
+
+        playerMovementLocked = locked;
     }
 
     void ClampPitch()
@@ -99,7 +92,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void ApplyForce()
-    {       
+    {
         if (!playerMovementLocked)
         {
             //if restingThreshold were set to 10

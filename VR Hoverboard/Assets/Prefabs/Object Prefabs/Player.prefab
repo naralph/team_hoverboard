@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 114400262655804548}
   - component: {fileID: 114319868589062270}
   - component: {fileID: 114916403956725730}
+  - component: {fileID: 114734768623468392}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -198,6 +199,7 @@ GameObject:
   - component: {fileID: 114721817775132586}
   - component: {fileID: 114522990349197882}
   - component: {fileID: 114889565704026116}
+  - component: {fileID: 114801980919812702}
   m_Layer: 5
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -456,7 +458,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 03bb264aae7816a4ea7bf34bb50180df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1190,6 +1192,33 @@ MonoBehaviour:
   myCam: {fileID: 20771238087300794}
   debugRayDrawLength: 5
   rayCheckLength: 50
+--- !u!114 &114734768623468392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562513331500744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec46c8922b5e534398f663871833eb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 35
+  turnSpeed: 35
+  hoverForce: 65
+  hoverHeight: 3.5
+--- !u!114 &114801980919812702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1671263330809622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: d412b1dbfa949be47a8e7737b2ebdd93, type: 2}
 --- !u!114 &114817626334506080
 MonoBehaviour:
   m_ObjectHideFlags: 1

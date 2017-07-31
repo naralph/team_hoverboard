@@ -8,7 +8,7 @@ using UnityEngine.VR;
 public class GameManager : MonoBehaviour
 {
     //store our state
-    ManagerClasses.GameState state = new ManagerClasses.GameState();
+    public ManagerClasses.GameState state = new ManagerClasses.GameState();
 
     //this shows up in our inspector since the class is using [System.Serializable]
     public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);

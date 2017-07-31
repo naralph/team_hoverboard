@@ -23,7 +23,7 @@ public class GyroManager : MonoBehaviour
         else
             GyroBoardSelect();
 
-        p.GetComponent<PlayerController>().SetupMovementScript(controllerEnabled, selectedMovementVariables);
+        p.GetComponent<PlayerGameplayController>().SetupMovementScript(controllerEnabled, selectedMovementVariables);
     }
 
     public void ControllerBoardSelect()
