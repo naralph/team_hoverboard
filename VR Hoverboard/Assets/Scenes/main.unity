@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b64d8b034373b409ae720963b7d071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duplicatePosition: 0
   positionInOrder: 3
   timeToReach: 20
   lastRingInScene: 1
@@ -202,7 +203,6 @@ GameObject:
   - component: {fileID: 252739612}
   - component: {fileID: 252739614}
   - component: {fileID: 252739613}
-  - component: {fileID: 252739615}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -264,20 +264,6 @@ Terrain:
   m_BakeLightProbesForTrees: 0
   m_ScaleInLightmap: 0.0512
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
---- !u!114 &252739615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 252739611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a732507d3f3ab542be75fb93c896302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fogStartDistance: 500
-  fogDensity: 0.1
-  globalDensity: 0
 --- !u!4 &272831114
 Transform:
   m_ObjectHideFlags: 0
@@ -549,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b64d8b034373b409ae720963b7d071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duplicatePosition: 0
   positionInOrder: 1
   timeToReach: 10
   lastRingInScene: 0
@@ -737,6 +724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b64d8b034373b409ae720963b7d071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duplicatePosition: 0
   positionInOrder: 2
   timeToReach: 15
   lastRingInScene: 0

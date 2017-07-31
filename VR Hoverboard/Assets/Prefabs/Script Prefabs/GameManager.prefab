@@ -71,14 +71,14 @@ MonoBehaviour:
     drag: 1
     angularDrag: 5
   customGyroMovementVariables:
-    maxSpeed: 15
-    restingSpeed: 12
-    minSpeed: 8
-    pitchSensitivity: 4
-    yawSensitivity: 4
-    maxDescendAngle: 30
+    maxSpeed: 18
+    restingSpeed: 15
+    minSpeed: 12
+    pitchSensitivity: 5
+    yawSensitivity: 5
+    maxDescendAngle: 45
     restingThreshold: 10
-    maxAscendAngle: 30
+    maxAscendAngle: 45
     bounceModifier: 1
     mass: 1
     drag: 1
