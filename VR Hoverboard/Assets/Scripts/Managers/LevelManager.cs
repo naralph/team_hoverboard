@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
         //set our state based off of our scene build index
         switch (scene.buildIndex)
         {
-            case 0:
+            case 0: // MainMenu
                 //do things like lock player movement here....
                 EventManager.OnSetMovementLock(true);
                 EventManager.OnSetHudOnOff(false);
@@ -82,18 +82,24 @@ public class LevelManager : MonoBehaviour
                 gameManager.scoreScript.score = 0;
                 gameManager.scoreScript.ringHitCount = 0;
                 break;
-            case 1:
-            case 2:
+            case 1: //Main level
+            case 2: //Second level
                 //do things like unlock player movement here....
                 makeSureMovementStaysLocked = false;
                 EventManager.OnSetHudOnOff(HudOnOff);
                 EventManager.OnSetArrowOnOff(HudOnOff);
                 state.currentState = States.GamePlay;
                 break;
-            case 3:
+            case 3: //Options Menu
                 makeSureMovementStaysLocked = true;
                 state.currentState = States.OptionsMenu;
-                break; 
+                break;
+            case 4: //Canyon level
+                makeSureMovementStaysLocked = false;
+                EventManager.OnSetHudOnOff(HudOnOff);
+                EventManager.OnSetArrowOnOff(HudOnOff);
+                state.currentState = States.GamePlay;
+                break;
             default:
                 state.currentState = States.GamePlay;
                 break;

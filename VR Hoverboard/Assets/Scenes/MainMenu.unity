@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToWait: 50
-  sceneIndex: 2
+  sceneIndex: 4
 --- !u!1 &2117654037
 GameObject:
   m_ObjectHideFlags: 0

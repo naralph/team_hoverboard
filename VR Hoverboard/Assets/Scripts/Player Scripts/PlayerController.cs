@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
             else
                 playerRigidbody.AddRelativeForce(Vector3.forward * movementVariables.minSpeed, ForceMode.Acceleration);
         }
+        //Debug.Log("Player Speed: " + playerRigidbody.velocity.magnitude);
     }
 
     //Note: debug rotation controls are needed for menu interaction
