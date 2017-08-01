@@ -108,6 +108,8 @@ public class LevelManager : MonoBehaviour
         playerTransform.rotation = spawnPoints[scene.buildIndex].rotation;
         playerTransform.position = spawnPoints[scene.buildIndex].position;
 
+
+        //Should only have to do this on the first run, and not on every level loaded
         //if (VRDevice.isPresent)
         //    StartCoroutine(DelayedHMDCalibrate());
         //else

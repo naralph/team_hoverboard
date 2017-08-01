@@ -8,7 +8,7 @@ using UnityEngine.VR;
 public class GameManager : MonoBehaviour
 {
     //store our state
-    ManagerClasses.GameState state = new ManagerClasses.GameState();
+    public ManagerClasses.GameState state = new ManagerClasses.GameState();
 
     //this shows up in our inspector since the class is using [System.Serializable]
     public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     //store our managers
     [HideInInspector] public ScoreManager scoreScript;
     [HideInInspector] public LevelManager levelScript;
-    [HideInInspector] public GyroManager gyroScript;
+    [HideInInspector] public BoardManager boardScript;
     [HideInInspector] public KeyInputManager keyInputScript;
 
     void Awake()
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         //store our managers
         scoreScript = GetComponent<ScoreManager>();
         levelScript = GetComponent<LevelManager>();
-        gyroScript = GetComponent<GyroManager>();
+        boardScript = GetComponent<BoardManager>();
         keyInputScript = GetComponent<KeyInputManager>();
 
         //Instantiate our player, store the clone, then make sure it persists between scenes
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-        gyroScript.SetupGyroManager(player);
+        boardScript.SetupBoardManager(player);
         scoreScript.SetupScoreManager(roundTimer, player);
         levelScript.SetupLevelManager(state, player, instance);
         keyInputScript.setupKeyInputManager(state);
@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //TODO:: if round < roundTimeLimit... and we aren't at the end of the level
         if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
         {
             roundTimer.UpdateTimer();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerGameplayController : MonoBehaviour
 {
     bool controllerEnabled = false;
     bool playerMovementLocked = true;
@@ -16,20 +16,27 @@ public class PlayerController : MonoBehaviour
     public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
     {
         controllerEnabled = cEnabled;
-        movementVariables = variables;
-
         playerRigidbody = GetComponent<Rigidbody>();
+
+        if (!controllerEnabled)
+            gyro = new SpatialData();
+
+        SetPlayerBoard(variables);
+    }
+
+    public void SetPlayerBoard(ManagerClasses.PlayerMovementVariables variables)
+    {
+        movementVariables = variables;
 
         playerRigidbody.mass = movementVariables.mass;
         playerRigidbody.drag = movementVariables.drag;
         playerRigidbody.angularDrag = movementVariables.angularDrag;
 
-        if (controllerEnabled)
-            StartCoroutine(ControllerMovementCoroutine());
-        else
-        {
-            gyro = new SpatialData();
+        //adjust our max ascend value for easier use in ClampPitch()
+        movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
 
+        if (!controllerEnabled)
+        {
             //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
             movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
             movementVariables.yawSensitivity *= Mathf.Rad2Deg;
@@ -38,41 +45,33 @@ public class PlayerController : MonoBehaviour
             movementVariables.pitchSensitivity *= 0.01f;
             movementVariables.yawSensitivity *= 0.01f * -1f;
         }
-
-        //adjust our max ascend value for easier use in ClampPitch()
-        movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
     }
 
     void SetPlayerMovementLock(bool locked)
     {
-        //make sure we have a different value
-        if (locked != playerMovementLocked)
+        //if we aren't locked
+        if (!locked)
         {
-            //if we aren't locked
-            if (!locked)
-            {
-                print("Player Movement UNLOCKED!");
+            print("Player Movement UNLOCKED!");
 
-                //don't start our coroutine if we aren't using the gyro
-                if (!controllerEnabled)
-                {
-                    //be sure to not have multiple instances of the gyro coroutine going
-                    StopAllCoroutines();
-                    StartCoroutine(GyroMovementCoroutine());
-                }
-            }
+            //be sure to not have multiple instances of our coroutines going
+            StopAllCoroutines();
+
+            if (controllerEnabled)
+                StartCoroutine(ControllerMovementCoroutine());
             else
-            {
-                print("Player Movement LOCKED!");
-
-                //if we're locking movement, then set the velocity to zero
-                playerRigidbody.velocity = Vector3.zero;
-
-                if (!controllerEnabled)
-                    StopAllCoroutines();
-            }
-            playerMovementLocked = locked;
+                StartCoroutine(GyroMovementCoroutine());
         }
+        else
+        {
+            print("Player Movement LOCKED!");
+            StopAllCoroutines();
+
+            //if we're locking movement, then set the velocity to zero
+            playerRigidbody.velocity = Vector3.zero;
+        }
+
+        playerMovementLocked = locked;
     }
 
     void ClampPitch()
@@ -99,7 +98,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void ApplyForce()
-    {       
+    {
         if (!playerMovementLocked)
         {
             //if restingThreshold were set to 10

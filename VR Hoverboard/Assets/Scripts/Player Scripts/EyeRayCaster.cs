@@ -15,7 +15,7 @@ public class EyeRayCaster : MonoBehaviour
     reticle reticleScript;
     RaycastHit hit;
 
-    [SerializeField] float debugRayDrawLength = 50.0f;
+    //[SerializeField] float debugRayDrawLength = 50.0f;
     [SerializeField] float rayCheckLength = 50.0f;
 
     // Use this for initialization
