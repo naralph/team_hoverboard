@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GyroManager : MonoBehaviour
+public enum BoardType { Beginner, Standard, Expert, Custom }
+public class BoardManager : MonoBehaviour
 {
-    public enum BoardType { Beginner, Standard, Expert, Custom }
-
     public bool controllerEnabled = false;
-    public BoardType boardSelection = BoardType.Custom;
+    public BoardType defaultBoardSelection = BoardType.Custom;
 
     [Space]
     public ManagerClasses.PlayerMovementVariables customControllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
     public ManagerClasses.PlayerMovementVariables customGyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
-    ManagerClasses.PlayerMovementVariables selectedMovementVariables;
-
-    public void SetupGyroManager(GameObject p) //OnAwake
+    public void SetupBoardManager(GameObject p)
     {
-        //let our movement script know we are using debug controls
-        if (controllerEnabled)
-            ControllerBoardSelect();
-        else
-            GyroBoardSelect();
-
-        p.GetComponent<PlayerGameplayController>().SetupMovementScript(controllerEnabled, selectedMovementVariables);
+        //assign our default board selectin to the player
+        p.GetComponent<PlayerGameplayController>().SetupMovementScript(controllerEnabled, BoardSelect(defaultBoardSelection));
     }
 
-    public void ControllerBoardSelect()
+    public ManagerClasses.PlayerMovementVariables BoardSelect(BoardType bSelect)
     {
-        switch (boardSelection)
+        ManagerClasses.PlayerMovementVariables returnMe = new ManagerClasses.PlayerMovementVariables();
+
+        //return the proper variables, depending on if we are using a controller or gyro
+        if (controllerEnabled)
+            ControllerBoardSelect(bSelect, out returnMe);
+        else
+            GyroBoardSelect(bSelect, out returnMe);
+
+        return returnMe;
+    }
+
+    void ControllerBoardSelect(BoardType bSelect, out ManagerClasses.PlayerMovementVariables pmv)
+    {
+        switch (bSelect)
         {
             case BoardType.Beginner:
-                selectedMovementVariables = new ManagerClasses.PlayerMovementVariables
+                pmv = new ManagerClasses.PlayerMovementVariables
                     (
                     15f, 10f, 8f,
                     3.45f, 3.45f,
@@ -40,7 +45,7 @@ public class GyroManager : MonoBehaviour
                     );
                 break;
             case BoardType.Standard:
-                selectedMovementVariables = new ManagerClasses.PlayerMovementVariables
+                pmv = new ManagerClasses.PlayerMovementVariables
                     (
                     20f, 15f, 10f,
                     3f, 3f,
@@ -49,7 +54,7 @@ public class GyroManager : MonoBehaviour
                     );
                 break;
             case BoardType.Expert:
-                selectedMovementVariables = new ManagerClasses.PlayerMovementVariables
+                pmv = new ManagerClasses.PlayerMovementVariables
                     (
                     25f, 20f, 18f,
                     2.5f, 2.5f,
@@ -58,14 +63,14 @@ public class GyroManager : MonoBehaviour
                     );
                 break;
             default:
-                selectedMovementVariables = customControllerMovementVariables;
+                pmv = customControllerMovementVariables;
                 break;
         }
     }
 
-    public void GyroBoardSelect()
+    void GyroBoardSelect(BoardType bSelect, out ManagerClasses.PlayerMovementVariables pmv)
     {
-        switch (boardSelection)
+        switch (bSelect)
         {
             case BoardType.Beginner:
 
@@ -74,7 +79,7 @@ public class GyroManager : MonoBehaviour
             case BoardType.Expert:
 
             default:
-                selectedMovementVariables = customGyroMovementVariables;
+                pmv = customGyroMovementVariables;
                 break;
         }
     }

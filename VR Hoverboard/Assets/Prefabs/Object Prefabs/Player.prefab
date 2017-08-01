@@ -1190,8 +1190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canSelect: 1
   myCam: {fileID: 20771238087300794}
-  debugRayDrawLength: 5
-  rayCheckLength: 50
+  rayCheckLength: 6
 --- !u!114 &114734768623468392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1203,10 +1202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec46c8922b5e534398f663871833eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 35
-  turnSpeed: 35
-  hoverForce: 65
-  hoverHeight: 3.5
+  speed: 45
+  turnSpeed: 40
+  hoverForce: 15
+  hoverHeight: 2
+  cameraSpeed: 2
 --- !u!114 &114801980919812702
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,67 +6,82 @@ using UnityEngine.VR;
 
 public class PlayerMenuController : MonoBehaviour
 {
-    public float speed = 90f;
-    public float turnSpeed = 5f;
-    public float hoverForce = 65f;
-    public float hoverHeight = 3.5f;
+    public float speed = 45f;
+    public float turnSpeed = 40f;
+    public float hoverForce = 15f;
+    public float hoverHeight = 2f;
     public float cameraSpeed = 2f;
 
     float inverseHoverHeight;
-    float powerInput;
-    float turnInput;
     bool coroutinesStopped;
+    bool scriptInitialized = false;
 
     Rigidbody playerRB;
-    Transform playerTransform;
     Transform playerCameraTransform;
 
-    private void Start()
+    //we don't want to use Awake(), because our GameManager uses that to set the player up
+ 
+    void InitializeScript()
     {
         playerRB = GameManager.player.GetComponent<Rigidbody>();
-        playerTransform = GameManager.player.GetComponent<Transform>();
         playerCameraTransform = GameManager.player.GetComponentInChildren<Camera>().transform;
 
         inverseHoverHeight = hoverHeight / 1f;
         coroutinesStopped = false;
+        scriptInitialized = true;
     }
 
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
+        if (!scriptInitialized)
+            InitializeScript();
+
+        //if we're in options or main menu
+        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 3)
         {
             coroutinesStopped = false;
+            playerRB.useGravity = true;
 
-            if (GameManager.instance.gyroScript.controllerEnabled == true)
+            if (GameManager.instance.boardScript.controllerEnabled == true)
                 StartCoroutine(ControllerCoroutine());
             else
                 StartCoroutine(GyroCoroutine());
+
         }
         else if (!coroutinesStopped)
         {
-            //reset our camera position to 0, if we were using the right joystick for rotating it
+            //reset our camera position to the player's rotation, if we were using the right joystick for rotating it
             if (!VRDevice.isPresent)
-                playerCameraTransform.eulerAngles = Vector3.zero;
+                playerCameraTransform.eulerAngles = playerRB.transform.eulerAngles;
 
             coroutinesStopped = true;
+            playerRB.useGravity = false;
             StopAllCoroutines();
         }
     }
 
-    IEnumerator ControllerCoroutine()
+    //make sure we don't start aiming up/down or start to roll
+    void ClampRotation()
     {
-        yield return new WaitForFixedUpdate();
+        if (playerRB.rotation.eulerAngles.z != 0f || playerRB.rotation.eulerAngles.x != 0f)
+            playerRB.rotation = Quaternion.Euler(new Vector3(0f, playerRB.rotation.eulerAngles.y, 0f));
+    }
 
-        //let our right thumbstick control the camera if there is no HMD present
+    //let our right thumbstick control the camera if there is no HMD present
+    void DebugCameraRotation()
+    {       
         if (!VRDevice.isPresent)
         {
-            float pitch = playerCameraTransform.eulerAngles.x + -Input.GetAxis("RVertical") * cameraSpeed;
-            float yaw = playerCameraTransform.eulerAngles.y + Input.GetAxis("RHorizontal") * cameraSpeed;
+            float cameraPitch = playerCameraTransform.eulerAngles.x + -Input.GetAxis("RVertical") * cameraSpeed;
+            float cameraYaw = playerCameraTransform.eulerAngles.y + Input.GetAxis("RHorizontal") * cameraSpeed;
 
-            playerCameraTransform.rotation = (Quaternion.Euler(new Vector3(pitch, yaw, 0f)));
+            playerCameraTransform.rotation = (Quaternion.Euler(new Vector3(cameraPitch, cameraYaw, 0f)));
         }
+    }
 
-        Ray ray = new Ray(playerTransform.position, playerTransform.up);
+    void ApplyHoverForce()
+    {
+        Ray ray = new Ray(playerRB.position, -playerRB.transform.up);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, hoverHeight))
@@ -75,12 +90,18 @@ public class PlayerMenuController : MonoBehaviour
             Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
             playerRB.AddForce(appliedHoverForce, ForceMode.Acceleration);
         }
+    }
 
-        powerInput = Input.GetAxis("LVertical");
-        turnInput = Input.GetAxis("LHorizontal");
+    IEnumerator ControllerCoroutine()
+    {
+        yield return new WaitForFixedUpdate();
 
-        playerRB.AddRelativeForce(0f, 0f, powerInput * speed);
-        playerRB.AddRelativeTorque(0f, turnInput * turnSpeed, 0f);
+        ClampRotation();
+        DebugCameraRotation();
+        ApplyHoverForce();       
+
+        playerRB.AddRelativeForce(0f, 0f, Input.GetAxis("LVertical") * speed);
+        playerRB.AddRelativeTorque(0f, Input.GetAxis("LHorizontal") * turnSpeed, 0f);
 
         StartCoroutine(ControllerCoroutine());
     }

@@ -16,18 +16,27 @@ public class PlayerGameplayController : MonoBehaviour
     public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
     {
         controllerEnabled = cEnabled;
-        movementVariables = variables;
-
         playerRigidbody = GetComponent<Rigidbody>();
+
+        if (!controllerEnabled)
+            gyro = new SpatialData();
+
+        SetPlayerBoard(variables);
+    }
+
+    public void SetPlayerBoard(ManagerClasses.PlayerMovementVariables variables)
+    {
+        movementVariables = variables;
 
         playerRigidbody.mass = movementVariables.mass;
         playerRigidbody.drag = movementVariables.drag;
         playerRigidbody.angularDrag = movementVariables.angularDrag;
 
+        //adjust our max ascend value for easier use in ClampPitch()
+        movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
+
         if (!controllerEnabled)
         {
-            gyro = new SpatialData();
-
             //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
             movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
             movementVariables.yawSensitivity *= Mathf.Rad2Deg;
@@ -36,9 +45,6 @@ public class PlayerGameplayController : MonoBehaviour
             movementVariables.pitchSensitivity *= 0.01f;
             movementVariables.yawSensitivity *= 0.01f * -1f;
         }
-
-        //adjust our max ascend value for easier use in ClampPitch()
-        movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
     }
 
     void SetPlayerMovementLock(bool locked)
