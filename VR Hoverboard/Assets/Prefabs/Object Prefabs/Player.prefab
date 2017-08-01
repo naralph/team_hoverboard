@@ -1202,8 +1202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec46c8922b5e534398f663871833eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 45
-  turnSpeed: 40
+  speed: 20
+  turnSpeed: 30
   hoverForce: 15
   hoverHeight: 2
   cameraSpeed: 2

@@ -6,8 +6,8 @@ using UnityEngine.VR;
 
 public class PlayerMenuController : MonoBehaviour
 {
-    public float speed = 45f;
-    public float turnSpeed = 40f;
+    public float speed = 20f;
+    public float turnSpeed = 30f;
     public float hoverForce = 15f;
     public float hoverHeight = 2f;
     public float cameraSpeed = 2f;
@@ -42,11 +42,13 @@ public class PlayerMenuController : MonoBehaviour
             coroutinesStopped = false;
             playerRB.useGravity = true;
 
+            //make sure not to have multiple coroutines going
+            StopAllCoroutines();
+
             if (GameManager.instance.boardScript.controllerEnabled == true)
                 StartCoroutine(ControllerCoroutine());
             else
                 StartCoroutine(GyroCoroutine());
-
         }
         else if (!coroutinesStopped)
         {
