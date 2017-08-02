@@ -44,7 +44,7 @@ public class BoardManager : MonoBehaviour
         pmc.UpdateMenuControlsType(gEnabled);
     }
 
-    //returns our controller specific movement variables
+    //returns our controller specific movement variables and updates our currentBoardSelection
     public ManagerClasses.PlayerMovementVariables BoardSelect(BoardType bSelect)
     {
         ManagerClasses.PlayerMovementVariables newBoardVariables = new ManagerClasses.PlayerMovementVariables();
