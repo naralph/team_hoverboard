@@ -23,7 +23,8 @@ public class BoardManager : MonoBehaviour
     //use this instead of Awake() so that we can control the execution order through the GameManager
     public void SetupBoardManager(GameObject p)
     {
-        gyro = new SpatialData();
+        if (!gamepadEnabled)
+            gyro = new SpatialData();
 
         pgc = p.GetComponent<PlayerGameplayController>();
         pmc = p.GetComponent<PlayerMenuController>();
@@ -40,8 +41,17 @@ public class BoardManager : MonoBehaviour
     {
         gamepadEnabled = gEnabled;
 
-        pgc.UpdateGameplayControlsType(gEnabled);
-        pmc.UpdateMenuControlsType(gEnabled);
+        if (!gamepadEnabled && gyro == null)
+            gyro = new SpatialData();
+
+        else if (gamepadEnabled && gyro != null)
+        {
+            gyro.Close();
+            gyro = null;
+        }
+
+        pgc.UpdateGameplayControlsType(gEnabled, gyro);
+        pmc.UpdateMenuControlsType(gEnabled, gyro);
     }
 
     //returns our controller specific movement variables and updates our currentBoardSelection
@@ -118,6 +128,7 @@ public class BoardManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        gyro.Close();
+        if (gyro != null)
+            gyro.Close();
     }
 }

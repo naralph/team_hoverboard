@@ -75,9 +75,10 @@ public class PlayerMenuController : MonoBehaviour
 
     //update our script depending on if we are using a xbox gamepad or the gyro
     //  Note: this should normally not be directly called, instead call the BoardManager's UpdateControlsType()
-    public void UpdateMenuControlsType(bool gEnabled)
+    public void UpdateMenuControlsType(bool gEnabled, SpatialData g)
     {
         gamepadEnabled = gEnabled;
+        gyro = g;
 
         StopAllCoroutines();
 

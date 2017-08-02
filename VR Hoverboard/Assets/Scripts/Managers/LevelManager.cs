@@ -90,10 +90,6 @@ public class LevelManager : MonoBehaviour
                 EventManager.OnSetArrowOnOff(HudOnOff);
                 state.currentState = States.GamePlay;
                 break;
-            case 3:
-                makeSureMovementStaysLocked = true;
-                state.currentState = States.OptionsMenu;
-                break; 
             default:
                 state.currentState = States.GamePlay;
                 break;

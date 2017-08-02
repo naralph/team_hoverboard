@@ -56,9 +56,10 @@ public class PlayerGameplayController : MonoBehaviour
 
     //update our script depending on if we are using a xbox gamepad or the gyro
     //  Note: this should normally not be directly called, instead call the BoardManager's UpdateControlsType()
-    public void UpdateGameplayControlsType(bool gEnabled)
+    public void UpdateGameplayControlsType(bool gEnabled, SpatialData g)
     {
         gamepadEnabled = gEnabled;
+        gyro = g;
 
         //if our movement isn't locked, update what coroutine we are using
         if (!playerMovementLocked)
