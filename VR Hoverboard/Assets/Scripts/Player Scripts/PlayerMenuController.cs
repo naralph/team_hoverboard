@@ -14,55 +14,71 @@ public class PlayerMenuController : MonoBehaviour
 
     float inverseHoverHeight;
     bool coroutinesStopped;
-    bool scriptInitialized = false;
+    bool gamepadEnabled;
+    bool inAMenu;
 
     Rigidbody playerRB;
     Transform playerCameraTransform;
+    SpatialData gyro;
 
-    //we don't want to use Awake(), because our GameManager uses that to set the player up
- 
-    void InitializeScript()
+    //called by our BoardManager
+    public void SetupMenuControllerScript()
     {
         playerRB = GameManager.player.GetComponent<Rigidbody>();
         playerCameraTransform = GameManager.player.GetComponentInChildren<Camera>().transform;
+        gyro = GameManager.instance.boardScript.gyro;
+        gamepadEnabled = GameManager.instance.boardScript.gamepadEnabled;
 
         inverseHoverHeight = hoverHeight / 1f;
         coroutinesStopped = false;
-        scriptInitialized = true;
     }
 
+    //start our movement coroutines depending on if we are in a menu scene
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!scriptInitialized)
-            InitializeScript();
-
         //if we're in options or main menu
         if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 3)
         {
             coroutinesStopped = false;
+            inAMenu = true;
             playerRB.useGravity = true;
 
             //make sure not to have multiple coroutines going
             StopAllCoroutines();
 
-            if (GameManager.instance.boardScript.controllerEnabled == true)
+            if (gamepadEnabled == true)
                 StartCoroutine(ControllerCoroutine());
             else
                 StartCoroutine(GyroCoroutine());
         }
         else if (!coroutinesStopped)
         {
-            //reset our camera position to the player's rotation, if we were using the right joystick for rotating it
+            //reset our camera position to the player's rotation, if we were using debug camera rotation
             if (!VRDevice.isPresent)
                 playerCameraTransform.eulerAngles = playerRB.transform.eulerAngles;
 
             coroutinesStopped = true;
+            inAMenu = false;
             playerRB.useGravity = false;
+
             StopAllCoroutines();
         }
     }
 
-    //make sure we don't start aiming up/down or start to roll
+    public void UpdateMenuControlsType(bool gEnabled)
+    {
+        gamepadEnabled = gEnabled;
+
+        StopAllCoroutines();
+
+        if (gamepadEnabled && inAMenu)
+            StartCoroutine(ControllerCoroutine());
+        else if (inAMenu)
+            StartCoroutine(GyroCoroutine());
+
+    }
+
+    //make sure we don't start rotating up/down or start to roll
     void ClampRotation()
     {
         if (playerRB.rotation.eulerAngles.z != 0f || playerRB.rotation.eulerAngles.x != 0f)
@@ -112,6 +128,9 @@ public class PlayerMenuController : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
 
+        ClampRotation();
+        DebugCameraRotation();
+        ApplyHoverForce();
 
         StartCoroutine(GyroCoroutine());
     }
