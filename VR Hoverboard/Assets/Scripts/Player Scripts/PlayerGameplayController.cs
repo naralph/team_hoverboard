@@ -4,27 +4,80 @@ using UnityEngine;
 
 public class PlayerGameplayController : MonoBehaviour
 {
-    bool controllerEnabled = false;
+    bool gamepadEnabled = false;
     bool playerMovementLocked = true;
 
     float pitch, yaw;
     Rigidbody playerRigidbody;
     SpatialData gyro;
 
+    BoardManager bMan;
     ManagerClasses.PlayerMovementVariables movementVariables;
 
-    public void SetupMovementScript(bool cEnabled, ManagerClasses.PlayerMovementVariables variables)
+    //called by our BoardManager
+    public void SetupGameplayControllerScript()
     {
-        controllerEnabled = cEnabled;
+        bMan = GameManager.instance.boardScript;
+
+        gamepadEnabled = bMan.gamepadEnabled;
         playerRigidbody = GetComponent<Rigidbody>();
+        gyro = bMan.gyro;
 
-        if (!controllerEnabled)
-            gyro = new SpatialData();
-
-        SetPlayerBoard(variables);
+        UpdateMovementVariables(bMan.BoardSelect(bMan.currentBoardSelection));
     }
 
-    public void SetPlayerBoard(ManagerClasses.PlayerMovementVariables variables)
+    //function to subscribe to the OnToggleMovement event
+    void SetPlayerMovementLock(bool locked)
+    {
+        //if we aren't locked
+        if (!locked)
+        {
+            print("Player Gameplay Controller UNLOCKED!");
+
+            //be sure to not have multiple instances of our coroutines going
+            StopAllCoroutines();
+
+            if (gamepadEnabled)
+                StartCoroutine(ControllerMovementCoroutine());
+            else
+                StartCoroutine(GyroMovementCoroutine());
+        }
+        else
+        {
+            print("Player Gameplay Controller LOCKED!");
+            StopAllCoroutines();
+
+            //if we're locking movement, then set the velocity to zero
+            playerRigidbody.velocity = Vector3.zero;
+        }
+
+        playerMovementLocked = locked;
+    }
+
+    //update our script depending on if we are using a xbox gamepad or the gyro
+    //  Note: this should normally not be directly called, instead call the BoardManager's UpdateControlsType()
+    public void UpdateGameplayControlsType(bool gEnabled, SpatialData g)
+    {
+        gamepadEnabled = gEnabled;
+        gyro = g;
+
+        //if our movement isn't locked, update what coroutine we are using
+        if (!playerMovementLocked)
+        {
+            StopAllCoroutines();
+
+            if (gamepadEnabled)
+                StartCoroutine(ControllerMovementCoroutine());
+            else
+                StartCoroutine(GyroMovementCoroutine());
+        }
+
+        UpdateMovementVariables(bMan.BoardSelect(bMan.currentBoardSelection));
+    }
+
+    //updates our movement variables
+    //  Note: UpdateGameplayControlsType() already calls this function
+    public void UpdateMovementVariables(ManagerClasses.PlayerMovementVariables variables)
     {
         movementVariables = variables;
 
@@ -35,7 +88,7 @@ public class PlayerGameplayController : MonoBehaviour
         //adjust our max ascend value for easier use in ClampPitch()
         movementVariables.maxAscendAngle = 360 - movementVariables.maxAscendAngle;
 
-        if (!controllerEnabled)
+        if (!gamepadEnabled)
         {
             //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
             movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
@@ -45,35 +98,9 @@ public class PlayerGameplayController : MonoBehaviour
             movementVariables.pitchSensitivity *= 0.01f;
             movementVariables.yawSensitivity *= 0.01f * -1f;
         }
-    }
+    } 
 
-    void SetPlayerMovementLock(bool locked)
-    {
-        //if we aren't locked
-        if (!locked)
-        {
-            print("Player Movement UNLOCKED!");
-
-            //be sure to not have multiple instances of our coroutines going
-            StopAllCoroutines();
-
-            if (controllerEnabled)
-                StartCoroutine(ControllerMovementCoroutine());
-            else
-                StartCoroutine(GyroMovementCoroutine());
-        }
-        else
-        {
-            print("Player Movement LOCKED!");
-            StopAllCoroutines();
-
-            //if we're locking movement, then set the velocity to zero
-            playerRigidbody.velocity = Vector3.zero;
-        }
-
-        playerMovementLocked = locked;
-    }
-
+    //helper function
     void ClampPitch()
     {
         //pitch rests at 0 degrees
@@ -97,6 +124,7 @@ public class PlayerGameplayController : MonoBehaviour
         //print("Yaw:   " + yaw);
     }
 
+    //helper function
     void ApplyForce()
     {
         if (!playerMovementLocked)
@@ -116,7 +144,6 @@ public class PlayerGameplayController : MonoBehaviour
         //Debug.Log("Player Speed: " + playerRigidbody.velocity.magnitude);
     }
 
-    //Note: debug rotation controls are needed for menu interaction
     IEnumerator ControllerMovementCoroutine()
     {
         yield return new WaitForFixedUpdate();
@@ -165,10 +192,4 @@ public class PlayerGameplayController : MonoBehaviour
         EventManager.OnToggleMovement -= SetPlayerMovementLock;
     }
 
-    //cleanup our gyroscope so we don't crash
-    private void OnApplicationQuit()
-    {
-        if (!controllerEnabled)
-            gyro.Close();
-    }
 }

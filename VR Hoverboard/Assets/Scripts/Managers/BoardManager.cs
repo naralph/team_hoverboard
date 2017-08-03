@@ -3,34 +3,75 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum BoardType { Beginner, Standard, Expert, Custom }
+
 public class BoardManager : MonoBehaviour
 {
-    public bool controllerEnabled = false;
-    public BoardType defaultBoardSelection = BoardType.Custom;
+    [HideInInspector()]
+    public SpatialData gyro;
+    PlayerGameplayController pgc;
+    PlayerMenuController pmc;
+
+    public bool gamepadEnabled = false;
+
+    //store our current board selection
+    public BoardType currentBoardSelection = BoardType.Custom;
 
     [Space]
     public ManagerClasses.PlayerMovementVariables customControllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
     public ManagerClasses.PlayerMovementVariables customGyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
+    //use this instead of Awake() so that we can control the execution order through the GameManager
     public void SetupBoardManager(GameObject p)
     {
-        //assign our default board selectin to the player
-        p.GetComponent<PlayerGameplayController>().SetupMovementScript(controllerEnabled, BoardSelect(defaultBoardSelection));
+        if (!gamepadEnabled)
+            gyro = new SpatialData();
+
+        pgc = p.GetComponent<PlayerGameplayController>();
+        pmc = p.GetComponent<PlayerMenuController>();
+
+        //setup our gameplay controller script
+        pgc.SetupGameplayControllerScript();
+        pmc.SetupMenuControllerScript();
     }
 
+    //updates our player controller scripts depending on what type of controls we are using
+    //  if gEnabled == true, then our controllers will assume that we are using a xbox controller
+    //  if false, then the gyro controls will be used
+    public void UpdateControlsType(bool gEnabled)
+    {
+        gamepadEnabled = gEnabled;
+
+        if (!gamepadEnabled && gyro == null)
+            gyro = new SpatialData();
+
+        else if (gamepadEnabled && gyro != null)
+        {
+            gyro.Close();
+            gyro = null;
+        }
+
+        pgc.UpdateGameplayControlsType(gEnabled, gyro);
+        pmc.UpdateMenuControlsType(gEnabled, gyro);
+    }
+
+    //returns our controller specific movement variables and updates our currentBoardSelection
     public ManagerClasses.PlayerMovementVariables BoardSelect(BoardType bSelect)
     {
-        ManagerClasses.PlayerMovementVariables returnMe = new ManagerClasses.PlayerMovementVariables();
+        ManagerClasses.PlayerMovementVariables newBoardVariables = new ManagerClasses.PlayerMovementVariables();
+
+        //update our current board selection
+        currentBoardSelection = bSelect;
 
         //return the proper variables, depending on if we are using a controller or gyro
-        if (controllerEnabled)
-            ControllerBoardSelect(bSelect, out returnMe);
+        if (gamepadEnabled)
+            ControllerBoardSelect(bSelect, out newBoardVariables);
         else
-            GyroBoardSelect(bSelect, out returnMe);
+            GyroBoardSelect(bSelect, out newBoardVariables);
 
-        return returnMe;
+        return newBoardVariables;
     }
 
+    //helper function
     void ControllerBoardSelect(BoardType bSelect, out ManagerClasses.PlayerMovementVariables pmv)
     {
         switch (bSelect)
@@ -68,6 +109,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    //helper function
     void GyroBoardSelect(BoardType bSelect, out ManagerClasses.PlayerMovementVariables pmv)
     {
         switch (bSelect)
@@ -82,5 +124,11 @@ public class BoardManager : MonoBehaviour
                 pmv = customGyroMovementVariables;
                 break;
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (gyro != null)
+            gyro.Close();
     }
 }

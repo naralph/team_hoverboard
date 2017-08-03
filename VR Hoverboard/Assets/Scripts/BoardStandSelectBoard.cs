@@ -9,7 +9,7 @@ public class BoardStandSelectBoard : SelectedObject
     MeshRenderer playerBoardMesh;
 
     //our material and board types are stored in the BoardStandScript
-    BoardStandScript bss;
+    BoardStandScript selectionVariables;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class BoardStandSelectBoard : SelectedObject
         playerBoardMesh = GameManager.player.GetComponentInChildren<MeshRenderer>();
 
         bMan = GameManager.instance.boardScript;
-        bss = GetComponentInParent<BoardStandScript>();
+        selectionVariables = GetComponentInParent<BoardStandScript>();
     }
 
     //runs while object is selected
@@ -36,8 +36,8 @@ public class BoardStandSelectBoard : SelectedObject
     override public void selectSuccessFunction()
     {
         //set the player board to one of our pre-defined boards
-        playerGameplayController.SetPlayerBoard(bMan.BoardSelect(bss.boardType));
-        playerBoardMesh.material = bss.boardMaterial;
+        playerGameplayController.UpdateMovementVariables(bMan.BoardSelect(selectionVariables.boardType));      
+        playerBoardMesh.material = selectionVariables.boardMaterial;
     }
 
 }

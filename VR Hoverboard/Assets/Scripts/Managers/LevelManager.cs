@@ -12,12 +12,12 @@ public class LevelManager : MonoBehaviour
     Transform playerTransform;
 
     //for transitions
-    public bool fadeing = false;
-    public bool doLoadOnce = true;
-    public int nextScene;
-    public bool HudOnOff = true;
+    [HideInInspector()] public bool fadeing = false;
+    [HideInInspector()] public bool doLoadOnce = true;
+    [HideInInspector()] public int nextScene;
+    [HideInInspector()] public bool HudOnOff = true;
 
-    public bool makeSureMovementStaysLocked;
+    [HideInInspector()] public bool makeSureMovementStaysLocked;
 
     //stores each player spawn point at each different level
     public Transform[] spawnPoints;

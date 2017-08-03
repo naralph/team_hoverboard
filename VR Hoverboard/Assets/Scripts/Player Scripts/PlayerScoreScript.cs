@@ -14,10 +14,17 @@ public class PlayerScoreScript : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
+        if (GetComponent<Collider>().GetType() == typeof(CapsuleCollider))
+        {
+            print("Capsule Hit");
+        }
+
+        
         if (col.gameObject.tag == "Ring")
         {
             RingProperties theRing = col.gameObject.GetComponent<RingProperties>();
             scoreManager.UpdateScore(theRing);
+
             if (theRing.lastRingInScene)
             {
                 EventManager.OnTriggerTransition(theRing.nextScene);

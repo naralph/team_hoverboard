@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour
     //store our state
     public ManagerClasses.GameState state = new ManagerClasses.GameState();
 
-    //this shows up in our inspector since the class is using [System.Serializable]
-    public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);
-
     //store our player prefab through the inspector
     public GameObject playerPrefab;
+
+    //this shows up in our inspector since the class is using [System.Serializable]
+    public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);   
 
     //variable for singleton, static makes this variable the same through all GameManager objects
     public static GameManager instance = null;
