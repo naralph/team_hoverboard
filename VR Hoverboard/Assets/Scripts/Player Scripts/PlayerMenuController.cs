@@ -45,7 +45,7 @@ public class PlayerMenuController : MonoBehaviour
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         //if we're in options or main menu
-        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 3)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             coroutinesStopped = false;
             inAMenu = true;

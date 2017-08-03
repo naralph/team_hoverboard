@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/nextPlaySceneTest.unity
     guid: 7e6ad6881d8ed1941b88d332377c6152
   - enabled: 0
-    path: Assets/Scenes/Options Scene.unity
+    path: 
     guid: 765ed49363a68a945a7fb7a7e31a981f
   - enabled: 1
     path: Assets/Scenes/CanyonLevel.unity

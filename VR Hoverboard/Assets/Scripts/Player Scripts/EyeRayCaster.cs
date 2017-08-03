@@ -29,6 +29,9 @@ public class EyeRayCaster : MonoBehaviour
     {
         Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
         //Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength);
+
+        preObj = curObj;
+
         //if ray collides with something
         if (Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength))
         {
@@ -42,17 +45,16 @@ public class EyeRayCaster : MonoBehaviour
                 }
             }
 
-            preObj = hit.collider.gameObject;
         }
         //if ray doesnt collide with anything
         else
         {
             reticleScript.setPosition(hit, false);
-            preObj = null;
+            curObj = null;
         }
-        if (((preObj == null || preObj != curObj) && curObj != null))
+        if (preObj != null && preObj != curObj)
         {
-            curObj.GetComponent<SelectedObject>().deSelected();
+            preObj.GetComponent<SelectedObject>().deSelected();
         }
     }
 
