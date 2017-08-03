@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a384b4ce3f8e70f4c9c5fe944c6fc666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1562513331500744, guid: cd6996909900ff44cac341d9483ba297,
+  playerPrefab: {fileID: 1659292961263870, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
   roundTimer:
     currRoundTime: 0
