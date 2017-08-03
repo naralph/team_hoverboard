@@ -11,8 +11,9 @@ public class RingProperties : MonoBehaviour
     public bool lastRingInScene = false;
     public int nextScene = 0;
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    print(other.GetType());
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (lastRingInScene)
+            EventManager.OnTriggerTransition(nextScene);
+    }
 }

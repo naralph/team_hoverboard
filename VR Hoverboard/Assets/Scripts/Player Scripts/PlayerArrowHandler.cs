@@ -70,7 +70,6 @@ public class PlayerArrowHandler : MonoBehaviour
             if (theRing.lastRingInScene)
             {
                 arrowScript.currentlyLookingAt = -1;
-                EventManager.OnTriggerTransition(theRing.nextScene);
             }
         }
 
