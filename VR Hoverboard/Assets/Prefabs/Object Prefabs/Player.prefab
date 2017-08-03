@@ -824,7 +824,7 @@ MonoBehaviour:
   hoverHeight: 2
   speed: 20
   turnSpeed: 30
-  cameraSpeed: 1.75
+  cameraSpeed: 1
   gyroDeadZoneDegree: 7.5
   gyroSensativity: 0.65
 --- !u!114 &114530104577404566
