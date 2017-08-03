@@ -12,7 +12,7 @@ public class PlayerGameplayController : MonoBehaviour
     SpatialData gyro;
 
     BoardManager bMan;
-    ManagerClasses.PlayerMovementVariables movementVariables;
+    public ManagerClasses.PlayerMovementVariables movementVariables;
 
     //called by our BoardManager
     public void SetupGameplayControllerScript()
@@ -29,29 +29,32 @@ public class PlayerGameplayController : MonoBehaviour
     //function to subscribe to the OnToggleMovement event
     void SetPlayerMovementLock(bool locked)
     {
-        //if we aren't locked
-        if (!locked)
+        if (locked != playerMovementLocked)
         {
-            print("Player Gameplay Controller UNLOCKED!");
+            //if we aren't locked
+            if (!locked)
+            {
+                print("Player Gameplay Controller UNLOCKED!");
 
-            //be sure to not have multiple instances of our coroutines going
-            StopAllCoroutines();
+                //be sure to not have multiple instances of our coroutines going
+                StopAllCoroutines();
 
-            if (gamepadEnabled)
-                StartCoroutine(ControllerMovementCoroutine());
+                if (gamepadEnabled)
+                    StartCoroutine(ControllerMovementCoroutine());
+                else
+                    StartCoroutine(GyroMovementCoroutine());
+            }
             else
-                StartCoroutine(GyroMovementCoroutine());
-        }
-        else
-        {
-            print("Player Gameplay Controller LOCKED!");
-            StopAllCoroutines();
+            {
+                print("Player Gameplay Controller LOCKED!");
+                StopAllCoroutines();
 
-            //if we're locking movement, then set the velocity to zero
-            playerRigidbody.velocity = Vector3.zero;
-        }
+                //if we're locking movement, then set the velocity to zero
+                playerRigidbody.velocity = Vector3.zero;
+            }
 
-        playerMovementLocked = locked;
+            playerMovementLocked = locked;
+        }       
     }
 
     //update our script depending on if we are using a xbox gamepad or the gyro

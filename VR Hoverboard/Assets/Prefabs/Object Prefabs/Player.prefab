@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: 65804161683263544}
   - component: {fileID: 136527488783278330}
   - component: {fileID: 54500176400661488}
-  - component: {fileID: 114254733450808160}
   - component: {fileID: 114945942220864184}
   - component: {fileID: 114128562518327988}
   - component: {fileID: 114529691426524730}
@@ -752,17 +751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de09bdb49fe2c9e4caaf3b89e2f6a870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114254733450808160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659292961263870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fd2320a79c9a14788d5dbf5ac965f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114270944915182148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -906,7 +894,7 @@ MonoBehaviour:
   hoverForce: 15
   hoverHeight: 2
   speed: 20
-  turnSpeed: 30
+  turnSpeed: 15
   cameraSpeed: 1
   gyroDeadZoneDegree: 7.5
   gyroSensativity: 0.65
@@ -1599,7 +1587,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1434747567663662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.51}
+  m_LocalPosition: {x: 0, y: 0, z: 0.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224828845701333728}

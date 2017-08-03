@@ -17,7 +17,7 @@ public class BoardManager : MonoBehaviour
     public BoardType currentBoardSelection = BoardType.Custom;
 
     [Space]
-    public ManagerClasses.PlayerMovementVariables customControllerMovementVariables = new ManagerClasses.PlayerMovementVariables();
+    public ManagerClasses.PlayerMovementVariables customGamepadMovementVariables = new ManagerClasses.PlayerMovementVariables();
     public ManagerClasses.PlayerMovementVariables customGyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
 
     //use this instead of Awake() so that we can control the execution order through the GameManager
@@ -104,7 +104,7 @@ public class BoardManager : MonoBehaviour
                     );
                 break;
             default:
-                pmv = customControllerMovementVariables;
+                pmv = customGamepadMovementVariables;
                 break;
         }
     }

@@ -57,10 +57,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamepadEnabled: 1
   currentBoardSelection: 3
-  customControllerMovementVariables:
-    maxSpeed: 25
-    restingSpeed: 20
-    minSpeed: 15
+  customGamepadMovementVariables:
+    maxSpeed: 30
+    restingSpeed: 25
+    minSpeed: 22
     pitchSensitivity: 3
     yawSensitivity: 3
     maxDescendAngle: 30
@@ -71,9 +71,9 @@ MonoBehaviour:
     drag: 1
     angularDrag: 5
   customGyroMovementVariables:
-    maxSpeed: 18
-    restingSpeed: 15
-    minSpeed: 12
+    maxSpeed: 30
+    restingSpeed: 25
+    minSpeed: 22
     pitchSensitivity: 5
     yawSensitivity: 5
     maxDescendAngle: 45
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ee9a31585c6eb4893e95289a251b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flippedTimer: 4
+  flippedTimer: 2
   menuOnFlippedHMD: 1
 --- !u!114 &114714506037350866
 MonoBehaviour:
@@ -149,10 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseScorePerRing: 100
-  ScoreMultipliers:
-    speedMultiplier: 1
-    consecutiveMultiplier: 1
-    consecutiveIncreaseAmount: 0.5
   score: 0
   prevRing: 0
   ringHitCount: 0

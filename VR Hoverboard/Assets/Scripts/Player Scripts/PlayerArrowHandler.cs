@@ -5,7 +5,12 @@ using UnityEngine;
 public class PlayerArrowHandler : MonoBehaviour
 {
     ArrowAimAt arrowScript;
+    ScoreManager scoreManager;
 
+    private void Start()
+    {
+        scoreManager = GameManager.instance.scoreScript;
+    }
 
     void getArrowScipt(bool isOn)
     {
@@ -15,13 +20,10 @@ public class PlayerArrowHandler : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    void IncreaseScore()
     {
-        EventManager.OnToggleArrow += getArrowScipt;
-    }
-    private void OnDisable()
-    {
-        EventManager.OnToggleArrow -= getArrowScipt;
+        scoreManager.score += (int)scoreManager.baseScorePerRing;
+        //print("Score is now: " + scoreManager.score);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,12 +64,23 @@ public class PlayerArrowHandler : MonoBehaviour
                 else if (!theRing.lastRingInScene)
                 {
                     arrowScript.currentlyLookingAt++;
-                }
-                else
-                {
-                    arrowScript.currentlyLookingAt = -1;
+                    IncreaseScore();
                 }
             }
+            if (theRing.lastRingInScene)
+            {
+                arrowScript.currentlyLookingAt = -1;
+            }
         }
+
+    }
+
+    private void OnEnable()
+    {
+        EventManager.OnToggleArrow += getArrowScipt;
+    }
+    private void OnDisable()
+    {
+        EventManager.OnToggleArrow -= getArrowScipt;
     }
 }

@@ -10,4 +10,10 @@ public class RingProperties : MonoBehaviour
     public float timeToReach = 0.0f;
     public bool lastRingInScene = false;
     public int nextScene = 0;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (lastRingInScene)
+            EventManager.OnTriggerTransition(nextScene);
+    }
 }
