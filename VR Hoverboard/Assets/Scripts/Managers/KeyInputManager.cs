@@ -8,7 +8,7 @@ public class KeyInputManager : MonoBehaviour
     ManagerClasses.GameState state;
 
     //variables for returning back to menu
-    public float flippedTimer = 4f;
+    public float flippedTimer = 3f;
     public bool menuOnFlippedHMD = false;
     bool countingDown = false;
     float timeUpsideDown = 0f;

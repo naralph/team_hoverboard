@@ -22,15 +22,15 @@ public class ManagerClasses : MonoBehaviour
         public void ResetTimer() { currRoundTime = roundTimeLimit; }
     }
 
-    [System.Serializable]
-    public class ScoreMultipliers
-    {
-        public float speedMultiplier;
-        public float consecutiveMultiplier;
-        public float consecutiveIncreaseAmount;
+    //[System.Serializable]
+    //public class ScoreMultipliers
+    //{
+    //    public float speedMultiplier;
+    //    public float consecutiveMultiplier;
+    //    public float consecutiveIncreaseAmount;
 
-        public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveMultiplier = crMul; consecutiveIncreaseAmount = crInAmt; }
-    }
+    //    public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveMultiplier = crMul; consecutiveIncreaseAmount = crInAmt; }
+    //}
 
     public class GameState
     {       

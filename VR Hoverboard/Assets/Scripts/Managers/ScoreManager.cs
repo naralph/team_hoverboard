@@ -4,63 +4,25 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public float baseScorePerRing = 0;
-    public ManagerClasses.ScoreMultipliers ScoreMultipliers = new ManagerClasses.ScoreMultipliers(1.0f, 1.0f, 0.5f);
+    public float baseScorePerRing = 100;
 
     ManagerClasses.RoundTimer roundTimer;
-    [HideInInspector] public int score;
-    [HideInInspector] public int prevRing;
-    [HideInInspector] public int ringHitCount = 0;
-    float originalCM;
+    [HideInInspector]
+    public int score;
+    [HideInInspector]
+    public int prevRing;
+    [HideInInspector]
+    public int ringHitCount = 0;
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
     {
-        //assign our manager to our player clone
-        PlayerScoreScript pss = p.GetComponent<PlayerScoreScript>();
-        pss.AssignManager(this);
 
         //set our prevRing to -1, and make sure our rings start at 1 in the scene
         //that way the first run of UpdateScore won't include a consecutive multiplier
         score = 0;
         prevRing = -1;
-        originalCM = ScoreMultipliers.consecutiveMultiplier;
         roundTimer = rt;
-    }
-
-    //this will get called by our PlayerScoreScript
-    public void UpdateScore(RingProperties rp)
-    {
-        if (rp.positionInOrder > prevRing)
-        {
-            //if it's consecutive
-            if (rp.positionInOrder == prevRing + 1)
-            {
-                score += (int)(ScoreMultipliers.consecutiveMultiplier * baseScorePerRing);
-                ScoreMultipliers.consecutiveMultiplier += ScoreMultipliers.consecutiveIncreaseAmount;
-            }
-            //otherwise, reset our CM to it's original value
-            else
-            {
-                ScoreMultipliers.consecutiveMultiplier = originalCM;
-                score += (int)baseScorePerRing;
-            }
-
-            //if we're in time
-            if (rp.timeToReach > roundTimer.currRoundTime)
-                score += (int)(ScoreMultipliers.speedMultiplier * baseScorePerRing);
-
-            //remember what ring we went through
-            prevRing = rp.positionInOrder;
-            
-            //increase the count of rings we hit
-            ringHitCount++;
-
-            Debug.Log("Time since round start: " + roundTimer.currRoundTime);
-            Debug.Log("Score is now " + score);
-        }
-        else
-            Debug.Log("Score not applied!");
     }
 
 }

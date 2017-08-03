@@ -44,8 +44,8 @@ public class PlayerMenuController : MonoBehaviour
     //start our movement coroutines depending on if we are in a menu scene
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
-        //if we're in options or main menu
-        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 3)
+        //if we're in options or hub world
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             coroutinesStopped = false;
             inAMenu = true;
