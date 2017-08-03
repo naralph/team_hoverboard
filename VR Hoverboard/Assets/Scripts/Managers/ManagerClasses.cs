@@ -13,7 +13,7 @@ public class ManagerClasses : MonoBehaviour
         [HideInInspector] public float currRoundTime;
         public float roundTimeLimit;
 
-        public RoundTimer(float rtLim = 15.0f)
+        public RoundTimer(float rtLim = 270.0f)
         {
             roundTimeLimit = rtLim;
             currRoundTime = rtLim;
