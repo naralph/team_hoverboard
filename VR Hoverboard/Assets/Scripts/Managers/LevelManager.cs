@@ -90,11 +90,7 @@ public class LevelManager : MonoBehaviour
                 EventManager.OnSetArrowOnOff(HudOnOff);
                 state.currentState = States.GamePlay;
                 break;
-            case 3: //Options Menu
-                makeSureMovementStaysLocked = true;
-                state.currentState = States.OptionsMenu;
-                break;
-            case 4: //Canyon level
+            case 3: //Canyon level
                 makeSureMovementStaysLocked = false;
                 EventManager.OnSetHudOnOff(HudOnOff);
                 EventManager.OnSetArrowOnOff(HudOnOff);
