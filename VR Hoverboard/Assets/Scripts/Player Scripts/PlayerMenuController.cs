@@ -15,8 +15,9 @@ public class PlayerMenuController : MonoBehaviour
     [Range(0.1f, 5f)] public float cameraSpeed = 1.75f;
 
     [Header("Gyro Specific Variables")]
-    [Range(0.0f, 30.0f)] public float gyroDeadZoneDegree = 7.5f;
-    [Range(0.25f, 1.0f)] public float gyroSensativity = 0.65f;
+    [Range(0.0f, 30.0f)] public float gyroDeadZoneDegree = 5f;
+    [Range(0.25f, 1.0f)] public float gyroPitchSensativity = 0.65f;
+    [Range(0.01f, 1.0f)] public float gyroYawSensativity = 0.1f;
     float pitch;
     float yaw;
 
@@ -149,6 +150,7 @@ public class PlayerMenuController : MonoBehaviour
                 pitch = 0f;
         }
 
+        print(yaw);
         //leaning left
         if (yaw > 0f)
         {
@@ -170,10 +172,13 @@ public class PlayerMenuController : MonoBehaviour
         DebugCameraRotation();
         ApplyHoverForce();
 
-        pitch = (float)gyro.rollAngle * Mathf.Rad2Deg * gyroSensativity;
-        yaw = (float)gyro.pitchAngle * Mathf.Rad2Deg * gyroSensativity * -1f;
+        pitch = (float)gyro.rollAngle * Mathf.Rad2Deg;
+        yaw = (float)gyro.pitchAngle * Mathf.Rad2Deg * -1f;
 
         GyroApplyDeadZone();
+
+        pitch *= gyroPitchSensativity;
+        yaw *= gyroYawSensativity;
 
         playerRB.AddRelativeForce(0f, 0f, pitch);
         playerRB.AddRelativeTorque(0f, yaw, 0f);

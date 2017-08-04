@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114338860669479580}
   - component: {fileID: 114751297366797462}
   - component: {fileID: 114888719573273948}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -253,14 +253,13 @@ GameObject:
   - component: {fileID: 20687582130579530}
   - component: {fileID: 124015894002931240}
   - component: {fileID: 92018139515078564}
-  - component: {fileID: 81680202397343424}
   m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1773446034773522
 GameObject:
   m_ObjectHideFlags: 1
@@ -416,7 +415,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1755707481031330}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -454,7 +453,7 @@ Camera:
   m_GameObject: {fileID: 1191043055486608}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 3
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -467,10 +466,10 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -593,13 +592,6 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191043055486608}
-  m_Enabled: 1
---- !u!81 &81680202397343424
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1755707481031330}
   m_Enabled: 1
 --- !u!92 &92018139515078564
 Behaviour:
@@ -740,6 +732,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ea0c44eb3da7241b948e4c6e86a732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementVariables:
+    maxSpeed: 10
+    restingSpeed: 5
+    minSpeed: 2
+    pitchSensitivity: 3
+    yawSensitivity: 3
+    maxDescendAngle: 30
+    restingThreshold: 10
+    maxAscendAngle: 30
+    bounceModifier: 1
+    mass: 1
+    drag: 1
+    angularDrag: 5
 --- !u!114 &114152696786933386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -896,8 +901,9 @@ MonoBehaviour:
   speed: 20
   turnSpeed: 15
   cameraSpeed: 1
-  gyroDeadZoneDegree: 7.5
-  gyroSensativity: 0.65
+  gyroDeadZoneDegree: 8
+  gyroPitchSensativity: 0.65
+  gyroYawSensativity: 0.2
 --- !u!114 &114530104577404566
 MonoBehaviour:
   m_ObjectHideFlags: 1
