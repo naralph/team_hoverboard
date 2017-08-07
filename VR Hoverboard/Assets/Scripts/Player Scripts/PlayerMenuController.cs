@@ -11,13 +11,13 @@ public class PlayerMenuController : MonoBehaviour
 
     [Header("Controller Specific Variables")]
     [Range(5f, 60f)] public float speed = 20f;
-    [Range(5f, 60f)] public float turnSpeed = 30f;
-    [Range(0.1f, 5f)] public float cameraSpeed = 1.75f;
+    [Range(5f, 60f)] public float turnSpeed = 12f;
+    [Range(0.1f, 5f)] public float cameraSpeed = 1f;
 
     [Header("Gyro Specific Variables")]
     [Range(0.0f, 30.0f)] public float gyroDeadZoneDegree = 5f;
     [Range(0.25f, 1.0f)] public float gyroPitchSensativity = 0.65f;
-    [Range(0.01f, 1.0f)] public float gyroYawSensativity = 0.1f;
+    [Range(0.01f, 1.0f)] public float gyroYawSensativity = 0.3f;
     float pitch;
     float yaw;
 

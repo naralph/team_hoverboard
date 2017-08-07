@@ -195,7 +195,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4621624025134034}
-  - component: {fileID: 65804161683263544}
   - component: {fileID: 136527488783278330}
   - component: {fileID: 54500176400661488}
   - component: {fileID: 114945942220864184}
@@ -235,6 +234,8 @@ GameObject:
   - component: {fileID: 4552896470219030}
   - component: {fileID: 33660484138399780}
   - component: {fileID: 23763083665986804}
+  - component: {fileID: 65095969720423560}
+  - component: {fileID: 114156577867933970}
   m_Layer: 0
   m_Name: BoardMesh
   m_TagString: Untagged
@@ -574,17 +575,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
---- !u!65 &65804161683263544
+--- !u!65 &65095969720423560
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659292961263870}
+  m_GameObject: {fileID: 1752317050207030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.065, z: 5}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81524614538138960
 AudioListener:
@@ -756,6 +757,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de09bdb49fe2c9e4caaf3b89e2f6a870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114156577867933970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752317050207030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ad79533b3844240b7a588c30053486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollIncreaseRate: 1.2
+  rollDecreaseRate: 0.1
+  maxRollDegree: 25
 --- !u!114 &114270944915182148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -899,11 +914,11 @@ MonoBehaviour:
   hoverForce: 15
   hoverHeight: 2
   speed: 20
-  turnSpeed: 15
+  turnSpeed: 12
   cameraSpeed: 1
-  gyroDeadZoneDegree: 8
+  gyroDeadZoneDegree: 5
   gyroPitchSensativity: 0.65
-  gyroYawSensativity: 0.2
+  gyroYawSensativity: 0.3
 --- !u!114 &114530104577404566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1333,7 +1348,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191043055486608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 

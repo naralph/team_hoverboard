@@ -14,6 +14,7 @@ public class PlayerGameplayController : MonoBehaviour
     BoardManager bMan;
     public ManagerClasses.PlayerMovementVariables movementVariables;
 
+
     //called by our BoardManager
     public void SetupGameplayControllerScript()
     {
@@ -78,9 +79,14 @@ public class PlayerGameplayController : MonoBehaviour
         UpdateMovementVariables(bMan.BoardSelect(bMan.currentBoardSelection));
     }
 
-    //updates our movement variables
-    //  Note: UpdateGameplayControlsType() already calls this function
-    public void UpdateMovementVariables(ManagerClasses.PlayerMovementVariables variables)
+    //updates our movement variabels based on a BoardType
+    public void UpdatePlayerBoard(BoardType newBoard)
+    {
+        UpdateMovementVariables(bMan.BoardSelect(newBoard));
+    }
+
+    //helper function
+    void UpdateMovementVariables(ManagerClasses.PlayerMovementVariables variables)
     {
         movementVariables = variables;
 
@@ -94,12 +100,8 @@ public class PlayerGameplayController : MonoBehaviour
         if (!gamepadEnabled)
         {
             //since the information we are getting from the gyro is in radians, include Mathf.Rad2Deg in our sensitivities
-            movementVariables.pitchSensitivity *= Mathf.Rad2Deg;
-            movementVariables.yawSensitivity *= Mathf.Rad2Deg;
-
-            //adjust our pitch and yaw sensitivities
-            movementVariables.pitchSensitivity *= 0.01f;
-            movementVariables.yawSensitivity *= 0.01f * -1f;
+            movementVariables.pitchSensitivity = movementVariables.pitchSensitivity * Mathf.Rad2Deg * 0.05f;
+            movementVariables.yawSensitivity = movementVariables.yawSensitivity * Mathf.Rad2Deg * 0.05f * -1f;
         }
     } 
 
@@ -158,7 +160,7 @@ public class PlayerGameplayController : MonoBehaviour
         ApplyForce();
 
         //since we don't want to make our player sick, make sure we never roll the camera
-        playerRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));
+        playerRigidbody.rotation = Quaternion.Euler(new Vector3(pitch, yaw, 0f));       
 
         StartCoroutine(ControllerMovementCoroutine());
     }
