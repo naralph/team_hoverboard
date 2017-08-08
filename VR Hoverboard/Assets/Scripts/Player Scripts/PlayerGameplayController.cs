@@ -14,7 +14,6 @@ public class PlayerGameplayController : MonoBehaviour
     BoardManager bMan;
     public ManagerClasses.PlayerMovementVariables movementVariables;
 
-
     //called by our BoardManager
     public void SetupGameplayControllerScript()
     {

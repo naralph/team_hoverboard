@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4105647796667762}
   - component: {fileID: 65760118518366594}
   - component: {fileID: 54420697162379404}
-  - component: {fileID: 114132996007572324}
-  - component: {fileID: 198987036036069304}
-  - component: {fileID: 199584234055657226}
   - component: {fileID: 114209071999427662}
+  - component: {fileID: 114132996007572324}
+  - component: {fileID: 199584234055657226}
+  - component: {fileID: 198987036036069304}
   m_Layer: 0
   m_Name: Ring
   m_TagString: Ring
