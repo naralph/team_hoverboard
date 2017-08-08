@@ -8,6 +8,7 @@ TagManager:
   - Selectable
   - CameraContainer
   - Portal
+  - Boundary
   layers:
   - Default
   - TransparentFX

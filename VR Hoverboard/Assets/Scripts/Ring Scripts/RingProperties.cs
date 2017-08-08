@@ -13,7 +13,12 @@ public class RingProperties : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (lastRingInScene)
-            EventManager.OnTriggerTransition(nextScene);
+        if (other.gameObject.tag == "Player")
+        {
+            if (lastRingInScene)
+            {
+                EventManager.OnTriggerTransition(nextScene);
+            }
+        }
     }
 }

@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 114529691426524730}
   - component: {fileID: 82971040627649280}
   - component: {fileID: 114303339762229406}
+  - component: {fileID: 114451083981489498}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -429,7 +430,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -964,6 +965,17 @@ MonoBehaviour:
   canSelect: 1
   myCam: {fileID: 20778750968353770}
   rayCheckLength: 6
+--- !u!114 &114451083981489498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659292961263870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e2602bcbceae6146bea884b5063e4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114527651735506088
 MonoBehaviour:
   m_ObjectHideFlags: 1
