@@ -11,9 +11,17 @@ public class RingProperties : MonoBehaviour
     public bool lastRingInScene = false;
     public int nextScene = 0;
 
-    private void OnTriggerEnter(Collider other)
+    private void Awake()
     {
-        if (lastRingInScene)
-            EventManager.OnTriggerTransition(nextScene);
-    }
+        RingRotator rr = GetComponentInParent<RingRotator>();
+
+        if (rr != null && rr.duplicatePosition == true)
+        {
+            duplicatePosition = rr.duplicatePosition;
+            positionInOrder = rr.positionInOrder;
+            timeToReach = rr.timeToReach;
+            lastRingInScene = rr.lastRingInScene;
+            nextScene = rr.nextScene;
+        }
+    }  
 }

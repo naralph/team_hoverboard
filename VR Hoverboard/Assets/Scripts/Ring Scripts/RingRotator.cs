@@ -9,7 +9,7 @@ public class RingRotator : MonoBehaviour
     Transform anchor;
     public float rotateRate = 5f;
 
-    //values for setting our children to
+    //RingProperties uses these values if duplicatePosition is set to true
     public bool duplicatePosition = true;
     public int positionInOrder = 0;
     public float timeToReach = 0f;
@@ -20,22 +20,7 @@ public class RingRotator : MonoBehaviour
 	void Start ()
     {
         anchor = GetComponent<Transform>();
-        GetComponent<MeshRenderer>().enabled = false;
-
-        //only set the individual values of each child ring if they are duplicate rings
-        if (duplicatePosition == true)
-        {
-            RingProperties[] rps = GetComponentsInChildren<RingProperties>();
-
-            foreach (RingProperties rp in rps)
-            {
-                rp.duplicatePosition = duplicatePosition;
-                rp.positionInOrder = positionInOrder;
-                rp.timeToReach = timeToReach;
-                rp.lastRingInScene = lastRingInScene;
-                rp.nextScene = nextScene;
-            }
-        }       
+        GetComponent<MeshRenderer>().enabled = false;      
 	}
 	
 	// Update is called once per frame

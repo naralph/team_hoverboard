@@ -7,23 +7,18 @@ public class PlayerArrowHandler : MonoBehaviour
     ArrowAimAt arrowScript;
     ScoreManager scoreManager;
 
+    int prevPositionInOrder;
+
     private void Start()
     {
         scoreManager = GameManager.instance.scoreScript;
+        prevPositionInOrder = 0;
     }
 
     void getArrowScipt(bool isOn)
     {
         if (isOn)
-        {
             arrowScript = GetComponentInChildren<ArrowAimAt>();
-        }
-    }
-
-    void IncreaseScore()
-    {
-        scoreManager.score += (int)scoreManager.baseScorePerRing;
-        //print("Score is now: " + scoreManager.score);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,7 +28,7 @@ public class PlayerArrowHandler : MonoBehaviour
             RingProperties theRing = other.gameObject.GetComponent<RingProperties>();
 
             //if we have the arrowScript, and we are going through the correct ring
-            if (arrowScript != null && arrowScript.sortedRings[arrowScript.currentlyLookingAt].positionInOrder == theRing.positionInOrder)
+            if (arrowScript != null && prevPositionInOrder < theRing.positionInOrder)
             {
                 int ringArrLength = arrowScript.sortedRings.GetLength(0);
 
@@ -52,7 +47,7 @@ public class PlayerArrowHandler : MonoBehaviour
                         //store our comparePosition using our offset
                         comparePosition = arrowScript.sortedRings[originalLookingAt + offset].positionInOrder;
 
-                        if (originalPosition != comparePosition)
+                        if (originalPosition < comparePosition)
                         {
                             //once we find a different ring, set it and break from the loop
                             arrowScript.currentlyLookingAt = originalLookingAt + offset;
@@ -61,18 +56,38 @@ public class PlayerArrowHandler : MonoBehaviour
                     }
                 }
                 //if it isn't a duplicate ring, and it isn't the last ring in the scene
-                else if (!theRing.lastRingInScene)
+                RingProperties rp;
+                while (true)
                 {
-                    arrowScript.currentlyLookingAt++;
-                    IncreaseScore();
+                    if (arrowScript.currentlyLookingAt != -1)
+                    {
+                        rp = arrowScript.sortedRings[arrowScript.currentlyLookingAt];
+
+                        if (!rp.lastRingInScene)
+                        {
+                            if (rp.positionInOrder <= theRing.positionInOrder)
+                                ++arrowScript.currentlyLookingAt;
+                            else
+                                break;
+                        }
+                        else
+                            break;
+                    }
+                    else
+                        break;
                 }
+
+                //update our prevPositionInOrder
+                prevPositionInOrder = theRing.positionInOrder;
+
             }
+            //always check to see if it was the last ring in the scene
             if (theRing.lastRingInScene)
             {
                 arrowScript.currentlyLookingAt = -1;
+                prevPositionInOrder = 0;
             }
         }
-
     }
 
     private void OnEnable()
