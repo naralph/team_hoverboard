@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114338860669479580}
   - component: {fileID: 114751297366797462}
   - component: {fileID: 114888719573273948}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -195,7 +195,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4621624025134034}
-  - component: {fileID: 65804161683263544}
   - component: {fileID: 136527488783278330}
   - component: {fileID: 54500176400661488}
   - component: {fileID: 114945942220864184}
@@ -238,6 +237,8 @@ GameObject:
   - component: {fileID: 4552896470219030}
   - component: {fileID: 33660484138399780}
   - component: {fileID: 23763083665986804}
+  - component: {fileID: 65095969720423560}
+  - component: {fileID: 114156577867933970}
   m_Layer: 0
   m_Name: BoardMesh
   m_TagString: Untagged
@@ -256,14 +257,13 @@ GameObject:
   - component: {fileID: 20687582130579530}
   - component: {fileID: 124015894002931240}
   - component: {fileID: 92018139515078564}
-  - component: {fileID: 81680202397343424}
   m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1773446034773522
 GameObject:
   m_ObjectHideFlags: 1
@@ -419,7 +419,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1755707481031330}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -457,7 +457,7 @@ Camera:
   m_GameObject: {fileID: 1191043055486608}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 3
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -470,10 +470,10 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -578,17 +578,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
---- !u!65 &65804161683263544
+--- !u!65 &65095969720423560
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659292961263870}
+  m_GameObject: {fileID: 1752317050207030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.065, z: 5}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81524614538138960
 AudioListener:
@@ -597,13 +597,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191043055486608}
   m_Enabled: 1
---- !u!81 &81680202397343424
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1755707481031330}
-  m_Enabled: 0
+
 --- !u!82 &82971040627649280
 AudioSource:
   m_ObjectHideFlags: 1
@@ -847,6 +841,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de09bdb49fe2c9e4caaf3b89e2f6a870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114156577867933970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752317050207030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ad79533b3844240b7a588c30053486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollIncreaseRate: 1.2
+  rollDecreaseRate: 0.1
+  maxRollDegree: 25
 --- !u!114 &114270944915182148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1017,10 +1025,11 @@ MonoBehaviour:
   hoverForce: 15
   hoverHeight: 2
   speed: 20
-  turnSpeed: 15
+  turnSpeed: 12
   cameraSpeed: 1
-  gyroDeadZoneDegree: 7.5
-  gyroSensativity: 0.65
+  gyroDeadZoneDegree: 5
+  gyroPitchSensativity: 0.65
+  gyroYawSensativity: 0.3
 --- !u!114 &114530104577404566
 MonoBehaviour:
   m_ObjectHideFlags: 1

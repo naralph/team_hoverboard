@@ -36,7 +36,7 @@ public class BoardStandSelectBoard : SelectedObject
     override public void selectSuccessFunction()
     {
         //set the player board to one of our pre-defined boards
-        playerGameplayController.UpdateMovementVariables(bMan.BoardSelect(selectionVariables.boardType));      
+        playerGameplayController.UpdatePlayerBoard(selectionVariables.boardType);   
         playerBoardMesh.material = selectionVariables.boardMaterial;
     }
 

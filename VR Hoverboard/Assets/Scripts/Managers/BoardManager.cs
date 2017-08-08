@@ -6,8 +6,7 @@ public enum BoardType { Beginner, Standard, Expert, Custom }
 
 public class BoardManager : MonoBehaviour
 {
-    [HideInInspector()]
-    public SpatialData gyro;
+    [HideInInspector()] public SpatialData gyro;
     PlayerGameplayController pgc;
     PlayerMenuController pmc;
 
@@ -29,7 +28,7 @@ public class BoardManager : MonoBehaviour
         pgc = p.GetComponent<PlayerGameplayController>();
         pmc = p.GetComponent<PlayerMenuController>();
 
-        //setup our gameplay controller script
+        //setup our controller scripts
         pgc.SetupGameplayControllerScript();
         pmc.SetupMenuControllerScript();
     }
@@ -62,7 +61,7 @@ public class BoardManager : MonoBehaviour
         //update our current board selection
         currentBoardSelection = bSelect;
 
-        //return the proper variables, depending on if we are using a controller or gyro
+        //return the proper variables, depending on if we are using a gamepad or gyro
         if (gamepadEnabled)
             ControllerBoardSelect(bSelect, out newBoardVariables);
         else
@@ -79,7 +78,7 @@ public class BoardManager : MonoBehaviour
             case BoardType.Beginner:
                 pmv = new ManagerClasses.PlayerMovementVariables
                     (
-                    15f, 10f, 8f,
+                    15f, 11f, 8f,
                     3.45f, 3.45f,
                     30f, 10f, 30f,
                     1f, 1f, 1f, 5f
@@ -88,7 +87,7 @@ public class BoardManager : MonoBehaviour
             case BoardType.Standard:
                 pmv = new ManagerClasses.PlayerMovementVariables
                     (
-                    20f, 15f, 10f,
+                    20f, 16f, 12f,
                     3f, 3f,
                     30f, 10f, 30f,
                     1f, 1f, 1f, 5f
@@ -115,11 +114,32 @@ public class BoardManager : MonoBehaviour
         switch (bSelect)
         {
             case BoardType.Beginner:
-
+                pmv = new ManagerClasses.PlayerMovementVariables
+                    (
+                    15f, 11f, 8f,
+                    2.5f, 2.5f,
+                    30f, 10f, 30f,
+                    1f, 1f, 1f, 5f
+                    );
+                break;
             case BoardType.Standard:
-
+                pmv = new ManagerClasses.PlayerMovementVariables
+                    (
+                    20f, 16f, 12f,
+                    2f, 2f,
+                    30f, 10f, 30f,
+                    1f, 1f, 1f, 5f
+                    );
+                break;
             case BoardType.Expert:
-
+                pmv = new ManagerClasses.PlayerMovementVariables
+                    (
+                    25f, 20f, 18f,
+                    1.5f, 1.5f,
+                    45f, 5f, 45f,
+                    1f, 1f, 1f, 5f
+                    );
+                break;
             default:
                 pmv = customGyroMovementVariables;
                 break;
