@@ -12,7 +12,7 @@ public class RingRotator : MonoBehaviour
     //RingProperties uses these values if duplicatePosition is set to true
     public bool duplicatePosition = true;
     public int positionInOrder = 0;
-    public float timeToReach = 0f;
+    public float bonusTime = 0f;
     public bool lastRingInScene = false;
     public int nextScene = 0;
 

@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class RingProperties : MonoBehaviour
 {
     //assign through the inspector
     public bool duplicatePosition = false;
     public int positionInOrder = 0;
-    public float timeToReach = 0.0f;
+    public float bonusTime = 0.0f;
     public bool lastRingInScene = false;
     public int nextScene = 0;
 
@@ -19,7 +20,7 @@ public class RingProperties : MonoBehaviour
         {
             duplicatePosition = rr.duplicatePosition;
             positionInOrder = rr.positionInOrder;
-            timeToReach = rr.timeToReach;
+            bonusTime = rr.bonusTime;
             lastRingInScene = rr.lastRingInScene;
             nextScene = rr.nextScene;
         }

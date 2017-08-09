@@ -31,7 +31,7 @@ public class RingScoreScript : MonoBehaviour
         rp = GetComponent<RingProperties>();
         capsuleType = typeof(CapsuleCollider);
 
-        //set our prevRingInOrder to -1, so we don't apply a consecutive score multiplier for the very first ring we go through
+        //set our prevRingInOrder to -1, so we don't apply a consecutive score multiplier for the very first ring we go through in a scene
         prevPositionInOrder = -1;
 
         originalCrInAmt = multipliers.consecutiveIncreaseAmount;
