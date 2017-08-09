@@ -86,14 +86,14 @@ public class PlayerArrowHandler : MonoBehaviour
                 //update our prevPositionInOrder
                 prevPositionInOrder = theRing.positionInOrder;
             }
-        }
 
-        //always check to see if it was the last ring in the scene
-        if (theRing.lastRingInScene)
-        {
-            arrowScript.currentlyLookingAt = -1;
-            prevPositionInOrder = 0;
-        }
+            //always check to see if it was the last ring in the scene
+            if (theRing.lastRingInScene)
+            {
+                arrowScript.currentlyLookingAt = -1;
+                prevPositionInOrder = 0;
+            }
+        }        
     }
 
     private void OnEnable()

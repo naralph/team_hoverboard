@@ -32,8 +32,11 @@ public class RingProcessorWizard : ScriptableWizard
         DisplayWizard<RingProcessorWizard>("Ring Processor Wizard", "Update And Close", "Update");
     }
 
-    void Init()
+    bool Init()
     {
+        if (ringsToProcess == null || ringsToProcess.Length < 2)
+            return false;
+
         currPosition = prevPosition = Vector3.zero;
         currQueuePosition = startPositionInOrder;
 
@@ -53,6 +56,8 @@ public class RingProcessorWizard : ScriptableWizard
             prevIsRotator = true;
             prevPosition = previousGameObject.GetComponent<RingRotator>().transform.position;
         }
+
+        return true;
     }
 
     #region debug code
@@ -157,21 +162,31 @@ public class RingProcessorWizard : ScriptableWizard
         }
     }
 
+    //our Update And Close button
     private void OnWizardCreate()
     {
-        Init();
-        SetProperties();
+        if (Init())
+        {
+            SetProperties();
 
-        //mark the scene as dirty so we can save our changes
-        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+            //mark the scene as dirty so we can save our changes
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        }
+        else
+            helpString = "Not enough items in the Rings To Process array!";
     }
 
+    //our Update button
     private void OnWizardOtherButton()
     {
-        Init();
-        SetProperties();
+        if (Init())
+        {
+            SetProperties();
 
-        //mark the scene as dirty so we can save our changes
-        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+            //mark the scene as dirty so we can save our changes
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        }
+        else
+            helpString = "Not enough items in the Rings To Process array!";       
     }
 }
