@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoardStandSelectBoard : SelectedObject
 {
     PlayerGameplayController playerGameplayController;
-    BoardManager bMan;
     MeshRenderer playerBoardMesh;
 
     //our material and board types are stored in the BoardStandScript
@@ -16,7 +15,6 @@ public class BoardStandSelectBoard : SelectedObject
         playerGameplayController = GameManager.player.GetComponent<PlayerGameplayController>();
         playerBoardMesh = GameManager.player.GetComponentInChildren<MeshRenderer>();
 
-        bMan = GameManager.instance.boardScript;
         selectionVariables = GetComponentInParent<BoardStandProperties>();
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum States { MainMenu, GamePlay, GameOver, SceneTransition, OptionsMenu };
+public enum States { MainMenu, GamePlay, GameOver, SceneTransition };
 
 public class ManagerClasses : MonoBehaviour
 {
@@ -21,16 +21,6 @@ public class ManagerClasses : MonoBehaviour
         public void UpdateTimer() { currRoundTime -= Time.deltaTime; }
         public void ResetTimer() { currRoundTime = roundTimeLimit; }
     }
-
-    //[System.Serializable]
-    //public class ScoreMultipliers
-    //{
-    //    public float speedMultiplier;
-    //    public float consecutiveMultiplier;
-    //    public float consecutiveIncreaseAmount;
-
-    //    public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveMultiplier = crMul; consecutiveIncreaseAmount = crInAmt; }
-    //}
 
     public class GameState
     {       

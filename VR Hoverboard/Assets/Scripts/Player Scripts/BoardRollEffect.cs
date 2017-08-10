@@ -10,9 +10,9 @@ public class BoardRollEffect : MonoBehaviour
     float zRotation;
     float prevYRotation;
 
-    public float rollIncreaseRate = 1.2f;
-    public float rollDecreaseRate = 0.1f;
-    public float maxRollDegree = 25f;
+    [SerializeField] float rollIncreaseRate = 1.2f;
+    [SerializeField] float rollDecreaseRate = 0.1f;
+    [SerializeField] float maxRollDegree = 25f;
 
     void LevelSelectionUnlocked(bool locked)
     {
@@ -34,26 +34,6 @@ public class BoardRollEffect : MonoBehaviour
         }
     }
 
-    //since degrees are measured from 0 to 360, we have to account for an edge case
-    //  where one of our recorded values is below 360, while the other is above 0
-    float RotationDifference()
-    {
-        float difference = 0f;
-        float currPlayerY = playerTransform.eulerAngles.y;
-        float prevPlayerY = prevYRotation;
-
-        if (prevYRotation < 10f && playerTransform.eulerAngles.y > 350f)
-            currPlayerY = 360f - playerTransform.eulerAngles.y;
-
-        else if (prevYRotation > 350f && playerTransform.eulerAngles.y < 10f)
-            prevPlayerY = 360f - prevPlayerY;
-
-        difference = prevPlayerY - currPlayerY;
-        //print("Difference: " + difference);
-
-        return difference;
-    }
-
     IEnumerator BoardRollCoroutine()
     {
         yield return new WaitForFixedUpdate();
@@ -61,7 +41,8 @@ public class BoardRollEffect : MonoBehaviour
         //no reason to do any calculations if there was no difference between rotations
         if (prevYRotation != playerTransform.eulerAngles.y)
         {
-            zRotation += RotationDifference() * rollIncreaseRate;
+            zRotation += Mathf.DeltaAngle(playerTransform.eulerAngles.y, prevYRotation) * rollIncreaseRate;
+           //print("Z ROT: " + zRotation);
 
 
             //clamp our rotation to our maxRollDegree

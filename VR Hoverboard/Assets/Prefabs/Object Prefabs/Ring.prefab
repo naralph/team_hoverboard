@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4105647796667762}
   - component: {fileID: 65760118518366594}
   - component: {fileID: 54420697162379404}
+  - component: {fileID: 114209071999427662}
   - component: {fileID: 114132996007572324}
-  - component: {fileID: 198987036036069304}
   - component: {fileID: 199584234055657226}
+  - component: {fileID: 198987036036069304}
   m_Layer: 0
   m_Name: Ring
   m_TagString: Ring
@@ -157,6 +158,17 @@ MonoBehaviour:
   timeToReach: 7
   lastRingInScene: 0
   nextScene: 0
+--- !u!114 &114209071999427662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1003364270481136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9afb91fcb52950489f433bb4501df36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198987036036069304
 ParticleSystem:
   m_ObjectHideFlags: 1
