@@ -2825,7 +2825,8 @@ GameObject:
   - component: {fileID: 1586022488}
   - component: {fileID: 1586022492}
   - component: {fileID: 1586022493}
-  m_Layer: 0
+  - component: {fileID: 1586022494}
+  m_Layer: 8
   m_Name: Boundry
   m_TagString: Boundary
   m_Icon: {fileID: 0}
@@ -2859,7 +2860,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fbb09ee4e4b42984b9913dc79917d7ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2915,11 +2916,32 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1586022487}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 382aa3fe2e7caf5469527e5b8934a0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimumDistance: 20
+  ratio: 0
+  cullDistance: 100
+  layer: 8
+--- !u!205 &1586022494
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1586022487}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1.0000002
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LODs:
+  - screenRelativeHeight: 0.85863006
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1586022489}
+  m_Enabled: 0
 --- !u!1001 &1601477458
 Prefab:
   m_ObjectHideFlags: 0

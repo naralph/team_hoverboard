@@ -62,7 +62,7 @@ public class BoardRollEffect : MonoBehaviour
         if (prevYRotation != playerTransform.eulerAngles.y)
         {
             zRotation += RotationDifference() * rollIncreaseRate;
-           print("Z ROT: " + zRotation);
+
 
             //clamp our rotation to our maxRollDegree
             if (zRotation > maxRollDegree)
