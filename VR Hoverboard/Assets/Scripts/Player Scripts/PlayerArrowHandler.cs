@@ -5,14 +5,12 @@ using UnityEngine;
 public class PlayerArrowHandler : MonoBehaviour
 {
     ArrowAimAt arrowScript;
-    ScoreManager scoreManager;
     RingProperties theRing;
 
     int prevPositionInOrder;
 
     private void Start()
     {
-        scoreManager = GameManager.instance.scoreScript;
         prevPositionInOrder = 0;
     }
 

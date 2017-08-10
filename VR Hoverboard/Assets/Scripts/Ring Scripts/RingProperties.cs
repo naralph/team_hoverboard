@@ -12,17 +12,21 @@ public class RingProperties : MonoBehaviour
     public bool lastRingInScene = false;
     public int nextScene = 0;
 
+    //if we have children, set their values, but only if this is marked as a duplicate
     private void Awake()
     {
-        RingRotator rr = GetComponentInParent<RingRotator>();
-
-        if (rr != null && rr.duplicatePosition == true)
+        if (duplicatePosition)
         {
-            duplicatePosition = rr.duplicatePosition;
-            positionInOrder = rr.positionInOrder;
-            bonusTime = rr.bonusTime;
-            lastRingInScene = rr.lastRingInScene;
-            nextScene = rr.nextScene;
+            RingProperties[] rps = GetComponentsInChildren<RingProperties>();
+
+            foreach (RingProperties rp in rps)
+            {
+                rp.duplicatePosition = duplicatePosition;
+                rp.positionInOrder = positionInOrder;
+                rp.bonusTime = bonusTime;
+                rp.lastRingInScene = lastRingInScene;
+                rp.nextScene = nextScene;
+            }
         }
-    }  
+    }
 }

@@ -553,6 +553,16 @@ Prefab:
       propertyPath: bonusTime
       value: 2.003071
       objectReference: {fileID: 0}
+    - target: {fileID: 114736041690766026, guid: 9adbc287463e99f4299ef1f0fc6032d6,
+        type: 2}
+      propertyPath: positionInOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114736041690766026, guid: 9adbc287463e99f4299ef1f0fc6032d6,
+        type: 2}
+      propertyPath: bonusTime
+      value: 2.003071
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9adbc287463e99f4299ef1f0fc6032d6, type: 2}
   m_IsPrefabParent: 0

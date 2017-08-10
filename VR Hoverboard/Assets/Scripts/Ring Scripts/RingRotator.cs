@@ -9,13 +9,6 @@ public class RingRotator : MonoBehaviour
     Transform anchor;
     public float rotateRate = 5f;
 
-    //RingProperties uses these values if duplicatePosition is set to true
-    public bool duplicatePosition = true;
-    public int positionInOrder = 0;
-    public float bonusTime = 0f;
-    public bool lastRingInScene = false;
-    public int nextScene = 0;
-
 	// Use this for initialization
 	void Start ()
     {
