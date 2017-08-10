@@ -15,7 +15,7 @@ public class TimerTextUpdateScript : MonoBehaviour {
 	
 	void Update ()
     {
-        string textToWrite = " " + manager.roundTimer.currRoundTime.ToString("n2") + " ";
+        string textToWrite = " " + manager.roundTimer.timeLeft.ToString("n2") + " ";
         element.SetText(textToWrite);
 	}
 }

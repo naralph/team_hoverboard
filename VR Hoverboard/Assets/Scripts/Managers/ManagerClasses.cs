@@ -6,20 +6,23 @@ public enum States { MainMenu, GamePlay, GameOver, SceneTransition };
 
 public class ManagerClasses : MonoBehaviour
 {
-    // Using Serializable allows us to embed a class with sub properties in the inspector.
-    [System.Serializable]
     public class RoundTimer
     {
-        [HideInInspector] public float currRoundTime;
-        public float roundTimeLimit;
+        [HideInInspector] public float timeLeft;
+        [HideInInspector] public float timeInLevel;
+        bool isPaused = false;
 
-        public RoundTimer(float rtLim = 270.0f)
+        public RoundTimer(float sTime = 5.0f) { timeLeft = sTime; }
+        public void IncreaseTimeLeft(float iTime) { timeLeft += iTime; }
+        public void PauseTimerUpdate(bool paused) { isPaused = paused; }
+        public void UpdateTimer()
         {
-            roundTimeLimit = rtLim;
-            currRoundTime = rtLim;
+            if (!isPaused)
+            {
+                timeLeft -= Time.deltaTime;
+                timeInLevel += Time.deltaTime;
+            }
         }
-        public void UpdateTimer() { currRoundTime -= Time.deltaTime; }
-        public void ResetTimer() { currRoundTime = roundTimeLimit; }
     }
 
     public class GameState

@@ -197,9 +197,10 @@ GameObject:
   - component: {fileID: 4621624025134034}
   - component: {fileID: 136527488783278330}
   - component: {fileID: 54500176400661488}
-  - component: {fileID: 114945942220864184}
   - component: {fileID: 114128562518327988}
   - component: {fileID: 114529691426524730}
+  - component: {fileID: 114945942220864184}
+  - component: {fileID: 114106088008514032}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -608,6 +609,20 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191043055486608}
   m_Enabled: 1
+--- !u!114 &114106088008514032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659292961263870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5f06a96a986384f8dc506533eb4a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theFadeObj: {fileID: 114909930934270292}
+  fadeSpeed: 0.8
+  fadeTime: 3
 --- !u!114 &114117946126910634
 MonoBehaviour:
   m_ObjectHideFlags: 1

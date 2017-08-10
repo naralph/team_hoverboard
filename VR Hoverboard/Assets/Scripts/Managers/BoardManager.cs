@@ -78,7 +78,7 @@ public class BoardManager : MonoBehaviour
             case BoardType.Beginner:
                 pmv = new ManagerClasses.PlayerMovementVariables
                     (
-                    15f, 11f, 8f,
+                    17f, 15f, 12f,
                     3.45f, 3.45f,
                     30f, 10f, 30f,
                     1f, 1f, 1f, 5f
@@ -116,7 +116,7 @@ public class BoardManager : MonoBehaviour
             case BoardType.Beginner:
                 pmv = new ManagerClasses.PlayerMovementVariables
                     (
-                    15f, 11f, 8f,
+                    17f, 15f, 12f,
                     2.5f, 2.5f,
                     30f, 10f, 30f,
                     1f, 1f, 1f, 5f
