@@ -34,6 +34,7 @@ public class ScoreManager : MonoBehaviour
         playerRespawnScript = GameManager.player.GetComponent<PlayerRespawn>();
     }
 
+    //set the prevRingTransform to the spawn point whenever we load in a new scene
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         prevRingTransform = GameManager.instance.levelScript.spawnPoints[SceneManager.GetActiveScene().buildIndex];

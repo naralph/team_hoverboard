@@ -80,7 +80,9 @@ public class RingScoreScript : MonoBehaviour
 
 
                 //TODO:: store the total time in scene someplace then reset it.....
-                prevPositionInOrder = -1;        
+                prevPositionInOrder = -1;
+
+                EventManager.OnTriggerTransition(rp.nextScene);
             }
         }
     }

@@ -623,6 +623,7 @@ MonoBehaviour:
   theFadeObj: {fileID: 114909930934270292}
   fadeSpeed: 0.8
   fadeTime: 3
+  isRespawning: 0
 --- !u!114 &114117946126910634
 MonoBehaviour:
   m_ObjectHideFlags: 1
