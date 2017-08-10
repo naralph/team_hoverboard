@@ -45,6 +45,7 @@ public class RingScoreScript : MonoBehaviour
         {
             //use our consecutive multiplier if this ring comes immediately after the previous one
             totalMultiplier += multipliers.consecutiveMultiplier;
+
             //then increase by our increase amount
             multipliers.consecutiveMultiplier += multipliers.consecutiveIncreaseAmount;
         }
@@ -62,14 +63,26 @@ public class RingScoreScript : MonoBehaviour
         {
             if (rp.positionInOrder > prevPositionInOrder)
             {
-                IncreaseScore();
+                //update our scoreManager values
+                scoreManager.prevRingBonusTime = rp.bonusTime;
+                scoreManager.prevRingTransform = rp.transform;
+                scoreManager.roundTimer.IncreaseTimeLeft(rp.bonusTime);
+
+                IncreaseScore();              
                 prevPositionInOrder = rp.positionInOrder;
             }
             
             if (rp.lastRingInScene)
             {
+                //update our scoreManager values
+                scoreManager.prevRingBonusTime = 0f;
+                scoreManager.prevRingTransform = GameManager.instance.levelScript.spawnPoints[rp.nextScene];
+
+
+                //TODO:: store the total time in scene someplace then reset it.....
                 prevPositionInOrder = -1;
-                EventManager.OnTriggerTransition(rp.nextScene);          
+
+                EventManager.OnTriggerTransition(rp.nextScene);
             }
         }
     }

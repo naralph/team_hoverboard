@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour
     //store our player prefab through the inspector
     public GameObject playerPrefab;
 
-    //this shows up in our inspector since the class is using [System.Serializable]
-    public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer(15.0f);   
+    public ManagerClasses.RoundTimer roundTimer = new ManagerClasses.RoundTimer();   
 
     //variable for singleton, static makes this variable the same through all GameManager objects
     public static GameManager instance = null;
@@ -81,18 +80,6 @@ public class GameManager : MonoBehaviour
                 }
                 levelScript.doLoadOnce = false;
             }
-        }
-
-        if (roundTimer.currRoundTime > 0 && state.currentState == States.GamePlay)
-        {
-            roundTimer.UpdateTimer();
-        }
-        else
-        {
-            //TODO:: if we ran out of time, but didn't make it to the next level, then end the game
-            //       else, load in the next level and update our managers as required
-
-            roundTimer.ResetTimer();
         }
     }
 }

@@ -40,10 +40,7 @@ public class RingProcessorWizard : ScriptableWizard
         currPosition = prevPosition = Vector3.zero;
         currQueuePosition = startPositionInOrder;
 
-        previousGameObject = (GameObject)ringsToProcess[0];
-        currentGameObject = null;
-
-        //initialize the prevPosition
+        //initialize the prevPosition and previousGameObject
         for (int i = 0; i < ringsToProcess.Length; i++)
         {
             previousGameObject = (GameObject)ringsToProcess[i];
@@ -142,6 +139,7 @@ public class RingProcessorWizard : ScriptableWizard
     {
         if (Init())
         {
+            helpString = "Rings Processed!";
             SetProperties();
 
             //mark the scene as dirty so we can save our changes

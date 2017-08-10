@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4852b9c83fbbf4491f63e7e864433f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamepadEnabled: 1
+  gamepadEnabled: 0
   currentBoardSelection: 3
   customGamepadMovementVariables:
     maxSpeed: 30
@@ -130,9 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1659292961263870, guid: cd6996909900ff44cac341d9483ba297,
     type: 2}
-  roundTimer:
-    currRoundTime: 0
-    roundTimeLimit: 15
   scoreScript: {fileID: 0}
   levelScript: {fileID: 0}
   boardScript: {fileID: 0}
@@ -152,3 +149,5 @@ MonoBehaviour:
   score: 0
   prevRing: 0
   ringHitCount: 0
+  prevRingBonusTime: 0
+  prevRingTransform: {fileID: 0}
