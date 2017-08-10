@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class playerInsideBoundary : MonoBehaviour
 {
+    PlayerRespawn playerRespawnScript;
+    ScoreManager scoreScript;
+
+    private void Start()
+    {
+        playerRespawnScript = gameObject.GetComponent<PlayerRespawn>();
+        scoreScript = GameManager.instance.scoreScript;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Boundary")
         {
-            EventManager.OnTriggerTransition(0);
+            scoreScript.roundTimer.timeLeft = 0.0f;
+            playerRespawnScript.RespawnPlayer(scoreScript.prevRingTransform, 5.0f + scoreScript.prevRingBonusTime);
         }
     }
 
