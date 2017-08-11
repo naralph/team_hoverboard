@@ -150,7 +150,7 @@ public class PlayerMenuController : MonoBehaviour
                 pitch = 0f;
         }
 
-        print(yaw);
+
         //leaning left
         if (yaw > 0f)
         {

@@ -8,12 +8,30 @@ public abstract class SelectedObject : MonoBehaviour
     int timeToWait = 50;
     int timeWaited = 0;
     bool isSelected = false;
+    AudioClip successSound;
+    AudioClip selectedSound;
+    bool firstSelection = true;
+    
     //object to update for reticle
     private reticle theReticle;
+
+    //to play sound effect attached to object
+    private AudioSource audio;
 
     //grabes the reticle object to show timer status
     public void selected(reticle grabbedReticle)
     {
+        if (firstSelection)
+        {
+            if (audio == null)
+            {
+                audio = gameObject.AddComponent<AudioSource>();
+            }
+            successSound = (AudioClip)Resources.Load("Sounds/Effects/Place_Holder_ButtonHit");
+            audio.clip = successSound;
+            audio.Play();
+            firstSelection = false;
+        }
         selectedFuntion();
         isSelected = true;
         theReticle = grabbedReticle;
@@ -29,6 +47,7 @@ public abstract class SelectedObject : MonoBehaviour
         theReticle.updateReticle(0);
         isSelected = false;
         timeWaited = 0;
+        firstSelection = true;
     }
 
     //Cleans up what the class actually does(if applicable), inherited class must fill this out
@@ -47,6 +66,13 @@ public abstract class SelectedObject : MonoBehaviour
                 selectSuccessFunction();
                 theReticle.updateReticle(0);
                 timeWaited = 0;
+                if (audio == null)
+                {
+                    audio = gameObject.AddComponent<AudioSource>();
+                }
+                successSound = (AudioClip)Resources.Load("Sounds/Effects/Place_Holder_LoadSuccess");
+                audio.clip = successSound;
+                audio.Play();
             }
             float ratio = (float)timeWaited / (float)timeToWait;
             theReticle.updateReticle(ratio);

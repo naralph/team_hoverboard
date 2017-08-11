@@ -44,6 +44,7 @@ public class BoardRollEffect : MonoBehaviour
             zRotation += Mathf.DeltaAngle(playerTransform.eulerAngles.y, prevYRotation) * rollIncreaseRate;
            //print("Z ROT: " + zRotation);
 
+
             //clamp our rotation to our maxRollDegree
             if (zRotation > maxRollDegree)
                 zRotation = maxRollDegree;

@@ -17,7 +17,7 @@ public class WorldPortalScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetType() == boxCollider)        
+        if (other.GetType() == boxCollider && other.gameObject.tag == "Player")        
             EventManager.OnTriggerTransition(sceneIndex);
     }
 
