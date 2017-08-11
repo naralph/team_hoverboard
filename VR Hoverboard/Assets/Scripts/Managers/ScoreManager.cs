@@ -9,16 +9,21 @@ public class ScoreManager : MonoBehaviour
 
     ManagerClasses.GameState state;
     PlayerRespawn playerRespawnScript;
-
-    [HideInInspector] public ManagerClasses.RoundTimer roundTimer;
-    [HideInInspector] public int score;
+    int respawnCount, maxRespawnCount;
 
     //used by our HUD and updated through RingScoreScript
-    [HideInInspector] public int ringHitCount = 0;
+    [HideInInspector]
+    public int ringHitCount = 0;
 
     //values updated by our RingScoreScript
-    [HideInInspector] public float prevRingBonusTime;
-    [HideInInspector] public Transform prevRingTransform;
+    [HideInInspector]
+    public ManagerClasses.RoundTimer roundTimer;
+    [HideInInspector]
+    public int score;
+    [HideInInspector]
+    public float prevRingBonusTime;
+    [HideInInspector]
+    public Transform prevRingTransform;
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
@@ -28,6 +33,8 @@ public class ScoreManager : MonoBehaviour
 
         state = GameManager.instance.state;
         playerRespawnScript = GameManager.player.GetComponent<PlayerRespawn>();
+        respawnCount = 0;
+        maxRespawnCount = 3;
     }
 
     //set the prevRingTransform to the spawn point whenever we load in a new scene, and restart our roundTimer
@@ -35,6 +42,7 @@ public class ScoreManager : MonoBehaviour
     {
         prevRingTransform = GameManager.instance.levelScript.spawnPoints[SceneManager.GetActiveScene().buildIndex];
         roundTimer.timeLeft = 5f;
+        respawnCount = 0;
     }
 
     private void Update()
@@ -46,7 +54,10 @@ public class ScoreManager : MonoBehaviour
             else if (!playerRespawnScript.isRespawning)
             {
                 roundTimer.timeLeft = 0f;
-                playerRespawnScript.RespawnPlayer(prevRingTransform, 5f + prevRingBonusTime);
+                ++respawnCount;
+
+                if (respawnCount >= maxRespawnCount)
+                    playerRespawnScript.RespawnPlayer(prevRingTransform, 5f + prevRingBonusTime);
             }
         }
     }
