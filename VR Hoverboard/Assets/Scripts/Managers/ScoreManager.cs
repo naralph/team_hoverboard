@@ -11,33 +11,30 @@ public class ScoreManager : MonoBehaviour
     PlayerRespawn playerRespawnScript;
 
     [HideInInspector] public ManagerClasses.RoundTimer roundTimer;
-    
-    //values updated by our RingScoreScript
     [HideInInspector] public int score;
-    [HideInInspector] public int prevRing;
+
+    //used by our HUD and updated through RingScoreScript
     [HideInInspector] public int ringHitCount = 0;
 
+    //values updated by our RingScoreScript
     [HideInInspector] public float prevRingBonusTime;
     [HideInInspector] public Transform prevRingTransform;
-
 
     //this will get called by our game manager
     public void SetupScoreManager(ManagerClasses.RoundTimer rt, GameObject p)
     {
-        //set our prevRing to -1, and make sure our rings start at 1 in the scene
-        //that way the first run of UpdateScore won't include a consecutive multiplier
         score = 0;
-        prevRing = -1;
         roundTimer = rt;
 
         state = GameManager.instance.state;
         playerRespawnScript = GameManager.player.GetComponent<PlayerRespawn>();
     }
 
-    //set the prevRingTransform to the spawn point whenever we load in a new scene
+    //set the prevRingTransform to the spawn point whenever we load in a new scene, and restart our roundTimer
     void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         prevRingTransform = GameManager.instance.levelScript.spawnPoints[SceneManager.GetActiveScene().buildIndex];
+        roundTimer.timeLeft = 5f;
     }
 
     private void Update()

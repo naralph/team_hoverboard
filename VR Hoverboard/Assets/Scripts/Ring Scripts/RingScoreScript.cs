@@ -67,6 +67,7 @@ public class RingScoreScript : MonoBehaviour
                 scoreManager.prevRingBonusTime = rp.bonusTime;
                 scoreManager.prevRingTransform = rp.transform;
                 scoreManager.roundTimer.IncreaseTimeLeft(rp.bonusTime);
+                scoreManager.ringHitCount++;
 
                 IncreaseScore();              
                 prevPositionInOrder = rp.positionInOrder;
@@ -77,7 +78,7 @@ public class RingScoreScript : MonoBehaviour
                 //update our scoreManager values
                 scoreManager.prevRingBonusTime = 0f;
                 scoreManager.prevRingTransform = GameManager.instance.levelScript.spawnPoints[rp.nextScene];
-
+                scoreManager.ringHitCount = 0;
 
                 //TODO:: store the total time in scene someplace then reset it.....
                 prevPositionInOrder = -1;
