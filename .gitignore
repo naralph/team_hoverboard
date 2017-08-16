@@ -1,35 +1,42 @@
-# =============== #
-# Unity generated #
-# =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uild
+
+###
+# Unity folders and files
+###
+[Aa]ssets/AssetStoreTools*
+[Bb]uild/
 [Ll]ibrary/
+[Ll]ocal[Cc]ache/
+[Oo]bj/
+[Tt]emp/
+[Uu]nityGenerated/
+# file on crash reports
 sysinfo.txt
-*.stackdump
- 
-# ============================================= #
-# Visual Studio / MonoDevelop / Rider generated #
-# ============================================= #
-[Ee]xported[Oo]bj/
-.vs/
-*.userprefs
-*.csproj
-*.pidb
-*.suo
-*.sln*
-*.user
-*.unityproj
+# Unity3D generated meta files
+*.pidb.meta
+
+###
+# VS/MD solution and project files
+###
+[Ee]xportedObj/
 *.booproj
-.idea*/
- 
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store*
+*.csproj
+*.sln
+*.suo
+*.svd
+*.unityproj
+*.user
+*.userprefs
+*.pidb
+.DS_Store
+
+###
+# OS generated
+###
+.DS_Store
+.DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+Icon?
 ehthumbs.db
-[Tt]humbs.db
-[Dd]esktop.ini
+Thumbs.db
